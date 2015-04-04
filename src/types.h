@@ -680,3 +680,5 @@ inline Variant main_variant(Variant v) {
 }
 
 #endif // #ifndef TYPES_H_INCLUDED
+
+#include "tune.h" // Global visibility to tuning setup
