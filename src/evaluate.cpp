@@ -1142,6 +1142,21 @@ namespace {
             }
             score += ThreatByHangingPawn * pos.count<PAWN>(Them) / (1 + min) / (pos.pieces(Us, QUEEN) ? 2 : 4);
         }
+
+        // Safe pawn pushes at front of horde
+        int safe_pushes = 0;
+        for (File f = FILE_A; f <= FILE_H; ++f)
+        {
+            Bitboard p = pos.pieces(Them, PAWN) & file_bb(f);
+            if (!p)
+                continue;
+            Square s = pos.is_horde_color(WHITE) ? msb(p) + NORTH : lsb(p) + SOUTH;
+            Bitboard a = pos.attackers_to(s);
+            if (popcount(a & pos.pieces(Them)) - popcount(a & pos.pieces(Us)) >= 0)
+                safe_pushes++;
+        }
+
+        score += make_score(100, 100) / (safe_pushes + 1);
     }
 #endif
     }
