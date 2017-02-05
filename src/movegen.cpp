@@ -347,6 +347,9 @@ namespace {
         if (Checks)
         {
             if (    (Pt == BISHOP || Pt == ROOK || Pt == QUEEN)
+#ifdef ATOMIC
+                && !pos.is_atomic()
+#endif
                 && !(PseudoAttacks[Pt][from] & target & pos.check_squares(Pt)))
                 continue;
 
@@ -371,7 +374,20 @@ namespace {
 #endif
 
         if (Checks)
+        {
+#ifdef ATOMIC
+            if (pos.is_atomic())
+            {
+                Bitboard b2 = 0;
+                Bitboard b1 = pos.attacks_from<KING>(pos.square<KING>(~us)) & pos.pieces(~us) & ~pos.attacks_from<KING>(pos.square<KING>(us));
+                while (b1)
+                    b2 |= pos.attacks_from<Pt>(pop_lsb(&b1));
+                b &= pos.check_squares(Pt) | b2;
+            }
+            else
+#endif
             b &= pos.check_squares(Pt);
+        }
 
         while (b)
             *moveList++ = make_move(from, pop_lsb(&b));
