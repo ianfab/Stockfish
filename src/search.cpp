@@ -1567,6 +1567,9 @@ moves_loop: // When in check search starts from here
       // Futility pruning
       if (   !InCheck
           && !givesCheck
+#ifdef ATOMIC
+          && (!pos.is_atomic() || !pos.indirect_king_attack(move))
+#endif
 #ifdef RACE
           && !(pos.is_race() && type_of(pos.piece_on(from_sq(move))) == KING && rank_of(to_sq(move)) == RANK_8)
 #endif
