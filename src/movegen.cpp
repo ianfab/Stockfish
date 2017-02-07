@@ -327,13 +327,22 @@ namespace {
 
     const Square* pl = pos.squares<Pt>(us);
 
+#ifdef ATOMIC
+    Bitboard i = 0;
+    if (pos.is_atomic() && Checks)
+    {
+        Bitboard b1 = pos.attacks_from<KING>(pos.square<KING>(~us)) & pos.pieces(~us) & ~pos.attacks_from<KING>(pos.square<KING>(us));
+        while (b1)
+            i |= pos.attacks_from<Pt>(pop_lsb(&b1));
+    }
+#endif
     for (Square from = *pl; from != SQ_NONE; from = *++pl)
     {
         if (Checks)
         {
             if (    (Pt == BISHOP || Pt == ROOK || Pt == QUEEN)
 #ifdef ATOMIC
-                && !pos.is_atomic()
+                && !(pos.is_atomic() && (pos.attacks_from<Pt>(from) & target & i))
 #endif
                 && !(PseudoAttacks[Pt][from] & target & pos.check_squares(Pt)))
                 continue;
@@ -362,13 +371,7 @@ namespace {
         {
 #ifdef ATOMIC
             if (pos.is_atomic())
-            {
-                Bitboard b2 = 0;
-                Bitboard b1 = pos.attacks_from<KING>(pos.square<KING>(~us)) & pos.pieces(~us) & ~pos.attacks_from<KING>(pos.square<KING>(us));
-                while (b1)
-                    b2 |= pos.attacks_from<Pt>(pop_lsb(&b1));
-                b &= pos.check_squares(Pt) | b2;
-            }
+                b &= pos.check_squares(Pt) | i;
             else
 #endif
             b &= pos.check_squares(Pt);
