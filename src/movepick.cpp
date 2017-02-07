@@ -353,6 +353,10 @@ Move MovePicker::next_move(bool skipQuiets) {
           move = pick_best(cur++, endMoves);
           if (to_sq(move) == recaptureSquare)
               return move;
+#ifdef ATOMIC
+          if (pos.is_atomic() && distance(pos.square<KING>(~pos.side_to_move()), to_sq(move)) == 1)
+              return move;
+#endif
       }
       break;
 
