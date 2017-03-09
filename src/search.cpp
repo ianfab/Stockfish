@@ -190,9 +190,69 @@ namespace {
   379,
 #endif
   };
+  const double fmc[VARIANT_NB][2][4] = {
+  {
+    {2.4, 0.74, 1.78},
+    {5.0, 1.00, 2.00}
+  },
+#ifdef ANTI
+  {
+    {2.4, 0.74, 1.78},
+    {5.0, 1.00, 2.00}
+  },
+#endif
+#ifdef ATOMIC
+  {
+    {2.4, 0.74, 1.78},
+    {5.0, 1.00, 2.00}
+  },
+#endif
+#ifdef CRAZYHOUSE
+  {
+    {2.4, 0.74, 1.78},
+    {5.0, 1.00, 2.00}
+  },
+#endif
+#ifdef HORDE
+  {
+    {2.4, 0.74, 1.78},
+    {5.0, 1.00, 2.00}
+  },
+#endif
+#ifdef KOTH
+  {
+    {2.4, 0.74, 1.78},
+    {5.0, 1.00, 2.00}
+  },
+#endif
+#ifdef LOSERS
+  {
+    {2.4, 0.74, 1.78},
+    {5.0, 1.00, 2.00}
+  },
+#endif
+#ifdef RACE
+  {
+    {2.4, 0.74, 1.78},
+    {5.0, 1.00, 2.00}
+  },
+#endif
+#ifdef RELAY
+  {
+    {2.4, 0.74, 1.78},
+    {5.0, 1.00, 2.00}
+  },
+#endif
+#ifdef THREECHECK
+  {
+    {2.4, 0.74, 1.78},
+    {5.0, 1.00, 2.00}
+  },
+#endif
+  };
 
   // Futility and reductions lookup tables, initialized at startup
-  int FutilityMoveCounts[2][16]; // [improving][depth]
+  int FutilityMoveCounts[VARIANT_NB][2][16]; // [improving][depth]
   int Reductions[2][2][64][64];  // [pv][improving][depth][moveNumber]
 
   // Threshold used for countermoves based pruning
@@ -298,10 +358,11 @@ void Search::init() {
                 Reductions[NonPV][imp][d][mc]++;
           }
 
+  for (Variant var = CHESS_VARIANT; var < VARIANT_NB; ++var)
   for (int d = 0; d < 16; ++d)
   {
-      FutilityMoveCounts[0][d] = int(2.4 + 0.74 * pow(d, 1.78));
-      FutilityMoveCounts[1][d] = int(5.0 + 1.00 * pow(d, 2.00));
+      FutilityMoveCounts[var][0][d] = int(fmc[var][0][0] + fmc[var][0][1] * pow(d, fmc[var][0][2]));
+      FutilityMoveCounts[var][1][d] = int(fmc[var][1][0] + fmc[var][1][1] * pow(d, fmc[var][1][2]));
   }
 }
 
@@ -1109,7 +1170,7 @@ moves_loop: // When in check search starts from here
                   : pos.gives_check(move);
 
       moveCountPruning =   depth < 16 * ONE_PLY
-                        && moveCount >= FutilityMoveCounts[improving][depth / ONE_PLY];
+                        && moveCount >= FutilityMoveCounts[pos.variant()][improving][depth / ONE_PLY];
 
       // Step 12. Singular and Gives Check Extensions
 
