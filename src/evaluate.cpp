@@ -1152,7 +1152,13 @@ namespace {
                 continue;
             Square s = pos.is_horde_color(WHITE) ? msb(p) + NORTH : lsb(p) + SOUTH;
             Bitboard a = pos.attackers_to(s);
-            if (popcount(a & pos.pieces(Them)) - popcount(a & pos.pieces(Us)) >= 0)
+            if (   popcount(a & pos.pieces(Them)) - popcount(a & pos.pieces(Us)) >= 0
+                && (   f == FILE_A
+                    || !(pos.pieces(Them, PAWN) & (s + WEST))
+                    || popcount(pos.attackers_to(s + WEST) & pos.pieces(Them)) > popcount(pos.attackers_to(s + WEST) & pos.pieces(Us)))
+                && (   f == FILE_H
+                    || !(pos.pieces(Them, PAWN) & (s + EAST))
+                    || popcount(pos.attackers_to(s + EAST) & pos.pieces(Them)) > popcount(pos.attackers_to(s + EAST) & pos.pieces(Us))))
                 safe_pushes++;
         }
 
