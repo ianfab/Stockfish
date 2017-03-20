@@ -625,6 +625,14 @@ namespace {
 
         int mob = popcount(b & ei.mobilityArea[Us]);
 
+#ifdef ATOMIC
+        if (pos.is_atomic())
+        {
+            Score sc = MobilityBonus[pos.variant()][Pt-2][mob];
+            mobility[Us] += make_score(mg_value(sc), eg_value(sc) / 2);
+        }
+        else
+#endif
         mobility[Us] += MobilityBonus[pos.variant()][Pt-2][mob];
 
 #ifdef ANTI
