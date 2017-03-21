@@ -1237,6 +1237,10 @@ moves_loop: // When in check search starts from here
               else if (   type_of(move) == NORMAL
                        && !pos.see_ge(make_move(to_sq(move), from_sq(move)),  VALUE_ZERO))
                   r -= 2 * ONE_PLY;
+#ifdef ATOMIC
+              else if (pos.is_atomic() && pos.indirect_king_attack(move))
+                  r -= ONE_PLY;
+#endif
 
               ss->history =  cmh[moved_piece][to_sq(move)]
                            + fmh[moved_piece][to_sq(move)]
