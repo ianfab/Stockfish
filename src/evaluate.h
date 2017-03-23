@@ -38,7 +38,7 @@ const Value Tempo[VARIANT_NB] = { // Must be visible to search
   Value(20),
 #endif
 #ifdef CRAZYHOUSE
-  Value(100),
+  Value(50),
 #endif
 #ifdef HORDE
   Value(20),
