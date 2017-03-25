@@ -1189,7 +1189,7 @@ moves_loop: // When in check search starts from here
               if (pos.is_race()) {} else
 #endif
               if (   lmrDepth < 8
-                  && !pos.see_ge(move, Value(-35 * lmrDepth * lmrDepth)))
+                  && !pos.see_ge(move, Value(-(pos.is_horde() ? 25 : 35) * lmrDepth * lmrDepth)))
                   continue;
           }
           else if (    depth < 7 * ONE_PLY
