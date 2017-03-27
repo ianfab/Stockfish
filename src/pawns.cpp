@@ -44,7 +44,7 @@ namespace {
     { S(45, 40), S(30, 27) },
 #endif
 #ifdef HORDE
-    { S(60, 44), S(18, 38) },
+    { S(55, 31), S( 6, 40) },
 #endif
 #ifdef KOTH
     { S(45, 40), S(30, 27) },
@@ -76,7 +76,7 @@ namespace {
     { S(56, 33), S(41, 19) },
 #endif
 #ifdef HORDE
-    { S(48, 26), S(80, 15) },
+    { S(42, 35), S(81, 11) },
 #endif
 #ifdef KOTH
     { S(56, 33), S(41, 19) },
@@ -108,7 +108,7 @@ namespace {
     S( 17,   8),
 #endif
 #ifdef HORDE
-    S( 47,  50),
+    S( 48,  56),
 #endif
 #ifdef KOTH
     S( 17,   8),
@@ -143,7 +143,7 @@ namespace {
     S(18, 38),
 #endif
 #ifdef HORDE
-    S(10, 78),
+    S(17, 77),
 #endif
 #ifdef KOTH
     S(18, 38),
