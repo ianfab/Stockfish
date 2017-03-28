@@ -444,9 +444,6 @@ inline Bitboard Position::checkers() const {
 #ifdef ANTI
   assert(!is_anti() || !st->checkersBB);
 #endif
-#ifdef RACE
-  assert(!is_race() || !(st->checkersBB - square<KING>(~sideToMove)));
-#endif
   return st->checkersBB;
 }
 

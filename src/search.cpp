@@ -1517,11 +1517,6 @@ moves_loop: // When in check search starts from here
     {
       assert(is_ok(move));
 
-#ifdef RACE
-      if (pos.is_race())
-          givesCheck = type_of(pos.piece_on(from_sq(move))) == KING && rank_of(to_sq(move)) == RANK_8;
-      else
-#endif
       givesCheck =  type_of(move) == NORMAL && !pos.discovered_check_candidates()
 #ifdef ATOMIC
                   && !pos.is_atomic()
