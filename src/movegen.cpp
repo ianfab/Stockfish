@@ -615,6 +615,15 @@ ExtMove* generate<EVASIONS>(const Position& pos, ExtMove* moveList) {
 #ifdef ATOMIC
   Bitboard kingAttacks = pos.is_atomic() ? pos.attacks_from<KING>(pos.square<KING>(~us)) : 0;
 #endif
+#ifdef RACE
+  if (pos.is_race())
+  {
+      Bitboard b = pos.attacks_from<KING>(ksq) & ~pos.pieces(us) & Rank8BB;
+      while (b)
+          *moveList++ = make_move(ksq, pop_lsb(&b));
+      return moveList;
+  }
+#endif
 
 #ifdef ATOMIC
   if (pos.is_atomic())

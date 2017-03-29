@@ -87,6 +87,11 @@ MovePicker::MovePicker(const Position& p, Move ttm, Depth d, Square s)
   if (pos.checkers())
       stage = EVASION;
 
+#ifdef RACE
+  else if (pos.is_race() && rank_of(pos.square<KING>(~pos.side_to_move())) == RANK_8)
+      stage = EVASION;
+#endif
+
   else if (d > DEPTH_QS_NO_CHECKS)
       stage = QSEARCH_WITH_CHECKS;
 
