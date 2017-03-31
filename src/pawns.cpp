@@ -32,7 +32,7 @@ namespace {
   #define S(mg, eg) make_score(mg, eg)
 
   // Isolated pawn penalty by opposed flag
-  const Score Isolated[VARIANT_NB][2] = {
+  Score Isolated[VARIANT_NB][2] = {
     { S(45, 40), S(30, 27) },
 #ifdef ANTI
     { S(50, 80), S(54, 69) },
@@ -64,7 +64,7 @@ namespace {
   };
 
   // Backward pawn penalty by opposed flag
-  const Score Backward[VARIANT_NB][2] = {
+  Score Backward[VARIANT_NB][2] = {
     { S(56, 33), S(41, 19) },
 #ifdef ANTI
     { S(64, 25), S(26, 50) },
@@ -96,7 +96,7 @@ namespace {
   };
 
   // Unsupported pawn penalty for pawns which are neither isolated or backward
-  const Score Unsupported[VARIANT_NB] = {
+  Score Unsupported[VARIANT_NB] = {
     S( 17,   8),
 #ifdef ANTI
     S(-45, -48),
@@ -170,7 +170,7 @@ namespace {
 
   // Weakness of our pawn shelter in front of the king by [distance from edge][rank].
   // RANK_1 = 0 is used for files where we have no pawns or our pawn is behind our king.
-  const Value ShelterWeakness[VARIANT_NB][4][RANK_NB] = {
+  Value ShelterWeakness[VARIANT_NB][4][RANK_NB] = {
   {
     { V(100), V(20), V(10), V(46), V(82), V( 86), V( 98) },
     { V(116), V( 4), V(28), V(87), V(94), V(108), V(104) },
@@ -240,6 +240,8 @@ namespace {
   },
 #endif
   };
+  TUNE(SetRange(-100, 200), Isolated[ATOMIC_VARIANT], Backward[ATOMIC_VARIANT], Unsupported[ATOMIC_VARIANT],
+       SetRange(-200, 400), ShelterWeakness[ATOMIC_VARIANT]);
 
   // Danger of enemy pawns moving toward our king by [type][distance from edge][rank].
   // For the unopposed and unblocked cases, RANK_1 = 0 is used when opponent has no pawn
@@ -383,9 +385,7 @@ namespace Pawns {
 /// hard-coded tables, when makes sense, we prefer to calculate them with a formula
 /// to reduce independent parameters and to allow easier tuning and better insight.
 
-void init() {
-
-  static const int Seed[VARIANT_NB][RANK_NB] = {
+  int Seed[VARIANT_NB][RANK_NB] = {
     { 0, 8, 19, 13, 71, 94, 169, 324 },
 #ifdef ANTI
     { 0, 8, 19, 13, 71, 94, 169, 324 },
@@ -416,6 +416,8 @@ void init() {
 #endif
   };
 
+void init() {
+
   for (Variant var = CHESS_VARIANT; var < VARIANT_NB; ++var)
   for (int opposed = 0; opposed <= 1; ++opposed)
       for (int phalanx = 0; phalanx <= 1; ++phalanx)
@@ -427,6 +429,7 @@ void init() {
       Connected[var][opposed][phalanx][apex][r] = make_score(v, v * (r-2) / 4);
   }
 }
+TUNE(SetRange(0, 500), Seed[ATOMIC_VARIANT], init);
 
 
 /// Pawns::probe() looks up the current position's pawns configuration in
