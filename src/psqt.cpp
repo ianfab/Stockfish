@@ -976,5 +976,6 @@ void init() {
 #endif
       }
 }
+TUNE(PieceValue[LOSERS_VARIANT], init);
 
 } // namespace PSQT
