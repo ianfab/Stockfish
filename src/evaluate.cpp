@@ -318,7 +318,7 @@ namespace {
 
   // Passed[variant][mg/eg][Rank] contains midgame and endgame bonuses for passed pawns.
   // We don't use a Score because we process the two components independently.
-  const Value Passed[VARIANT_NB][2][RANK_NB] = {
+  Value Passed[VARIANT_NB][2][RANK_NB] = {
     {
       { V(5), V( 5), V(31), V(73), V(166), V(252) },
       { V(7), V(14), V(38), V(73), V(166), V(252) }
@@ -378,6 +378,7 @@ namespace {
     },
 #endif
   };
+  TUNE(Passed[CRAZYHOUSE_VARIANT]);
 
 #ifdef THREECHECK
   const Score ChecksGivenBonus[CHECKS_NB] = {
