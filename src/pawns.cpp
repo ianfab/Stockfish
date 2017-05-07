@@ -32,7 +32,7 @@ namespace {
   #define S(mg, eg) make_score(mg, eg)
 
   // Isolated pawn penalty by opposed flag
-  const Score Isolated[VARIANT_NB][2] = {
+  Score Isolated[VARIANT_NB][2] = {
     { S(45, 40), S(30, 27) },
 #ifdef ANTI
     { S(50, 80), S(54, 69) },
@@ -64,7 +64,7 @@ namespace {
   };
 
   // Backward pawn penalty by opposed flag
-  const Score Backward[VARIANT_NB][2] = {
+  Score Backward[VARIANT_NB][2] = {
     { S(56, 33), S(41, 19) },
 #ifdef ANTI
     { S(64, 25), S(26, 50) },
@@ -96,7 +96,7 @@ namespace {
   };
 
   // Unsupported pawn penalty for pawns which are neither isolated or backward
-  const Score Unsupported[VARIANT_NB] = {
+  Score Unsupported[VARIANT_NB] = {
     S( 17,   8),
 #ifdef ANTI
     S(-45, -48),
@@ -131,7 +131,7 @@ namespace {
   Score Connected[VARIANT_NB][2][2][2][RANK_NB];
 
   // Doubled pawn penalty
-  const Score Doubled[VARIANT_NB] = {
+  Score Doubled[VARIANT_NB] = {
     S(18, 38),
 #ifdef ANTI
     S( 4, 51),
@@ -161,6 +161,8 @@ namespace {
     S(18, 38),
 #endif
   };
+  TUNE(Isolated[ATOMIC_VARIANT], Backward[ATOMIC_VARIANT],
+       Unsupported[ATOMIC_VARIANT], Doubled[ATOMIC_VARIANT]);
 
   // Lever bonus by rank
   const Score Lever[RANK_NB] = {
@@ -581,9 +583,7 @@ namespace Pawns {
 /// hard-coded tables, when makes sense, we prefer to calculate them with a formula
 /// to reduce independent parameters and to allow easier tuning and better insight.
 
-void init() {
-
-  static const int Seed[VARIANT_NB][RANK_NB] = {
+  int Seed[VARIANT_NB][RANK_NB] = {
     { 0, 8, 19, 13, 71, 94, 169, 324 },
 #ifdef ANTI
     { 0, 8, 19, 13, 71, 94, 169, 324 },
@@ -614,6 +614,8 @@ void init() {
 #endif
   };
 
+void init() {
+
   for (Variant var = CHESS_VARIANT; var < VARIANT_NB; ++var)
   for (int opposed = 0; opposed <= 1; ++opposed)
       for (int phalanx = 0; phalanx <= 1; ++phalanx)
@@ -625,7 +627,7 @@ void init() {
       Connected[var][opposed][phalanx][apex][r] = make_score(v, v * (r-2) / 4);
   }
 }
-
+TUNE(Seed[ATOMIC_VARIANT], init);
 
 /// Pawns::probe() looks up the current position's pawns configuration in
 /// the pawns hash table. It returns a pointer to the Entry if the position
