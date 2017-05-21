@@ -755,6 +755,10 @@ namespace {
 
     // King shelter and enemy pawns storm
     Score score = ei.pe->king_safety<Us>(pos, ksq);
+#ifdef HORDE
+    if (pos.is_horde() && pos.is_horde_color(Us))
+        score = make_score(0, 0);
+#endif
 
     // Main king safety evaluation
     if (ei.kingAttackersCount[Them] > (1 - pos.count<QUEEN>(Them))
