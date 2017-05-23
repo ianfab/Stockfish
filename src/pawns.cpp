@@ -654,9 +654,17 @@ Score Entry::do_king_safety(const Position& pos, Square ksq) {
   CheckCount checks = pos.is_three_check() ? pos.checks_given(~Us) : CHECKS_0;
 #endif
 
+#ifdef HORDE
+  if (pos.is_horde() && pos.is_horde_color(Us))
+      ksq = Us == WHITE ? SQ_E1 : SQ_E8;
+#endif
   Bitboard pawns = pos.pieces(Us, PAWN);
   if (pawns)
       while (!(DistanceRingBB[ksq][minKingPawnDistance++] & pawns)) {}
+#ifdef HORDE
+  if (pos.is_horde() && pos.is_horde_color(Us))
+      return make_score(0, -16 * minKingPawnDistance);
+#endif
 
   Value bonus = shelter_storm<Us>(pos, ksq);
 

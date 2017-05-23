@@ -755,14 +755,13 @@ namespace {
 
     // King shelter and enemy pawns storm
     Score score = ei.pe->king_safety<Us>(pos, ksq);
+#ifdef HORDE
+    if (pos.is_horde() && pos.is_horde_color(Us))
+        return score;
+#endif
 
     // Main king safety evaluation
-    if (ei.kingAttackersCount[Them] > (1 - pos.count<QUEEN>(Them))
-#ifdef HORDE
-        // Hack to prevent segmentation fault for multi-queen positions
-        && !(pos.is_horde() && ksq == SQ_NONE)
-#endif
-    )
+    if (ei.kingAttackersCount[Them] > (1 - pos.count<QUEEN>(Them)))
     {
         // Find the attacked squares which are defended only by our king...
 #ifdef ATOMIC
