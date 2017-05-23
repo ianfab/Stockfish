@@ -657,6 +657,10 @@ Score Entry::do_king_safety(const Position& pos, Square ksq) {
   Bitboard pawns = pos.pieces(Us, PAWN);
   if (pawns)
       while (!(DistanceRingBB[ksq][minKingPawnDistance++] & pawns)) {}
+#ifdef HORDE
+  if (pos.is_horde() && pos.is_horde_color(Us))
+      return make_score(0, -16 * minKingPawnDistance);
+#endif
 
   Value bonus = shelter_storm<Us>(pos, ksq);
 
