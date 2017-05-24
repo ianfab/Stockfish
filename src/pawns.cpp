@@ -437,6 +437,13 @@ namespace {
             l = m; m = r; r = f1 < FILE_H ? popcount(ourPawns & FileBB[f1 + 1]) : 0;
             score -= ImbalancedHorde * m / (1 + l * r);
         }
+
+        int minKingPawnDistance = 0;
+        Square ksq = Us == WHITE ? SQ_E1 : SQ_E8;
+        if (ourPawns)
+            while (!(DistanceRingBB[ksq][minKingPawnDistance++] & ourPawns)) {}
+
+        score += make_score(0, -16 * minKingPawnDistance);
     }
 #endif
 

@@ -757,12 +757,7 @@ namespace {
     Score score = ei.pe->king_safety<Us>(pos, ksq);
 
     // Main king safety evaluation
-    if (ei.kingAttackersCount[Them] > (1 - pos.count<QUEEN>(Them))
-#ifdef HORDE
-        // Hack to prevent segmentation fault for multi-queen positions
-        && !(pos.is_horde() && ksq == SQ_NONE)
-#endif
-    )
+    if (ei.kingAttackersCount[Them] > (1 - pos.count<QUEEN>(Them)))
     {
         // Find the attacked squares which are defended only by our king...
 #ifdef ATOMIC
@@ -1427,6 +1422,13 @@ Value Eval::evaluate(const Position& pos) {
 #endif
   // Evaluate kings after all other pieces because we need full attack
   // information when computing the king safety evaluation.
+#ifdef HORDE
+  if (pos.is_horde())
+      score += pos.is_horde_color(BLACK) ?
+                evaluate_king<WHITE, DoTrace>(pos, ei) :
+              - evaluate_king<BLACK, DoTrace>(pos, ei);
+  else
+#endif
   score +=  evaluate_king<WHITE, DoTrace>(pos, ei)
           - evaluate_king<BLACK, DoTrace>(pos, ei);
 
