@@ -588,7 +588,7 @@ namespace {
     Value(12222),
 #endif
 #ifdef CRAZYHOUSE
-    Value(12222),
+    VALUE_ZERO,
 #endif
 #ifdef HORDE
     VALUE_ZERO,
