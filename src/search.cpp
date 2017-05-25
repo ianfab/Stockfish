@@ -921,7 +921,7 @@ namespace {
         goto moves_loop;
 #endif
 #ifdef LOSERS
-    if (pos.is_losers() && pos.can_capture_losers())
+    if (pos.is_losers() && pos.can_capture())
         goto moves_loop;
 #endif
 
