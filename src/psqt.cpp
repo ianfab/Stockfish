@@ -766,5 +766,6 @@ void init() {
 #endif
       }
 }
+TUNE(PieceValue[ATOMIC_VARIANT], init);
 
 } // namespace PSQT

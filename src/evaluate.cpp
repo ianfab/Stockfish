@@ -501,7 +501,7 @@ namespace {
   #undef V
 
   // KingAttackWeights[PieceType] contains king attack weights by piece type
-  const int KingAttackWeights[VARIANT_NB][PIECE_TYPE_NB] = {
+  int KingAttackWeights[VARIANT_NB][PIECE_TYPE_NB] = {
     { 0, 0, 78, 56, 45, 11 },
 #ifdef ANTI
     {},
@@ -533,7 +533,7 @@ namespace {
   };
 
   // Per-variant king danger malus factors
-  const int KingDangerParams[VARIANT_NB][7] = {
+  int KingDangerParams[VARIANT_NB][7] = {
     {   102,  201,  143, -848,   -9,   40,    0 },
 #ifdef ANTI
     {   101,  235,  134, -717,  -11,   -5,    0 },
@@ -570,8 +570,9 @@ namespace {
   const int BishopCheck = 435;
   const int KnightCheck = 790;
 #ifdef ATOMIC
-  const int IndirectKingAttack = 1000;
+  int IndirectKingAttack = 1000;
 #endif
+  TUNE(KingAttackWeights[ATOMIC_VARIANT], KingDangerParams[ATOMIC_VARIANT], IndirectKingAttack);
 
 #ifdef THREECHECK
   // In Q8 fixed point
