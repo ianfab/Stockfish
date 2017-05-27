@@ -425,9 +425,10 @@ namespace {
 #endif
 
 #ifdef CRAZYHOUSE
-  const int KingDangerInHand[PIECE_TYPE_NB] = {
+  int KingDangerInHand[PIECE_TYPE_NB] = {
     87, 16, 210, 66, 168, 143
   };
+  TUNE(KingDangerInHand);
 #endif
 
 #ifdef RACE
@@ -501,7 +502,7 @@ namespace {
   #undef V
 
   // KingAttackWeights[PieceType] contains king attack weights by piece type
-  const int KingAttackWeights[VARIANT_NB][PIECE_TYPE_NB] = {
+  int KingAttackWeights[VARIANT_NB][PIECE_TYPE_NB] = {
     { 0, 0, 78, 56, 45, 11 },
 #ifdef ANTI
     {},
@@ -533,7 +534,7 @@ namespace {
   };
 
   // Per-variant king danger malus factors
-  const int KingDangerParams[VARIANT_NB][7] = {
+  int KingDangerParams[VARIANT_NB][7] = {
     {   102,  201,  143, -848,   -9,   40,    0 },
 #ifdef ANTI
     {   101,  235,  134, -717,  -11,   -5,    0 },
@@ -563,6 +564,7 @@ namespace {
     {    77,  138,  107, -726,   -7,  -73,  168 },
 #endif
   };
+  TUNE(KingAttackWeights[CRAZYHOUSE_VARIANT], KingDangerParams[CRAZYHOUSE_VARIANT]);
 
   // Penalties for enemy's safe checks
   const int QueenCheck  = 780;
