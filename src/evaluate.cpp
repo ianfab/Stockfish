@@ -389,10 +389,10 @@ namespace {
 #endif
 
 #ifdef KOTH
-  const Score KothDistanceBonus[6] = {
+  Score KothDistanceBonus[6] = {
     S(1991, 1658), S(448, 364), S(163, 176), S(80, 89), S(50, 50), S(0, 0)
   };
-  const Score KothSafeCenter = S(157, 202);
+  Score KothSafeCenter = S(157, 202);
 #endif
 
 #ifdef ANTI
@@ -501,7 +501,7 @@ namespace {
   #undef V
 
   // KingAttackWeights[PieceType] contains king attack weights by piece type
-  const int KingAttackWeights[VARIANT_NB][PIECE_TYPE_NB] = {
+  int KingAttackWeights[VARIANT_NB][PIECE_TYPE_NB] = {
     { 0, 0, 78, 56, 45, 11 },
 #ifdef ANTI
     {},
@@ -533,7 +533,7 @@ namespace {
   };
 
   // Per-variant king danger malus factors
-  const int KingDangerParams[VARIANT_NB][7] = {
+  int KingDangerParams[VARIANT_NB][7] = {
     {   102,  201,  143, -848,   -9,   40,    0 },
 #ifdef ANTI
     {   101,  235,  134, -717,  -11,   -5,    0 },
@@ -576,6 +576,7 @@ namespace {
 #ifdef THREECHECK
   // In Q8 fixed point
   const int ThreeCheckKSFactors[CHECKS_NB] = { 585, 717, 812, 0 };
+  TUNE(KingAttackWeights[KOTH_VARIANT], KingDangerParams[KOTH_VARIANT], KothDistanceBonus, KothSafeCenter);
 #endif
   // Threshold for lazy and space evaluation
   const Value LazyThreshold  = Value(1500);

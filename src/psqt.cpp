@@ -766,5 +766,6 @@ void init() {
 #endif
       }
 }
+TUNE(PieceValue[KOTH_VARIANT], init);
 
 } // namespace PSQT
