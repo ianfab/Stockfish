@@ -766,5 +766,6 @@ void init() {
 #endif
       }
 }
+TUNE(PieceValue[THREECHECK_VARIANT], init);
 
 } // namespace PSQT

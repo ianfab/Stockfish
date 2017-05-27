@@ -380,7 +380,7 @@ namespace {
   };
 
 #ifdef THREECHECK
-  const Score ChecksGivenBonus[CHECKS_NB] = {
+  Score ChecksGivenBonus[CHECKS_NB] = {
       S(0, 0),
       S(444, 181),
       S(2425, 603),
@@ -501,7 +501,7 @@ namespace {
   #undef V
 
   // KingAttackWeights[PieceType] contains king attack weights by piece type
-  const int KingAttackWeights[VARIANT_NB][PIECE_TYPE_NB] = {
+  int KingAttackWeights[VARIANT_NB][PIECE_TYPE_NB] = {
     { 0, 0, 78, 56, 45, 11 },
 #ifdef ANTI
     {},
@@ -533,7 +533,7 @@ namespace {
   };
 
   // Per-variant king danger malus factors
-  const int KingDangerParams[VARIANT_NB][7] = {
+  int KingDangerParams[VARIANT_NB][7] = {
     {   102,  201,  143, -848,   -9,   40,    0 },
 #ifdef ANTI
     {   101,  235,  134, -717,  -11,   -5,    0 },
@@ -575,7 +575,8 @@ namespace {
 
 #ifdef THREECHECK
   // In Q8 fixed point
-  const int ThreeCheckKSFactors[CHECKS_NB] = { 585, 717, 812, 0 };
+  int ThreeCheckKSFactors[CHECKS_NB] = { 585, 717, 812, 0 };
+  TUNE(KingAttackWeights[THREECHECK_VARIANT], KingDangerParams[THREECHECK_VARIANT], ChecksGivenBonus, ThreeCheckKSFactors);
 #endif
   // Threshold for lazy and space evaluation
   const Value LazyThreshold  = Value(1500);
