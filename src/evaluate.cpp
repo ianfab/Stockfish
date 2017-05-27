@@ -318,7 +318,7 @@ namespace {
 
   // Passed[variant][mg/eg][Rank] contains midgame and endgame bonuses for passed pawns.
   // We don't use a Score because we process the two components independently.
-  const Value Passed[VARIANT_NB][2][RANK_NB] = {
+  Value Passed[VARIANT_NB][2][RANK_NB] = {
     {
       { V(5), V( 5), V(31), V(73), V(166), V(252) },
       { V(7), V(14), V(38), V(73), V(166), V(252) }
@@ -389,16 +389,16 @@ namespace {
 #endif
 
 #ifdef KOTH
-  const Score KothDistanceBonus[6] = {
+  Score KothDistanceBonus[6] = {
     S(1991, 1658), S(448, 364), S(163, 176), S(80, 89), S(50, 50), S(0, 0)
   };
-  const Score KothSafeCenter = S(157, 202);
+  Score KothSafeCenter = S(157, 202);
 #endif
 
 #ifdef ANTI
-  const Score PieceCountAnti    = S(122, 119);
-  const Score ThreatsAnti[]     = { S(216, 279), S(441, 341) };
-  const Score AttacksAnti[2][2][PIECE_TYPE_NB] = {
+  Score PieceCountAnti    = S(122, 119);
+  Score ThreatsAnti[]     = { S(216, 279), S(441, 341) };
+  Score AttacksAnti[2][2][PIECE_TYPE_NB] = {
     {
       { S( 27, 140), S( 23,  95), S(160, 112), S( 78, 129), S( 65,  75), S( 70, 13), S(146, 123) },
       { S( 58,  82), S( 80, 112), S(124,  87), S(103, 110), S(185, 107), S( 72, 60), S(126,  62) }
@@ -408,6 +408,7 @@ namespace {
       { S( 56,  69), S( 72, 124), S(109, 154), S( 98, 149), S(129, 113), S(147, 72), S(157, 152) }
     }
   };
+  TUNE(PieceCountAnti, ThreatsAnti, AttacksAnti);
 #endif
 
 #ifdef LOSERS
@@ -432,7 +433,7 @@ namespace {
 
 #ifdef RACE
   // Bonus for distance of king from 8th rank
-  const Score KingRaceBonus[RANK_NB] = {
+  Score KingRaceBonus[RANK_NB] = {
     S(14216, 14428), S(5931, 5364), S(4372, 3800), S(2678, 2467),
     S( 1577,  1515), S( 960,  914), S( 518,  480), S(   0,    0)
   };
@@ -501,7 +502,7 @@ namespace {
   #undef V
 
   // KingAttackWeights[PieceType] contains king attack weights by piece type
-  const int KingAttackWeights[VARIANT_NB][PIECE_TYPE_NB] = {
+  int KingAttackWeights[VARIANT_NB][PIECE_TYPE_NB] = {
     { 0, 0, 78, 56, 45, 11 },
 #ifdef ANTI
     {},
@@ -533,7 +534,7 @@ namespace {
   };
 
   // Per-variant king danger malus factors
-  const int KingDangerParams[VARIANT_NB][7] = {
+  int KingDangerParams[VARIANT_NB][7] = {
     {   102,  201,  143, -848,   -9,   40,    0 },
 #ifdef ANTI
     {   101,  235,  134, -717,  -11,   -5,    0 },
