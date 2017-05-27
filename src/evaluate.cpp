@@ -1367,39 +1367,26 @@ namespace {
                    & (ei.attackedBy[Us][ALL_PIECES] | ~ei.attackedBy[Them][ALL_PIECES]);
 #ifdef HORDE
     if (pos.is_horde())
+    {
         safe =   ~ei.attackedBy[Them][PAWN]
-               & (ei.attackedBy[Us][ALL_PIECES] | ~ei.attackedBy[Them][ALL_PIECES]);
+               & (ei.attackedBy2[Us] | ~ei.attackedBy2[Them])
+               & (ei.attackedBy[Us][PAWN] | ~ei.attackedBy[Them][ALL_PIECES]);
+        int count = popcount(safe);
+        return make_score(count * count / 2, 0);
+    }
 #endif
 
     // Find all squares which are at most three squares behind some friendly pawn
     Bitboard behind = pos.pieces(Us, PAWN);
     behind |= (Us == WHITE ? behind >>  8 : behind <<  8);
     behind |= (Us == WHITE ? behind >> 16 : behind << 16);
-#ifdef HORDE
-    if (pos.is_horde())
-        behind |= (Us == WHITE ? behind >> 24 : behind << 24);
-#endif
 
     // Since SpaceMask[Us] is fully on our half of the board...
-#ifdef HORDE
-    assert(pos.is_horde() || unsigned(safe >> (Us == WHITE ? 32 : 0)) == 0);
-#else
     assert(unsigned(safe >> (Us == WHITE ? 32 : 0)) == 0);
-#endif
 
     // ...count safe + (behind & safe) with a single popcount.
-    int bonus;
-#ifdef HORDE
-    if (pos.is_horde())
-        bonus = popcount(safe) + popcount(behind & safe);
-    else
-#endif
-    bonus = popcount((Us == WHITE ? safe << 32 : safe >> 32) | (behind & safe));
+    int bonus = popcount((Us == WHITE ? safe << 32 : safe >> 32) | (behind & safe));
     int weight = pos.count<ALL_PIECES>(Us) - 2 * ei.pe->open_files();
-#ifdef HORDE
-    if (pos.is_horde() && pos.is_horde_color(Us))
-        return make_score(bonus * weight * weight / 200, 0);
-#endif
 #ifdef KOTH
     if (pos.is_koth())
         return make_score(bonus * weight * weight / 22, 0)
