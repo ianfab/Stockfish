@@ -209,8 +209,8 @@ namespace {
 #endif
 #ifdef CRAZYHOUSE
   {
-    {2.4, 0.74, 1.78},
-    {5.0, 1.00, 2.00}
+    {2.4, 0.74, 2.00},
+    {5.0, 1.00, 2.50}
   },
 #endif
 #ifdef HORDE
