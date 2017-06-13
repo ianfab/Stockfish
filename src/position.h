@@ -178,6 +178,8 @@ public:
   bool is_atomic() const;
   bool is_atomic_win() const;
   bool is_atomic_loss() const;
+  bool indirect_king_attack(Move m) const;
+  bool indirect_king_attack() const;
 #endif
 #ifdef HORDE
   bool is_horde() const;
@@ -543,6 +545,59 @@ inline bool Position::is_atomic_win() const {
 // Loss if king is captured (Atomic)
 inline bool Position::is_atomic_loss() const {
   return count<KING>(sideToMove) == 0;
+}
+
+inline bool Position::indirect_king_attack(Move m) const {
+  if (!is_atomic() || square<KING>(~sideToMove) == SQ_NONE)
+      return false;
+  Bitboard b = attacks_from<KING>(square<KING>(~sideToMove)) & pieces(~sideToMove);
+  Square ksq = type_of(moved_piece(m)) == KING ? to_sq(m) : square<KING>(sideToMove);
+  if (ksq != SQ_NONE)
+      b &= ~attacks_from<KING>(ksq);
+  if (!capture(m) && (attacks_from(type_of(moved_piece(m)), to_sq(m)) & b))
+      return true;
+
+  // Check for discovered attacks
+  while (b)
+  {
+      Square s = pop_lsb(&b);
+      Square from = from_sq(m);
+      Square to = to_sq(m);
+
+      Bitboard b1;
+      if (capture(m))
+      {
+          // Do blasted pieces discover an indirect king attack?
+          Square capsq = type_of(m) == ENPASSANT ? make_square(file_of(to), rank_of(from)) : to;
+          Bitboard blast = attacks_from<KING>(to) & (pieces() ^ pieces(PAWN));
+          if ((blast | capsq) & s)
+              continue;
+
+          if (blast & square<KING>(~sideToMove)) // Variant ending
+              return false;
+          b1 = pieces() ^ ((blast | capsq) | from);
+      }
+      else
+          b1 = (pieces() | to) ^ from;
+
+      if ((attacks_bb<  ROOK>(s, b1) & pieces(sideToMove, QUEEN, ROOK) & b1)
+          || (attacks_bb<BISHOP>(s, b1) & pieces(sideToMove, QUEEN, BISHOP) & b1))
+          return true;
+  }
+  return false;
+}
+
+inline bool Position::indirect_king_attack() const {
+  if (!is_atomic() || square<KING>(sideToMove) == SQ_NONE)
+      return false;
+  Bitboard b = attacks_from<KING>(square<KING>(sideToMove)) & pieces(sideToMove) & ~attacks_from<KING>(square<KING>(~sideToMove));
+  while (b)
+  {
+      Square s = pop_lsb(&b);
+      if (attackers_to(s) & pieces(~sideToMove))
+          return true;
+  }
+  return false;
 }
 #endif
 
