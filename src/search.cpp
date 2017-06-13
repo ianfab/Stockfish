@@ -1167,6 +1167,9 @@ moves_loop: // When in check search starts from here
 #ifdef ANTI
               && (!pos.is_anti() || !(pos.attackers_to(to_sq(move)) & pos.pieces(~pos.side_to_move())))
 #endif
+#ifdef ATOMIC
+              && (!pos.is_atomic() || !pos.indirect_king_attack(move))
+#endif
 #ifdef LOSERS
               && (!pos.is_losers() || !(pos.attackers_to(to_sq(move)) & pos.pieces(~pos.side_to_move())))
 #endif
