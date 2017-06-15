@@ -1301,6 +1301,9 @@ moves_loop: // When in check search starts from here
               // castling moves, because they are coded as "king captures rook" and
               // hence break make_move().
               else if (    type_of(move) == NORMAL
+#ifdef ANTI
+                       && !pos.is_anti()
+#endif
                        && !pos.see_ge(make_move(to_sq(move), from_sq(move))))
                   r -= 2 * ONE_PLY;
 
