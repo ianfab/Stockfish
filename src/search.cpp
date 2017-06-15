@@ -1318,6 +1318,10 @@ moves_loop: // When in check search starts from here
                   r += ONE_PLY;
 
               // Decrease/increase reduction for moves with a good/bad history
+#ifdef ANTI
+              if (pos.is_anti())
+                  r = std::max(DEPTH_ZERO, (r / ONE_PLY - ss->statScore / 30000) * ONE_PLY);
+#endif
               r = std::max(DEPTH_ZERO, (r / ONE_PLY - ss->statScore / 20000) * ONE_PLY);
           }
 
