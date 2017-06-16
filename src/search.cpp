@@ -203,11 +203,6 @@ namespace {
 
 #ifdef CRAZYHOUSE
   int ZHFutilityMoveCounts[2][16]; // [improving][depth]
-  int ZHReductions[2][2][64][64];  // [pv][improving][depth][moveNumber]
-
-  template <bool PvNode> Depth zhReduction(bool i, Depth d, int mn) {
-    return ZHReductions[PvNode][i][std::min(d / ONE_PLY, 63)][std::min(mn, 63)] * ONE_PLY;
-  }
 #endif
 
   // History and stats update bonus, based on depth
@@ -313,20 +308,6 @@ void Search::init() {
   }
 
 #ifdef CRAZYHOUSE
-  for (int imp = 0; imp <= 1; ++imp)
-      for (int d = 1; d < 64; ++d)
-          for (int mc = 1; mc < 64; ++mc)
-          {
-              double r = log(d) * log(mc) / 2.00;
-
-              ZHReductions[NonPV][imp][d][mc] = int(std::round(r));
-              ZHReductions[PV][imp][d][mc] = std::max(ZHReductions[NonPV][imp][d][mc] - 1, 0);
-
-              // Increase reduction for non-PV nodes when eval is not improving
-              if (!imp && ZHReductions[NonPV][imp][d][mc] >= 2)
-                ZHReductions[NonPV][imp][d][mc]++;
-          }
-
   for (int d = 0; d < 16; ++d)
   {
       ZHFutilityMoveCounts[0][d] = int(10.0 + 0.5 * exp(0.8 * d));
@@ -1223,11 +1204,6 @@ moves_loop: // When in check search starts from here
 
               // Reduced depth of the next LMR search
               int lmrDepth;
-#ifdef CRAZYHOUSE
-              if (pos.is_house())
-                  lmrDepth = std::max(newDepth - zhReduction<PvNode>(improving, depth, moveCount), DEPTH_ZERO) / ONE_PLY;
-              else
-#endif
               lmrDepth = std::max(newDepth - reduction<PvNode>(improving, depth, moveCount), DEPTH_ZERO) / ONE_PLY;
 
               // Countermoves based pruning
@@ -1282,12 +1258,7 @@ moves_loop: // When in check search starts from here
           &&  moveCount > 1
           && (!captureOrPromotion || moveCountPruning))
       {
-#ifdef CRAZYHOUSE
-          Depth r = pos.is_house() ? zhReduction<PvNode>(improving, depth, moveCount)
-                                   : reduction<PvNode>(improving, depth, moveCount);
-#else
           Depth r = reduction<PvNode>(improving, depth, moveCount);
-#endif
 
           if (captureOrPromotion)
               r -= r ? ONE_PLY : DEPTH_ZERO;
