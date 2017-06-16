@@ -318,7 +318,7 @@ namespace {
 
   // Passed[variant][mg/eg][Rank] contains midgame and endgame bonuses for passed pawns.
   // We don't use a Score because we process the two components independently.
-  const Value Passed[VARIANT_NB][2][RANK_NB] = {
+  Value Passed[VARIANT_NB][2][RANK_NB] = {
     {
       { V(5), V( 5), V(31), V(73), V(166), V(252) },
       { V(7), V(14), V(38), V(73), V(166), V(252) }
@@ -396,9 +396,9 @@ namespace {
 #endif
 
 #ifdef ANTI
-  const Score PieceCountAnti    = S(121, 121);
-  const Score ThreatsAnti[]     = { S(200, 234), S(431, 306) };
-  const Score AttacksAnti[2][2][PIECE_TYPE_NB] = {
+  Score PieceCountAnti    = S(121, 121);
+  Score ThreatsAnti[]     = { S(200, 234), S(431, 306) };
+  Score AttacksAnti[2][2][PIECE_TYPE_NB] = {
     {
       { S( 29, 149), S( 25,  92), S(159, 113), S( 81, 125), S( 63,  77), S( 72, 12), S(138, 121) },
       { S( 56,  87), S( 82, 108), S(120,  91), S(101, 114), S(184, 106), S( 73, 62), S(127,  59) }
@@ -408,6 +408,7 @@ namespace {
       { S( 59,  74), S( 67, 114), S(104, 142), S(102, 146), S(143, 121), S(142, 69), S(154, 161) }
     }
   };
+  TUNE(PieceCountAnti, ThreatsAnti, AttacksAnti);
 #endif
 
 #ifdef LOSERS
@@ -501,7 +502,7 @@ namespace {
   #undef V
 
   // KingAttackWeights[PieceType] contains king attack weights by piece type
-  const int KingAttackWeights[VARIANT_NB][PIECE_TYPE_NB] = {
+  int KingAttackWeights[VARIANT_NB][PIECE_TYPE_NB] = {
     { 0, 0, 78, 56, 45, 11 },
 #ifdef ANTI
     {},
@@ -533,7 +534,7 @@ namespace {
   };
 
   // Per-variant king danger malus factors
-  const int KingDangerParams[VARIANT_NB][7] = {
+  int KingDangerParams[VARIANT_NB][7] = {
     {   102,  201,  143, -848,   -9,   40,    0 },
 #ifdef ANTI
     {   101,  235,  134, -717,  -11,   -5,    0 },

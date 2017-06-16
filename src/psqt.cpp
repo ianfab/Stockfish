@@ -766,5 +766,6 @@ void init() {
 #endif
       }
 }
+TUNE(PieceValue[ANTI_VARIANT], init);
 
 } // namespace PSQT
