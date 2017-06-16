@@ -307,6 +307,15 @@ void Search::init() {
                 Reductions[NonPV][imp][d][mc]++;
           }
 
+#ifdef ANTI
+  if (var == ANTI_VARIANT)
+      for (int d = 0; d < 16; ++d)
+      {
+          FutilityMoveCounts[var][0][d] = int(2.4 + 0.74 * pow(d, 2.00));
+          FutilityMoveCounts[var][1][d] = int(5.0 + 1.00 * pow(d, 3.00));
+      }
+  else
+#endif
 #ifdef CRAZYHOUSE
   if (var == CRAZYHOUSE_VARIANT)
       for (int d = 0; d < 16; ++d)
