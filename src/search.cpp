@@ -329,8 +329,8 @@ void Search::init() {
 
   for (int d = 0; d < 16; ++d)
   {
-      ZHFutilityMoveCounts[0][d] = int(10.0 + 0.5 * exp(0.8 * d));
-      ZHFutilityMoveCounts[1][d] = int(20.0 + 0.5 * exp(0.9 * d));
+      ZHFutilityMoveCounts[0][d] = int(10.0 + 0.80 * pow(d, 2.00));
+      ZHFutilityMoveCounts[1][d] = int(20.0 + 1.00 * pow(d, 3.00));
   }
 #endif
 
