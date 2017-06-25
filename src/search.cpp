@@ -1299,6 +1299,9 @@ moves_loop: // When in check search starts from here
       // re-searched at full depth.
       if (    depth >= 3 * ONE_PLY
           &&  moveCount > 1
+#ifdef ANTI
+          && !(pos.is_anti() && pos.can_capture())
+#endif
           && (!captureOrPromotion || moveCountPruning))
       {
 #ifdef CRAZYHOUSE
