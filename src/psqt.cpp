@@ -91,7 +91,7 @@ namespace PSQT {
 // type on a given square a (middlegame, endgame) score pair is assigned. Table
 // is defined for files A..D and white side: it is symmetric for black side and
 // second half of the files.
-const Score Bonus[VARIANT_NB][PIECE_TYPE_NB][RANK_NB][int(FILE_NB) / 2] = {
+Score Bonus[VARIANT_NB][PIECE_TYPE_NB][RANK_NB][int(FILE_NB) / 2] = {
   {
     { },
     { // Pawn
@@ -766,5 +766,6 @@ void init() {
 #endif
       }
 }
+TUNE(SetRange(-200, 200), Bonus[CRAZYHOUSE_VARIANT][BISHOP], init);
 
 } // namespace PSQT
