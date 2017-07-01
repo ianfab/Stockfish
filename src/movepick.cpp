@@ -177,6 +177,15 @@ void MovePicker::score<QUIETS>() {
   Color c = pos.side_to_move();
 
   for (auto& m : *this)
+#ifdef THREECHECK
+      if (pos.is_three_check() && pos.gives_check(m))
+          m.value =  cmh[pos.moved_piece(m)][to_sq(m)]
+                  + fmh[pos.moved_piece(m)][to_sq(m)]
+                  + fm2[pos.moved_piece(m)][to_sq(m)]
+                  + history[c][from_to(m)]
+                  + (1 << 28);
+      else
+#endif
       m.value =  cmh[pos.moved_piece(m)][to_sq(m)]
                + fmh[pos.moved_piece(m)][to_sq(m)]
                + fm2[pos.moved_piece(m)][to_sq(m)]
