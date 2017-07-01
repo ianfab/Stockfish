@@ -1015,6 +1015,9 @@ namespace {
     if (   !PvNode
         &&  eval >= beta
         && (ss->staticEval >= beta - 35 * (depth / ONE_PLY - 6) || depth >= 13 * ONE_PLY)
+#ifdef ANTI
+        && !(pos.is_anti() && pos.count<KING>(pos.side_to_move()) == 0)
+#endif
 #ifdef CRAZYHOUSE
         // Do not bother with null-move search if opponent can drop pieces
         && (!pos.is_house() || (eval < 2 * VALUE_KNOWN_WIN
