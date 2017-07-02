@@ -315,6 +315,15 @@ void Search::init() {
       }
   else
 #endif
+#ifdef HORDE
+  if (var == HORDE_VARIANT)
+      for (int d = 0; d < 16; ++d)
+      {
+          FutilityMoveCounts[var][0][d] = int(1.5 + 0.5 * pow(d, 1.50));
+          FutilityMoveCounts[var][1][d] = int(4.0 + 0.7 * pow(d, 2.00));
+      }
+  else
+#endif
 #ifdef RACE
   if (var == RACE_VARIANT)
       for (int d = 0; d < 16; ++d)
