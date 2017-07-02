@@ -691,6 +691,10 @@ Phase Position::game_phase() const {
   if (is_horde())
       return Phase(count<PAWN>(is_horde_color(WHITE) ? WHITE : BLACK) * PHASE_MIDGAME / 36);
 #endif
+#ifdef RACE
+  if (is_race())
+      return Phase(std::min(RANK_8 - rank_of(square<KING>(WHITE)), RANK_8 - rank_of(square<KING>(BLACK))) * PHASE_MIDGAME / RANK_8);
+#endif
 
   npm = std::max(EndgameLimit, std::min(npm, MidgameLimit));
 
