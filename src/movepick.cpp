@@ -145,7 +145,8 @@ void MovePicker::score<CAPTURES>() {
 #ifdef ATOMIC
       if (pos.is_atomic())
           m.value = pos.see<ATOMIC_VARIANT>(m)
-                   - Value(200 * relative_rank(pos.side_to_move(), to_sq(m)));
+                   - Value(200 * std::min(distance(to_sq(m), pos.square<KING>(~pos.side_to_move())),
+                                          distance(to_sq(m), pos.square<KING>(pos.side_to_move()))));
       else
 #endif
 #ifdef CRAZYHOUSE
