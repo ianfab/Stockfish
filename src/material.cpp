@@ -405,6 +405,9 @@ namespace {
         }
 #endif
 
+#ifdef CRAZYHOUSE
+    if (pos.is_house()) {} else
+#endif
     // Special handling of Queen vs. Minors
     if  (pieceCount[Us][QUEEN] == 1 && pieceCount[Them][QUEEN] == 0)
          bonus += QueenMinorsImbalance[pieceCount[Them][KNIGHT] + pieceCount[Them][BISHOP]];
