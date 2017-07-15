@@ -1288,6 +1288,11 @@ moves_loop: // When in check search starts from here
           Depth r = reduction<PvNode>(improving, depth, moveCount);
 #endif
 
+#ifdef ATOMIC
+          if (pos.is_atomic() && pos.indirect_king_attack())
+              r -= r ? ONE_PLY : DEPTH_ZERO;
+          else
+#endif
           if (captureOrPromotion)
               r -= r ? ONE_PLY : DEPTH_ZERO;
           else
