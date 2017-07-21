@@ -427,7 +427,7 @@ namespace {
   },
 #endif
   };
-TUNE(ShelterWeakness[CRAZYHOUSE_VARIANT], StormDanger[CRAZYHOUSE_VARIANT]);
+TUNE(SetRange(-500, 500), ShelterWeakness[CRAZYHOUSE_VARIANT], StormDanger[CRAZYHOUSE_VARIANT]);
 
   // Max bonus for king safety. Corresponds to start position with all the pawns
   // in front of the king and no enemy pawn on the horizon.
