@@ -1562,6 +1562,9 @@ namespace {
     score +=  evaluate_passed_pawns<WHITE>()
             - evaluate_passed_pawns<BLACK>();
 
+#ifdef RACE
+    if (pos.is_race()) {} else
+#endif
     if (pos.non_pawn_material() >= SpaceThreshold[pos.variant()])
         score +=  evaluate_space<WHITE>()
                 - evaluate_space<BLACK>();
