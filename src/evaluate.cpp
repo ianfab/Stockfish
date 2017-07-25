@@ -816,6 +816,10 @@ namespace {
                 score -= WeakQueen;
         }
     }
+#ifdef CRAZYHOUSE
+    if (pos.is_house())
+        score = score * 2;
+#endif
 
     if (T)
         Trace::add(Pt, Us, score);
