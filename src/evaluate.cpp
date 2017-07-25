@@ -609,7 +609,7 @@ namespace {
     Value(12222),
 #endif
 #ifdef ATOMIC
-    Value(12222),
+    VALUE_ZERO,
 #endif
 #ifdef CRAZYHOUSE
     Value(12222),
