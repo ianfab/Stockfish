@@ -1373,6 +1373,15 @@ namespace {
   template<Tracing T>  template<Color Us>
   Score Evaluation<T>::evaluate_space() {
 
+#ifdef RACE
+    if (pos.is_race())
+    {
+        Score score = SCORE_ZERO;
+        for (Rank r = RANK_1; r <= RANK_8; ++r)
+            score += make_score(r, 2 * r) * popcount(attackedBy[Us][ALL_PIECES] & rank_bb(r));
+        return score;
+    }
+#endif
     const Color Them = (Us == WHITE ? BLACK : WHITE);
     const Bitboard SpaceMask =
       Us == WHITE ? CenterFiles & (Rank2BB | Rank3BB | Rank4BB)
