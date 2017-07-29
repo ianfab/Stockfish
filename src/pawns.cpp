@@ -540,6 +540,9 @@ namespace {
         else if (backward)
             score -= Backward[pos.variant()][opposed];
 
+        else if (!supported)
+            score -= Unsupported[pos.variant()];
+
 #ifdef HORDE
         if (doubled && (!supported || pos.is_horde()))
 #else
