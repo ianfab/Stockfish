@@ -1150,7 +1150,6 @@ moves_loop: // When in check search starts from here
 #ifdef ANTI
       else if (   pos.is_anti()
                && !moveCountPruning
-               &&  pos.capture(move)
                &&  MoveList<LEGAL>(pos).size() == 1)
           extension = ONE_PLY;
 #endif
