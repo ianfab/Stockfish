@@ -1016,13 +1016,13 @@ namespace {
     // Fortress detection
     if (   !rootNode
         && !fortress
-        && pos.rule50_count() >= 10
+        && pos.rule50_count() >= 20
         && eval <= VALUE_DRAW
         && eval > -VALUE_KNOWN_WIN
-        && depth >= 10 * ONE_PLY
+        && depth >= 12 * ONE_PLY
     )
     {
-        Depth R = depth - 2 * ONE_PLY;
+        Depth R = (3 * depth / (4 * ONE_PLY) - 2) * ONE_PLY;
         Value v = search<NonPV>(pos, ss, alpha, beta, R, false, true, true);
 
         ss->currentMove = MOVE_NULL;
@@ -1034,11 +1034,10 @@ namespace {
 
         if (nullValue + 20 >= v)
         {
-            ss->staticEval = eval = VALUE_DRAW;
+            ss->staticEval = VALUE_DRAW;
 
-            tte->save(posKey, value_to_tt(ss->staticEval, ss->ply), BOUND_LOWER,
-                      std::min(DEPTH_MAX - ONE_PLY, depth + 6 * ONE_PLY), MOVE_NONE,
-                      VALUE_NONE, TT.generation());
+            tte->save(posKey, ss->staticEval, BOUND_EXACT,
+                      depth, MOVE_NONE, VALUE_NONE, TT.generation());
 
             return ss->staticEval;
         }
