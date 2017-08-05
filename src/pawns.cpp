@@ -35,7 +35,7 @@ namespace {
   const Score Isolated[VARIANT_NB][2] = {
     { S(27, 30), S(13, 18) },
 #ifdef ANTI
-    { S(50, 80), S(54, 69) },
+    { S(48, 79), S(54, 70) },
 #endif
 #ifdef ATOMIC
     { S(27, 28), S(24, 14) },
@@ -67,7 +67,7 @@ namespace {
   const Score Backward[VARIANT_NB][2] = {
     { S(40, 26), S(24, 12) },
 #ifdef ANTI
-    { S(64, 25), S(26, 50) },
+    { S(63, 24), S(26, 52) },
 #endif
 #ifdef ATOMIC
     { S(48, 21), S(35, 15) },
@@ -533,7 +533,7 @@ void init() {
   static const int Seed[VARIANT_NB][RANK_NB] = {
     { 0, 13, 24, 18, 76, 100, 175, 330 },
 #ifdef ANTI
-    { 0, 8, 19, 13, 71, 94, 169, 324 },
+    { 0, 8, 19, 13, 70, 92, 160, 315 },
 #endif
 #ifdef ATOMIC
     { 0,18, 11, 14, 82,109, 170, 315 },
