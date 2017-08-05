@@ -38,7 +38,7 @@ namespace {
     { S(50, 80), S(54, 69) },
 #endif
 #ifdef ATOMIC
-    { S(27, 28), S(24, 14) },
+    { S(26, 28), S(23, 14) },
 #endif
 #ifdef CRAZYHOUSE
     { S(45, 40), S(30, 27) },
@@ -70,7 +70,7 @@ namespace {
     { S(64, 25), S(26, 50) },
 #endif
 #ifdef ATOMIC
-    { S(48, 21), S(35, 15) },
+    { S(47, 21), S(35, 15) },
 #endif
 #ifdef CRAZYHOUSE
     { S(56, 33), S(41, 19) },
@@ -536,7 +536,7 @@ void init() {
     { 0, 8, 19, 13, 71, 94, 169, 324 },
 #endif
 #ifdef ATOMIC
-    { 0,18, 11, 14, 82,109, 170, 315 },
+    { 0,17, 10, 13, 78,107, 166, 310 },
 #endif
 #ifdef CRAZYHOUSE
     { 0, 8, 19, 13, 71, 94, 169, 324 },
