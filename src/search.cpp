@@ -271,7 +271,7 @@ namespace {
   Value DrawValue[COLOR_NB];
 
   template <NodeType NT>
-  Value search(Position& pos, Stack* ss, Value alpha, Value beta, Depth depth, bool cutNode, bool skipEarlyPruning);
+  Value search(Position& pos, Stack* ss, Value alpha, Value beta, Depth depth, bool cutNode, bool skipEarlyPruning, bool fortress = false);
 
   template <NodeType NT, bool InCheck>
   Value qsearch(Position& pos, Stack* ss, Value alpha, Value beta, Depth depth = DEPTH_ZERO);
@@ -746,7 +746,7 @@ namespace {
   // search<>() is the main search function for both PV and non-PV nodes
 
   template <NodeType NT>
-  Value search(Position& pos, Stack* ss, Value alpha, Value beta, Depth depth, bool cutNode, bool skipEarlyPruning) {
+  Value search(Position& pos, Stack* ss, Value alpha, Value beta, Depth depth, bool cutNode, bool skipEarlyPruning, bool fortress) {
 
     const bool PvNode = NT == PV;
     const bool rootNode = PvNode && (ss-1)->ply == 0;
@@ -1010,6 +1010,37 @@ namespace {
 
             if (v >= beta)
                 return nullValue;
+        }
+    }
+
+    // Fortress detection
+    if (   !rootNode
+        && !fortress
+        && pos.rule50_count() >= 10
+        && eval <= VALUE_DRAW
+        && eval > -VALUE_KNOWN_WIN
+        && depth >= 10 * ONE_PLY
+    )
+    {
+        Depth R = depth - 2 * ONE_PLY;
+        Value v = search<NonPV>(pos, ss, alpha, beta, R, false, true, true);
+
+        ss->currentMove = MOVE_NULL;
+        ss->history = &thisThread->counterMoveHistory[NO_PIECE][0];
+
+        pos.do_null_move(st);
+        Value nullValue = - search<NonPV>(pos, ss+1, -beta, -alpha, R-ONE_PLY, false, true, true);
+        pos.undo_null_move();
+
+        if (nullValue + 20 >= v)
+        {
+            ss->staticEval = eval = VALUE_DRAW;
+
+            tte->save(posKey, value_to_tt(ss->staticEval, ss->ply), BOUND_LOWER,
+                      std::min(DEPTH_MAX - ONE_PLY, depth + 6 * ONE_PLY), MOVE_NONE,
+                      VALUE_NONE, TT.generation());
+
+            return ss->staticEval;
         }
     }
 
