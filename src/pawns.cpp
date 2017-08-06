@@ -95,6 +95,38 @@ namespace {
 #endif
   };
 
+  // Unsupported pawn penalty for pawns which are neither isolated or backward
+  const Score Unsupported[VARIANT_NB] = {
+    S(  0,   0),
+#ifdef ANTI
+    S(-45, -48),
+#endif
+#ifdef ATOMIC
+    S(  0,   0),
+#endif
+#ifdef CRAZYHOUSE
+    S(  0,   0),
+#endif
+#ifdef HORDE
+    S( 47,  50),
+#endif
+#ifdef KOTH
+    S(  0,   0),
+#endif
+#ifdef LOSERS
+    S(-45, -48),
+#endif
+#ifdef RACE
+    S(  0,   0),
+#endif
+#ifdef RELAY
+    S(  0,   0),
+#endif
+#ifdef THREECHECK
+    S(  0,   0),
+#endif
+  };
+
   // Connected pawn bonus by opposed, phalanx, #support and rank
   Score Connected[VARIANT_NB][2][2][3][RANK_NB];
 
@@ -505,6 +537,9 @@ namespace {
 
         else if (backward)
             score -= Backward[pos.variant()][opposed];
+
+        else if (!supported)
+            score -= Unsupported[pos.variant()];
 
 #ifdef HORDE
         if (doubled && (!supported || pos.is_horde()))
