@@ -53,6 +53,7 @@ namespace {
   Score LeverPush[FILE_NB+1] = {
     S(-20, -20), S(-5, -5)
   };
+  TUNE(SetRange(-100, 100), LeverPush);
 
   // Weakness of our pawn shelter in front of the king by [distance from edge][rank].
   // RANK_1 = 0 is used for files where we have no pawns or our pawn is behind our king.
