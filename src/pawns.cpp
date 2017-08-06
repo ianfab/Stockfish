@@ -506,11 +506,7 @@ namespace {
         else if (backward)
             score -= Backward[pos.variant()][opposed];
 
-#ifdef HORDE
-        if (doubled && (!supported || pos.is_horde()))
-#else
         if (doubled && !supported)
-#endif
             score -= Doubled[pos.variant()];
 
         if (lever)
