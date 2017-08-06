@@ -41,7 +41,7 @@ namespace {
   Score Connected[2][2][3][RANK_NB];
 
   // Doubled pawn penalty
-  const Score Doubled = S(18, 38);
+  const Score Doubled[] = { S(18, 38), S(0, 15) };
 
   // Lever bonus by rank
   const Score Lever[RANK_NB] = {
@@ -178,8 +178,8 @@ namespace {
         else if (backward)
             score -= Backward[opposed];
 
-        if (doubled && !supported)
-            score -= Doubled;
+        if (doubled)
+            score -= Doubled[!!supported];
 
         if (lever)
             score += Lever[relative_rank(Us, s)];
