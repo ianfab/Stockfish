@@ -49,6 +49,11 @@ namespace {
     S(17, 16), S(33, 32), S(0, 0), S(0, 0)
   };
 
+  // Lever push bonus by amount
+  Score LeverPush[FILE_NB+1] = {
+    S(-20, -20), S(-5, -5)
+  };
+
   // Weakness of our pawn shelter in front of the king by [distance from edge][rank].
   // RANK_1 = 0 is used for files where we have no pawns or our pawn is behind our king.
   const Value ShelterWeakness[][RANK_NB] = {
@@ -97,6 +102,7 @@ namespace {
 
     Bitboard b, neighbours, stoppers, doubled, supported, phalanx;
     Bitboard lever, leverPush;
+    int leverCount = 0;
     Square s;
     bool opposed, backward;
     Score score = SCORE_ZERO;
@@ -183,7 +189,12 @@ namespace {
 
         if (lever)
             score += Lever[relative_rank(Us, s)];
+
+        if (leverPush)
+            leverCount++;
     }
+
+    score += LeverPush[leverCount];
 
     return score;
   }
