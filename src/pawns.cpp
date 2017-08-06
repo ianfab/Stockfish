@@ -50,7 +50,7 @@ namespace {
   };
 
   // Lever push malus by amount
-  const Score LeverPush[RANK_NB] = {
+  const Score LeverPush[FILE_NB+1] = {
     S(20, 20), S(5, 5)
   };
 
