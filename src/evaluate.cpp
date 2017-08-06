@@ -298,9 +298,11 @@ namespace {
 
     while ((s = *pl++) != SQ_NONE)
     {
-        // Find attacked squares, including x-ray attacks for bishops and rooks
-        b = Pt == BISHOP ? attacks_bb<BISHOP>(s, pos.pieces() ^ pos.pieces(Us, QUEEN))
-          : Pt ==   ROOK ? attacks_bb<  ROOK>(s, pos.pieces() ^ pos.pieces(Us, ROOK, QUEEN))
+        // Find attacked squares, including x-ray attacks
+        b = Pt == BISHOP ?    attacks_bb<BISHOP>(s, pos.pieces() ^ pos.pieces(Us, QUEEN))
+          : Pt ==   ROOK ?    attacks_bb<  ROOK>(s, pos.pieces() ^ pos.pieces(Us, ROOK, QUEEN))
+          : Pt ==  QUEEN ? (  attacks_bb<  ROOK>(s, pos.pieces() ^ pos.pieces(Us, ROOK))
+                            | attacks_bb<BISHOP>(s, pos.pieces() ^ pos.pieces(Us, BISHOP)))
                          : pos.attacks_from<Pt>(s);
 
         if (pos.pinned_pieces(Us) & s)
