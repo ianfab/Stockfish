@@ -134,7 +134,8 @@ void MovePicker::score<CAPTURES>() {
   // has been picked up, saving some SEE calls in case we get a cutoff.
   for (auto& m : *this)
       m.value =  PieceValue[MG][pos.piece_on(to_sq(m))]
-               - Value(200 * relative_rank(pos.side_to_move(), to_sq(m)));
+               - Value(200 * std::min(distance(to_sq(m), pos.square<KING>(~pos.side_to_move())),
+                                      distance(to_sq(m), pos.square<KING>( pos.side_to_move()))));
 }
 
 template<>
