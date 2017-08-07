@@ -32,16 +32,25 @@ namespace {
   #define S(mg, eg) make_score(mg, eg)
 
   // Isolated pawn penalty by opposed flag
-  const Score Isolated[] = { S(27, 30), S(13, 18) };
+  const Score Isolated[][int(FILE_NB) / 2] = {
+    { S(27, 30), S(27, 30), S(27, 30), S(27, 30) },
+    { S(13, 18), S(13, 18), S(13, 18), S(13, 18) }
+  };
 
   // Backward pawn penalty by opposed flag
-  const Score Backward[] = { S(40, 26), S(24, 12) };
+  const Score Backward[][int(FILE_NB) / 2] = {
+    { S(40, 26), S(40, 26), S(40, 26), S(40, 26) },
+    { S(24, 12), S(24, 12), S(24, 12), S(24, 12) }
+  };
 
   // Connected pawn bonus by opposed, phalanx, #support and rank
   Score Connected[2][2][3][RANK_NB];
 
   // Doubled pawn penalty
-  const Score Doubled = S(18, 38);
+  const Score Doubled[][int(FILE_NB) / 2] = {
+    { S(18, 38), S(18, 38), S(18, 38), S(18, 38) },
+    {}
+  };
 
   // Lever bonus by rank
   const Score Lever[RANK_NB] = {
@@ -173,13 +182,13 @@ namespace {
             score += Connected[opposed][!!phalanx][popcount(supported)][relative_rank(Us, s)];
 
         else if (!neighbours)
-            score -= Isolated[opposed];
+            score -= Isolated[opposed][std::min(f, FILE_H - f)];
 
         else if (backward)
-            score -= Backward[opposed];
+            score -= Backward[opposed][std::min(f, FILE_H - f)];
 
-        if (doubled && !supported)
-            score -= Doubled;
+        if (doubled)
+            score -= Doubled[!!supported][std::min(f, FILE_H - f)];
 
         if (lever)
             score += Lever[relative_rank(Us, s)];
