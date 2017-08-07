@@ -51,7 +51,7 @@ namespace {
 
   // Lever push malus by amount
   const Score LeverPush[FILE_NB+1] = {
-    S(20, 20), S(5, 5)
+    S(20, 15), S(6, 0)
   };
 
   // Weakness of our pawn shelter in front of the king by [distance from edge][rank].
