@@ -32,13 +32,13 @@ namespace {
   #define S(mg, eg) make_score(mg, eg)
 
   // Isolated pawn penalty by opposed flag
-  const Score Isolated[][int(FILE_NB) / 2] = {
+  Score Isolated[][int(FILE_NB) / 2] = {
     { S(27, 30), S(27, 30), S(27, 30), S(27, 30) },
     { S(13, 18), S(13, 18), S(13, 18), S(13, 18) }
   };
 
   // Backward pawn penalty by opposed flag
-  const Score Backward[][int(FILE_NB) / 2] = {
+  Score Backward[][int(FILE_NB) / 2] = {
     { S(40, 26), S(40, 26), S(40, 26), S(40, 26) },
     { S(24, 12), S(24, 12), S(24, 12), S(24, 12) }
   };
@@ -47,10 +47,11 @@ namespace {
   Score Connected[2][2][3][RANK_NB];
 
   // Doubled pawn penalty
-  const Score Doubled[][int(FILE_NB) / 2] = {
+  Score Doubled[][int(FILE_NB) / 2] = {
     { S(18, 38), S(18, 38), S(18, 38), S(18, 38) },
     {}
   };
+  TUNE(SetRange(0, 100), Isolated, Backward, Doubled);
 
   // Lever bonus by rank
   const Score Lever[RANK_NB] = {
