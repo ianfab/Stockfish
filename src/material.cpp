@@ -46,13 +46,13 @@ namespace {
     {
       //            OUR PIECES
       // pair pawn knight bishop rook queen king
-      { -129                                    }, // Bishop pair
-      { -205,   49                              }, // Pawn
-      {  -81,  436,  -81                        }, // Knight      OUR PIECES
-      {    0, -204, -328,    0                  }, // Bishop
-      { -197, -436,  -12, -183,   92            }, // Rook
-      {  197,   40,  133, -179,   93, -66       }, // Queen
-      {    1,  -48,   98,   36,   82, 165, -168 }  // King
+      { -139                                    }, // Bishop pair
+      { -228,   48                              }, // Pawn
+      {  -81,  469,  -81                        }, // Knight      OUR PIECES
+      {    0, -186, -316,    0                  }, // Bishop
+      { -199, -438,  -11, -177,   96            }, // Rook
+      {  204,   40,  146, -184,   93, -64       }, // Queen
+      {    1,  -51,  101,   35,   74, 159, -167 }  // King
     },
 #endif
 #ifdef ATOMIC
@@ -183,11 +183,11 @@ namespace {
       // pair pawn knight bishop rook queen king
       {    0                                   }, // Bishop pair
       {   55,    0                             }, // Pawn
-      {   23,   27,    0                       }, // Knight      OUR PIECES
-      {  -37, -248,  -18,    0                 }, // Bishop
-      { -109, -628, -145,  102,   0            }, // Rook
-      { -156, -133,  134,   78,  48,    0      }, // Queen
-      {   22,  155,   84,   49, -49, -104,   0 }  // King
+      {   22,   26,    0                       }, // Knight      OUR PIECES
+      {  -35, -255,  -17,    0                 }, // Bishop
+      { -107, -753, -154,   96,   0            }, // Rook
+      { -160, -126,  142,   74,  48,    0      }, // Queen
+      {   23,  154,   84,   47, -45, -101,   0 }  // King
     },
 #endif
 #ifdef ATOMIC
