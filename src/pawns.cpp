@@ -183,6 +183,9 @@ namespace {
 
         if (lever)
             score += Lever[relative_rank(Us, s)];
+
+        else if (leverPush && !(theirPawns & (s + Up)))
+            score += Lever[relative_rank(Us, s + Up)] / 2;
     }
 
     return score;
