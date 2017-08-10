@@ -452,7 +452,7 @@ namespace {
         phalanx    = neighbours & rank_bb(s);
 #ifdef HORDE
         if (pos.is_horde() && rank_of(s) == RANK_1)
-            supported = false;
+            supported = 0;
         else
 #endif
         supported  = neighbours & rank_bb(s - Up);
@@ -494,9 +494,6 @@ namespace {
         }
 
         // Score this pawn
-#ifdef HORDE
-        if (pos.is_horde() && relative_rank(Us, s) == 0) {} else
-#endif
         if (supported | phalanx)
             score += Connected[pos.variant()][opposed][!!phalanx][popcount(supported)][relative_rank(Us, s)];
 
