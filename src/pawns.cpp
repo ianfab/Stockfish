@@ -45,8 +45,13 @@ namespace {
 
   // Lever bonus by rank
   const Score Lever[RANK_NB] = {
-    S( 0,  0), S( 0,  0), S(0, 0), S(0, 0),
-    S(17, 16), S(33, 32), S(0, 0), S(0, 0)
+    S( 0,  0), S(-1, -1), S(0, 5), S(-9, 2),
+    S(27, 18), S(34, 31), S(0, 0), S( 0, 0)
+  };
+
+  const Score LeverPush[RANK_NB] = {
+    S( 0,  0), S( 0,  0), S(6, 12), S(3, -4),
+    S( 4, -2), S(18, 16), S(0,  0), S(0,  0)
   };
 
   // Weakness of our pawn shelter in front of the king by [distance from edge][rank].
@@ -184,8 +189,8 @@ namespace {
         if (lever)
             score += Lever[relative_rank(Us, s)];
 
-        else if (leverPush && !(theirPawns & (s + Up)))
-            score += Lever[relative_rank(Us, s + Up)] / 2;
+        else if (leverPush && !((theirPawns | ourPawns) & (s + Up)))
+            score += LeverPush[relative_rank(Us, s + Up)];
     }
 
     return score;
