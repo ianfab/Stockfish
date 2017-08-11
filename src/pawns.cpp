@@ -49,6 +49,11 @@ namespace {
     S(17, 16), S(33, 32), S(0, 0), S(0, 0)
   };
 
+  const Score LeverPush[RANK_NB] = {
+    S( 0,  0), S( 0,  0), S(0, 0), S(0, 0),
+    S( 8,  8), S(17, 16), S(0, 0), S(0, 0)
+  };
+
   // Weakness of our pawn shelter in front of the king by [distance from edge][rank].
   // RANK_1 = 0 is used for files where we have no pawns or our pawn is behind our king.
   const Value ShelterWeakness[][RANK_NB] = {
@@ -184,8 +189,8 @@ namespace {
         if (lever)
             score += Lever[relative_rank(Us, s)];
 
-        else if (leverPush && !(theirPawns & (s + Up)))
-            score += Lever[relative_rank(Us, s + Up)] / 2;
+        else if (leverPush && !((theirPawns | ourPawns) & (s + Up)))
+            score += LeverPush[relative_rank(Us, s + Up)];
     }
 
     return score;
