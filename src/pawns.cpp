@@ -49,8 +49,8 @@ namespace {
     S(17, 16), S(33, 32), S(0, 0), S(0, 0)
   };
 
-  // Lever push malus by amount
-  const Score LeverPush[FILE_NB+1] = {
+  // Lever count malus by amount
+  const Score LeverCount[FILE_NB+1] = {
     S(20, 20), S(5, 5)
   };
 
@@ -190,11 +190,14 @@ namespace {
         if (lever)
             score += Lever[relative_rank(Us, s)];
 
-        if (leverPush && !(theirPawns & (s + Up)))
+        else if (leverPush && !(theirPawns & (s + Up)))
+        {
             leverCount++;
+            score += Lever[relative_rank(Us, s + Up)] / 2;
+        }
     }
 
-    score -= LeverPush[leverCount];
+    score -= LeverCount[leverCount];
 
     return score;
   }
