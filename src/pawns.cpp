@@ -44,15 +44,16 @@ namespace {
   const Score Doubled = S(18, 38);
 
   // Lever bonus by rank
-  const Score Lever[RANK_NB] = {
+  Score Lever[RANK_NB] = {
     S( 0,  0), S( 0,  0), S(0, 0), S(0, 0),
     S(17, 16), S(33, 32), S(0, 0), S(0, 0)
   };
 
-  const Score LeverPush[RANK_NB] = {
+  Score LeverPush[RANK_NB] = {
     S( 0,  0), S( 0,  0), S(0, 0), S(0, 0),
     S( 8,  8), S(17, 16), S(0, 0), S(0, 0)
   };
+  TUNE(SetRange(-100, 200), Lever, LeverPush);
 
   // Weakness of our pawn shelter in front of the king by [distance from edge][rank].
   // RANK_1 = 0 is used for files where we have no pawns or our pawn is behind our king.
