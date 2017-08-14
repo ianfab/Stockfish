@@ -71,7 +71,7 @@ namespace {
   const int razor_margin[VARIANT_NB][4] = {
   { 0, 570, 603, 554 },
 #ifdef ANTI
-  { 1917, 2201, 2334, 2407 },
+  { 1896, 2256, 2293, 2350 },
 #endif
 #ifdef ATOMIC
   { 1867, 2341, 2501, 2218 },
@@ -101,7 +101,7 @@ namespace {
   const int futility_margin_factor[VARIANT_NB] = {
   150,
 #ifdef ANTI
-  586,
+  590,
 #endif
 #ifdef ATOMIC
   560,
@@ -132,7 +132,7 @@ namespace {
   const int futility_margin_parent[VARIANT_NB][2] = {
   { 256, 200 },
 #ifdef ANTI
-  { 331, 372 },
+  { 321, 374 },
 #endif
 #ifdef ATOMIC
   { 512, 400 },
