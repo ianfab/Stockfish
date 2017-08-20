@@ -181,7 +181,7 @@ namespace {
         if (doubled && !supported)
             score -= Doubled;
 
-        if (lever)
+        if (lever && (!more_than_one(lever) || phalanx))
             score += Lever[relative_rank(Us, s)];
     }
 
