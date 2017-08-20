@@ -190,7 +190,7 @@ namespace {
         if (lever)
             score += Lever[relative_rank(Us, s)];
 
-        if (leverPush && !(theirPawns & (s + Up)))
+        if (lever || (leverPush && !(theirPawns & (s + Up))))
             leverCount++;
     }
 
