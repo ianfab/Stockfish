@@ -148,7 +148,8 @@ void MovePicker::score() {
           if (pos.is_house())
               m.value = PieceValue[pos.variant()][MG][pos.piece_on(to_sq(m))]
                       - Value(200 * std::min(distance(to_sq(m), pos.square<KING>(~pos.side_to_move())),
-                                             distance(to_sq(m), pos.square<KING>( pos.side_to_move()))));
+                                             distance(to_sq(m), pos.square<KING>( pos.side_to_move()))))
+                      + Value(500 * !!(pos.check_squares(type_of(pos.piece_on(from_sq(m)))) & to_sq(m)));
           else
 #endif
 #ifdef RACE
