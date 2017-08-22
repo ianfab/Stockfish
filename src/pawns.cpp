@@ -497,7 +497,11 @@ namespace {
 #ifdef HORDE
         if (pos.is_horde() && relative_rank(Us, s) == 0) {} else
 #endif
-        if (supported | phalanx)
+        if (supported | phalanx
+#ifdef ANTI
+            && !pos.is_anti()
+#endif
+        )
             score += Connected[pos.variant()][opposed][!!phalanx][popcount(supported)][relative_rank(Us, s)];
 
         else if (!neighbours)
