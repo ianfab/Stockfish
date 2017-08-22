@@ -568,7 +568,7 @@ void init() {
               for (Rank r = RANK_2; r < RANK_8; ++r)
   {
       int v = 17 * support;
-      v += (Seed[var][r] + (phalanx ? (Seed[var][r + 1] - Seed[var][r]) / 2 : 0)) >> opposed;
+      v += (Seed[var][r] + (phalanx ? std::max(Seed[var][r + 1] - Seed[var][r], 0) / 2 : 0)) >> opposed;
 
       Connected[var][opposed][phalanx][support][r] = make_score(v, v * (r - 2) / 4);
   }
