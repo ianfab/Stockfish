@@ -51,11 +51,15 @@ namespace {
 
   // Weakness of our pawn shelter in front of the king by [distance from edge][rank].
   // RANK_1 = 0 is used for files where we have no pawns or our pawn is behind our king.
-  const Value ShelterWeakness[][RANK_NB] = {
-    { V(100), V(20), V(10), V(46), V(82), V( 86), V( 98) },
-    { V(116), V( 4), V(28), V(87), V(94), V(108), V(104) },
-    { V(109), V( 1), V(59), V(87), V(62), V( 91), V(116) },
-    { V( 75), V(12), V(43), V(59), V(90), V( 84), V(112) }
+  const Value ShelterWeakness[][int(FILE_NB) / 2][RANK_NB] = {
+    { { V(100), V(20), V(10), V(46), V(82), V( 86), V( 98) },
+      { V(116), V( 4), V(28), V(87), V(94), V(108), V(104) },
+      { V(109), V( 1), V(59), V(87), V(62), V( 91), V(116) },
+      { V( 75), V(12), V(43), V(59), V(90), V( 84), V(112) } },
+    { { V(100), V(20), V(10), V(46), V(82), V( 86), V( 98) },
+      { V(116), V( 4), V(28), V(87), V(94), V(108), V(104) },
+      { V(109), V( 1), V(59), V(87), V(62), V( 91), V(116) },
+      { V( 75), V(12), V(43), V(59), V(90), V( 84), V(112) } }
   };
 
   // Danger of enemy pawns moving toward our king by [type][distance from edge][rank].
@@ -259,7 +263,7 @@ Value Entry::shelter_storm(const Position& pos, Square ksq) {
       Rank rkThem = b ? relative_rank(Us, frontmost_sq(Them, b)) : RANK_1;
 
       int d = std::min(f, FILE_H - f);
-      safety -=  ShelterWeakness[d][rkUs]
+      safety -=  ShelterWeakness[f == file_of(ksq)][d][rkUs]
                + StormDanger
                  [f == file_of(ksq) && rkThem == relative_rank(Us, ksq) + 1 ? BlockedByKing  :
                   rkUs   == RANK_1                                          ? Unopposed :
