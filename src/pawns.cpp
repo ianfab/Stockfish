@@ -568,6 +568,10 @@ void init() {
               for (Rank r = RANK_2; r < RANK_8; ++r)
   {
       int v = 17 * support;
+#ifdef ANTI
+      if (var == ANTI_VARIANT)
+          v = -40 * support;
+#endif
       v += (Seed[var][r] + (phalanx ? (Seed[var][r + 1] - Seed[var][r]) / 2 : 0)) >> opposed;
 
       Connected[var][opposed][phalanx][support][r] = make_score(v, v * (r - 2) / 4);
