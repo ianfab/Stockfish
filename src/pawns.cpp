@@ -52,14 +52,14 @@ namespace {
   // Weakness of our pawn shelter in front of the king by [distance from edge][rank].
   // RANK_1 = 0 is used for files where we have no pawns or our pawn is behind our king.
   const Value ShelterWeakness[][int(FILE_NB) / 2][RANK_NB] = {
-    { { V(100), V(20), V(10), V(46), V(82), V( 86), V( 98) },
-      { V(116), V( 4), V(28), V(87), V(94), V(108), V(104) },
-      { V(109), V( 1), V(59), V(87), V(62), V( 91), V(116) },
-      { V( 75), V(12), V(43), V(59), V(90), V( 84), V(112) } },
-    { { V(100), V(20), V(10), V(46), V(82), V( 86), V( 98) },
-      { V(116), V( 4), V(28), V(87), V(94), V(108), V(104) },
-      { V(109), V( 1), V(59), V(87), V(62), V( 91), V(116) },
-      { V( 75), V(12), V(43), V(59), V(90), V( 84), V(112) } }
+    { { V( 96), V(15), V(10), V(51), V( 79), V( 91), V( 93) },
+      { V(114), V( 8), V(25), V(87), V( 84), V(105), V(101) },
+      { V(111), V( 0), V(60), V(93), V( 66), V( 97), V(121) },
+      { V( 77), V( 7), V(46), V(61), V( 86), V( 83), V(107) } },
+    { { V( 93), V(22), V( 8), V(41), V( 82), V( 90), V( 93) },
+      { V(115), V( 1), V(28), V(90), V(100), V( 99), V( 98) },
+      { V(109), V(18), V(68), V(87), V( 64), V( 87), V(118) },
+      { V( 82), V( 8), V(42), V(64), V( 90), V( 85), V(111) } }
   };
 
   // Danger of enemy pawns moving toward our king by [type][distance from edge][rank].
