@@ -741,7 +741,8 @@ namespace {
             continue;
 #endif
 #ifdef HORDE
-        if (pos.is_horde() && pos.is_horde_color(Us)) {} else
+        if (pos.is_horde() && pos.is_horde_color(Us))
+            continue;
 #endif
         // Bonus for this piece as a king protector
         score += KingProtector[Pt - 2] * distance(s, pos.square<KING>(Us));
