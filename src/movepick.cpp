@@ -135,7 +135,7 @@ void MovePicker::score() {
 #ifdef ANTI
           if (pos.is_anti())
               m.value = PieceValue[pos.variant()][MG][pos.piece_on(to_sq(m))]
-                      - Value(50 * relative_rank(pos.side_to_move(), to_sq(m)));
+                      - Value(type_of(pos.moved_piece(m)));
           else
 #endif
 #ifdef ATOMIC
