@@ -31,14 +31,14 @@ namespace {
   #define V Value
   #define S(mg, eg) make_score(mg, eg)
 
-  // Isolated pawn penalty by opposed flag
-  const Score Isolated[] = { S(27, 30), S(13, 18) };
+  // Isolated pawn penalty
+  const Score Isolated = S(27, 30);
 
-  // Backward pawn penalty by opposed flag
-  const Score Backward[] = { S(40, 26), S(24, 12) };
+  // Backward pawn penalty
+  const Score Backward = S(40, 26);
 
-  // Connected pawn bonus by opposed, phalanx, #support and rank
-  Score Connected[2][2][3][RANK_NB];
+  // Connected pawn bonus by phalanx, #support and rank
+  Score Connected[2][3][RANK_NB];
 
   // Doubled pawn penalty
   const Score Doubled = S(18, 38);
@@ -169,14 +169,9 @@ namespace {
         }
 
         // Score this pawn
-        if (supported | phalanx)
-            score += Connected[opposed][!!phalanx][popcount(supported)][relative_rank(Us, s)];
-
-        else if (!neighbours)
-            score -= Isolated[opposed];
-
-        else if (backward)
-            score -= Backward[opposed];
+        score += (  (supported | phalanx) ?  Connected[!!phalanx][popcount(supported)][relative_rank(Us, s)]
+                  : !neighbours           ? -Isolated
+                  :  backward             ? -Backward : SCORE_ZERO) / (opposed ? 2 : 1);
 
         if (doubled && !supported)
             score -= Doubled;
@@ -200,15 +195,13 @@ void init() {
 
   static const int Seed[RANK_NB] = { 0, 13, 24, 18, 76, 100, 175, 330 };
 
-  for (int opposed = 0; opposed <= 1; ++opposed)
-      for (int phalanx = 0; phalanx <= 1; ++phalanx)
-          for (int support = 0; support <= 2; ++support)
-              for (Rank r = RANK_2; r < RANK_8; ++r)
+  for (int phalanx = 0; phalanx <= 1; ++phalanx)
+      for (int support = 0; support <= 2; ++support)
+          for (Rank r = RANK_2; r < RANK_8; ++r)
   {
-      int v = 17 * support;
-      v += (Seed[r] + (phalanx ? (Seed[r + 1] - Seed[r]) / 2 : 0)) >> opposed;
+      int v = 17 * support + Seed[r] + (phalanx ? (Seed[r + 1] - Seed[r]) / 2 : 0);
 
-      Connected[opposed][phalanx][support][r] = make_score(v, v * (r - 2) / 4);
+      Connected[phalanx][support][r] = make_score(v, v * (r - 2) / 4);
   }
 }
 
