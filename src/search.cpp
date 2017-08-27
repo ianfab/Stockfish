@@ -327,8 +327,8 @@ void Search::init() {
   if (var == CRAZYHOUSE_VARIANT)
       for (int d = 0; d < 16; ++d)
       {
-          FutilityMoveCounts[var][0][d] = int(10.0 + 0.5 * exp(0.8 * d));
-          FutilityMoveCounts[var][1][d] = int(20.0 + 0.5 * exp(0.9 * d));
+          FutilityMoveCounts[var][0][d] = int( 8.0 + 0.5 * exp(0.8 * d));
+          FutilityMoveCounts[var][1][d] = int(16.0 + 0.5 * exp(0.9 * d));
       }
   else
 #endif
