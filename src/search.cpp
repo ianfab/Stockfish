@@ -323,6 +323,15 @@ void Search::init() {
 
   for (Variant var = CHESS_VARIANT; var < VARIANT_NB; ++var)
   {
+#ifdef ATOMIC
+  if (var == ATOMIC_VARIANT)
+      for (int d = 0; d < 16; ++d)
+      {
+          FutilityMoveCounts[var][0][d] = int(3.0 + 0.5 * exp(0.8 * d));
+          FutilityMoveCounts[var][1][d] = int(6.0 + 0.5 * exp(0.9 * d));
+      }
+  else
+#endif
 #ifdef CRAZYHOUSE
   if (var == CRAZYHOUSE_VARIANT)
       for (int d = 0; d < 16; ++d)
