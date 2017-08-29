@@ -53,7 +53,7 @@ namespace {
     { 101,  100, -37,   141,  268,    0 }  // Queen
   };
 
-  const int CubicOurs[][PIECE_TYPE_NB] = {
+  int CubicOurs[][PIECE_TYPE_NB] = {
     //            OUR PIECES
     // pair pawn knight bishop rook queen
     {   0,    0,   0,    0,     0,   0  }, // Bishop pair
@@ -64,7 +64,7 @@ namespace {
     {   0,    0,   0,    0,     0,   0  }  // Queen
   };
 
-  const int CubicTheirs[][PIECE_TYPE_NB] = {
+  int CubicTheirs[][PIECE_TYPE_NB] = {
     //           THEIR PIECES
     // pair pawn knight bishop rook queen
     {   0,    0,   0,    0,     0,   0  }, // Bishop pair
@@ -74,6 +74,7 @@ namespace {
     {   0,    0,   0,    0,     0,   0  }, // Rook
     {   0,    0,   0,    0,     0,   0  }  // Queen
   };
+  TUNE(SetRange(-500, 500), CubicOurs, CubicTheirs);
 
   // PawnSet[pawn count] contains a bonus/malus indexed by number of pawns
   const int PawnSet[] = {
