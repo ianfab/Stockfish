@@ -53,7 +53,7 @@ namespace {
     { 101,  100, -37,   141,  268,    0 }  // Queen
   };
 
-  const int CubicOurs[4][4] = {
+  int CubicOurs[4][4] = {
     //            OUR PIECES
     // knight bishop rook queen
     {   0,    0,     0,   0  }, // Knight      OUR PIECES
@@ -62,7 +62,7 @@ namespace {
     {   0,    0,     0,   0  }  // Queen
   };
 
-  const int CubicTheirs[4][4] = {
+  int CubicTheirs[4][4] = {
     //           THEIR PIECES
     // knight bishop rook queen
     {   0,    0,     0,   0  }, // Knight      OUR PIECES
@@ -70,6 +70,7 @@ namespace {
     {   0,    0,     0,   0  }, // Rook
     {   0,    0,     0,   0  }  // Queen
   };
+  TUNE(SetRange(-500, 500), CubicOurs, CubicTheirs);
 
   // PawnSet[pawn count] contains a bonus/malus indexed by number of pawns
   const int PawnSet[] = {
