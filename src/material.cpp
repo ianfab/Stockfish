@@ -53,6 +53,24 @@ namespace {
     { 101,  100, -37,   141,  268,    0 }  // Queen
   };
 
+  const int CubicOurs[4][4] = {
+    //            OUR PIECES
+    // knight bishop rook queen
+    {   0,    0,     0,   0  }, // Knight      OUR PIECES
+    {   0,    0,     0,   0  }, // Bishop
+    {   0,    0,     0,   0  }, // Rook
+    {   0,    0,     0,   0  }  // Queen
+  };
+
+  const int CubicTheirs[4][4] = {
+    //           THEIR PIECES
+    // knight bishop rook queen
+    {   0,    0,     0,   0  }, // Knight      OUR PIECES
+    {   0,    0,     0,   0  }, // Bishop
+    {   0,    0,     0,   0  }, // Rook
+    {   0,    0,     0,   0  }  // Queen
+  };
+
   // PawnSet[pawn count] contains a bonus/malus indexed by number of pawns
   const int PawnSet[] = {
     24, -32, 107, -51, 117, -9, -126, -21, 31
@@ -113,6 +131,11 @@ namespace {
         for (int pt2 = NO_PIECE_TYPE; pt2 <= pt1; ++pt2)
             v +=  QuadraticOurs[pt1][pt2] * pieceCount[Us][pt2]
                 + QuadraticTheirs[pt1][pt2] * pieceCount[Them][pt2];
+
+        if (pt1 >= KNIGHT)
+            for (int pt2 = KNIGHT; pt2 <= QUEEN; ++pt2)
+                v +=  CubicOurs[pt1-KNIGHT][pt2-KNIGHT] * pieceCount[Us][pt2] * pieceCount[Us][pt2]
+                    + CubicTheirs[pt1-KNIGHT][pt2-KNIGHT] * pieceCount[Them][pt2] * pieceCount[Them][pt2];
 
         bonus += pieceCount[Us][pt1] * v;
     }
