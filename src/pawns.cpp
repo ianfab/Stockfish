@@ -196,9 +196,12 @@ namespace Pawns {
 /// hard-coded tables, when makes sense, we prefer to calculate them with a formula
 /// to reduce independent parameters and to allow easier tuning and better insight.
 
-void init() {
+  int Seed[][RANK_NB] = {
+      { 0, 13, 24, 18, 76, 100, 175, 330 },
+      { 0,  6, 12,  9, 38,  50,  87, 165 }
+  };
 
-  static const int Seed[RANK_NB] = { 0, 13, 24, 18, 76, 100, 175, 330 };
+void init() {
 
   for (int opposed = 0; opposed <= 1; ++opposed)
       for (int phalanx = 0; phalanx <= 1; ++phalanx)
@@ -206,11 +209,12 @@ void init() {
               for (Rank r = RANK_2; r < RANK_8; ++r)
   {
       int v = 17 * support;
-      v += (Seed[r] + (phalanx ? (Seed[r + 1] - Seed[r]) / 2 : 0)) >> opposed;
+      v += Seed[opposed][r] + (phalanx ? (Seed[opposed][r + 1] - Seed[opposed][r]) / 2 : 0);
 
       Connected[opposed][phalanx][support][r] = make_score(v, v * (r - 2) / 4);
   }
 }
+TUNE(Seed, init);
 
 
 /// Pawns::probe() looks up the current position's pawns configuration in
