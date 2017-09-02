@@ -181,10 +181,6 @@ namespace {
     S(0, 0), S(0, 25), S(40, 62), S(40, 59), S(0, 34), S(35, 48)
   };
 
-  // ThreatByKing[on one/on many] contains bonuses for king attacks on
-  // pawns or pieces which are not pawn-defended.
-  const Score ThreatByKing[] = { S(3, 62), S(9, 138) };
-
   // Passed[mg/eg][Rank] contains midgame and endgame bonuses for passed pawns.
   // We don't use a Score because we process the two components independently.
   const Value Passed[][RANK_NB] = {
@@ -590,7 +586,7 @@ namespace {
 
         b = weak & attackedBy[Us][KING];
         if (b)
-            score += ThreatByKing[more_than_one(b)];
+            score += make_score(0, PawnValueEg / 2 >> !more_than_one(b));
     }
 
     // Find squares where our pawns can push on the next move
