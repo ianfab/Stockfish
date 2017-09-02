@@ -32,7 +32,7 @@ namespace {
   #define S(mg, eg) make_score(mg, eg)
 
   // Isolated pawn penalty by opposed flag
-  const Score Isolated[VARIANT_NB][2] = {
+  Score Isolated[VARIANT_NB][2] = {
     { S(27, 30), S(13, 18) },
 #ifdef ANTI
     { S(50, 80), S(54, 69) },
@@ -64,7 +64,7 @@ namespace {
   };
 
   // Backward pawn penalty by opposed flag
-  const Score Backward[VARIANT_NB][2] = {
+  Score Backward[VARIANT_NB][2] = {
     { S(40, 26), S(24, 12) },
 #ifdef ANTI
     { S(64, 25), S(26, 50) },
@@ -99,7 +99,7 @@ namespace {
   Score Connected[VARIANT_NB][2][2][3][RANK_NB];
 
   // Doubled pawn penalty
-  const Score Doubled[VARIANT_NB] = {
+  Score Doubled[VARIANT_NB] = {
     S(18, 38),
 #ifdef ANTI
     S( 4, 51),
@@ -384,7 +384,7 @@ namespace {
   const Value MaxSafetyBonus = V(258);
 
 #ifdef HORDE
-  const Score ImbalancedHorde = S(40, 36);
+  Score ImbalancedHorde = S(40, 36);
 #endif
 
   #undef S
@@ -528,9 +528,38 @@ namespace Pawns {
 /// hard-coded tables, when makes sense, we prefer to calculate them with a formula
 /// to reduce independent parameters and to allow easier tuning and better insight.
 
-void init() {
+  int Supported[VARIANT_NB] = {
+    17,
+#ifdef ANTI
+    17,
+#endif
+#ifdef ATOMIC
+    17,
+#endif
+#ifdef CRAZYHOUSE
+    17,
+#endif
+#ifdef HORDE
+    17,
+#endif
+#ifdef KOTH
+    17,
+#endif
+#ifdef LOSERS
+    17,
+#endif
+#ifdef RACE
+     0,
+#endif
+#ifdef RELAY
+    17,
+#endif
+#ifdef THREECHECK
+    17,
+#endif
+  };
 
-  static const int Seed[VARIANT_NB][RANK_NB] = {
+  int Seed[VARIANT_NB][RANK_NB] = {
     { 0, 13, 24, 18, 76, 100, 175, 330 },
 #ifdef ANTI
     { 0, 8, 19, 13, 71, 94, 169, 324 },
@@ -561,6 +590,8 @@ void init() {
 #endif
   };
 
+void init() {
+
   for (Variant var = CHESS_VARIANT; var < VARIANT_NB; ++var)
   for (int opposed = 0; opposed <= 1; ++opposed)
       for (int phalanx = 0; phalanx <= 1; ++phalanx)
@@ -573,6 +604,8 @@ void init() {
       Connected[var][opposed][phalanx][support][r] = make_score(v, v * (r - 2) / 4);
   }
 }
+TUNE(Seed[CRAZYHOUSE_VARIANT], Doubled[CRAZYHOUSE_VARIANT], Isolated[CRAZYHOUSE_VARIANT],
+     Backward[CRAZYHOUSE_VARIANT], Supported[CRAZYHOUSE_VARIANT], init);
 
 
 /// Pawns::probe() looks up the current position's pawns configuration in
