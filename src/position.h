@@ -548,7 +548,7 @@ inline bool Position::indirect_king_attack(Move m) const {
   Square ksq = type_of(moved_piece(m)) == KING ? to_sq(m) : square<KING>(sideToMove);
   if (ksq != SQ_NONE)
       b &= ~attacks_from<KING>(ksq);
-  if (!capture(m) && (attacks_from(moved_piece(m), to_sq(m)) & b))
+  if (!capture(m) && (attacks_from(type_of(moved_piece(m)), to_sq(m)) & b))
       return true;
   return false;
 }
