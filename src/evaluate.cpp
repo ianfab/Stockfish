@@ -965,13 +965,6 @@ namespace {
         else if ((b | (k & h)) & other)
             score -= OtherCheck;
 
-#ifdef ATOMIC
-        if (pos.is_atomic())
-        {
-            kingDanger += IndirectKingAttack * popcount(pos.attacks_from<KING>(pos.square<KING>(Us)) & pos.pieces(Us) & attackedBy[Them][ALL_PIECES]);
-            score -= make_score(100, 100) * popcount(attackedBy[Us][KING] & pos.pieces());
-        }
-#endif
         // Transform the kingDanger units into a Score, and substract it from the evaluation
         if (kingDanger > 0)
         {
