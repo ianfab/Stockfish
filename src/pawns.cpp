@@ -38,7 +38,7 @@ namespace {
   const Score Backward[] = { S(40, 26), S(24, 12) };
 
   // Connected pawn bonus by opposed, phalanx, #support and rank
-  Score Connected[2][2][3][RANK_NB];
+  Score Connected[2][3][3][RANK_NB];
 
   // Doubled pawn penalty
   const Score Doubled = S(18, 38);
@@ -174,7 +174,7 @@ namespace {
 
         // Score this pawn
         if (supported | phalanx)
-            score += Connected[opposed][!!phalanx][popcount(supported)][relative_rank(Us, s)];
+            score += Connected[opposed][popcount(phalanx)][popcount(supported)][relative_rank(Us, s)];
 
         else if (!neighbours)
             score -= Isolated[opposed];
@@ -202,15 +202,19 @@ namespace Pawns {
 
 void init() {
 
-  static const int Seed[RANK_NB] = { 0, 13, 24, 18, 76, 100, 175, 330 };
+  static const int Seed[RANK_NB - 1] = { 0, 13, 24, 18, 76, 100, 175 };
+  static const int Phalanx[][RANK_NB - 1] = {
+    { 0, 5, -3, 29, 12, 37, 77 },
+    { 0, 5, -3, 29, 12, 37, 77 }
+  };
 
   for (int opposed = 0; opposed <= 1; ++opposed)
-      for (int phalanx = 0; phalanx <= 1; ++phalanx)
+      for (int phalanx = 0; phalanx <= 2; ++phalanx)
           for (int support = 0; support <= 2; ++support)
               for (Rank r = RANK_2; r < RANK_8; ++r)
   {
       int v = 17 * support;
-      v += (Seed[r] + (phalanx ? (Seed[r + 1] - Seed[r]) / 2 : 0)) >> opposed;
+      v += (Seed[r] + (phalanx ? Phalanx[phalanx - 1][r] : 0)) >> opposed;
 
       Connected[opposed][phalanx][support][r] = make_score(v, v * (r - 2) / 4);
   }
