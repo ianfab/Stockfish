@@ -162,9 +162,11 @@ namespace {
   // supported by a pawn. If the minor piece occupies an outpost square
   // then score is doubled.
   const Score Outpost[][2] = {
-    { S(22, 6), S(33, 9) }, // Knight
-    { S( 9, 2), S(14, 4) }  // Bishop
+    { S(20, 5), S(30, 8) }, // Knight
+    { S( 8, 1), S(12, 3) }  // Bishop
   };
+
+  const Score WeakSquares = S( 5, 2);
 
   // RookOnFile[semiopen/open] contains bonuses for each rook when there is no
   // friendly pawn on the rook file.
@@ -531,6 +533,7 @@ namespace {
     const Square Left       = (Us == WHITE ? NORTH_WEST : SOUTH_EAST);
     const Square Right      = (Us == WHITE ? NORTH_EAST : SOUTH_WEST);
     const Bitboard TRank3BB = (Us == WHITE ? Rank3BB    : Rank6BB);
+    const Bitboard TRank456 = (Us == WHITE ? Rank4BB | Rank5BB | Rank6BB : Rank3BB | Rank4BB | Rank5BB);
 
     Bitboard b, weak, defended, stronglyProtected, safeThreats;
     Score score = SCORE_ZERO;
@@ -550,6 +553,9 @@ namespace {
         if (weak ^ safeThreats)
             score += ThreatByHangingPawn;
     }
+
+    // Weak squares in opponent's camp
+    score += WeakSquares * popcount(~(pe->pawn_attacks_span(Them) | pos.pieces(PAWN)) & TRank456);
 
     // Squares strongly protected by the opponent, either because they attack the
     // square with a pawn, or because they attack the square twice and we don't.
