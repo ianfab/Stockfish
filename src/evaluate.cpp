@@ -222,7 +222,8 @@ namespace {
   #undef V
 
   // KingAttackWeights[PieceType] contains king attack weights by piece type
-  const int KingAttackWeights[PIECE_TYPE_NB] = { 0, 5, 78, 56, 45, 11 };
+  int KingAttackWeights[PIECE_TYPE_NB] = { 0, 5, 78, 56, 45, 11 };
+  TUNE(SetRange(0, 200), KingAttackWeights);
 
   // Penalties for enemy's safe checks
   const int QueenCheck  = 780;
