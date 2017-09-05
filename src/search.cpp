@@ -1244,6 +1244,11 @@ moves_loop: // When in check search starts from here
               r -= r ? ONE_PLY : DEPTH_ZERO;
           else
 #endif
+#ifdef THREECHECK
+          if (pos.is_three_check() && givesCheck)
+              r -= r ? ONE_PLY : DEPTH_ZERO;
+          else
+#endif
           if (captureOrPromotion)
               r -= r ? ONE_PLY : DEPTH_ZERO;
           else
