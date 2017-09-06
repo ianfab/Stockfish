@@ -56,19 +56,19 @@ namespace {
   const int CubicOurs[4][4] = {
     //            OUR PIECES
     // knight bishop rook queen
-    {   0,    0,     0,   0  }, // Knight      OUR PIECES
-    {   0,    0,     0,   0  }, // Bishop
-    {   0,    0,     0,   0  }, // Rook
-    {   0,    0,     0,   0  }  // Queen
+    {  -6,    8,    -5, -43  }, // Knight      OUR PIECES
+    {  -5,    0,   -33, -17  }, // Bishop
+    {  19,    9,   -27,  25  }, // Rook
+    {  22,   -2,   -24,  18  }  // Queen
   };
 
   const int CubicTheirs[4][4] = {
     //           THEIR PIECES
     // knight bishop rook queen
-    {   0,    0,     0,   0  }, // Knight      OUR PIECES
-    {   0,    0,     0,   0  }, // Bishop
-    {   0,    0,     0,   0  }, // Rook
-    {   0,    0,     0,   0  }  // Queen
+    { -19,   26,    11, -26  }, // Knight      OUR PIECES
+    {   1,   -2,    31,  19  }, // Bishop
+    {  26,   23,   -27, -33  }, // Rook
+    {  18,   -6,    -3,  20  }  // Queen
   };
 
   // PawnSet[pawn count] contains a bonus/malus indexed by number of pawns
