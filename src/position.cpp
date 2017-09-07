@@ -1694,6 +1694,10 @@ Value Position::see<ATOMIC_VARIANT>(Move m) const {
 bool Position::see_ge(Move m, Value threshold) const {
 
   assert(is_ok(m));
+#ifdef ANTI
+  if (is_anti())
+      return VALUE_ZERO >= threshold;
+#endif
 #ifdef CRAZYHOUSE
   if (is_house() && color_of(moved_piece(m)) == sideToMove)
   {
