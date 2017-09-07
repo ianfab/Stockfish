@@ -41,7 +41,7 @@ namespace {
     { S(27, 28), S(24, 14) },
 #endif
 #ifdef CRAZYHOUSE
-    { S(45, 40), S(30, 27) },
+    { S(44, 42), S(28, 29) },
 #endif
 #ifdef HORDE
     { S(59, 42), S(16, 38) },
@@ -73,7 +73,7 @@ namespace {
     { S(48, 21), S(35, 15) },
 #endif
 #ifdef CRAZYHOUSE
-    { S(56, 33), S(41, 19) },
+    { S(56, 32), S(41, 19) },
 #endif
 #ifdef HORDE
     { S(44, 24), S(78, 14) },
@@ -108,7 +108,7 @@ namespace {
     S( 0,  0),
 #endif
 #ifdef CRAZYHOUSE
-    S(18, 38),
+    S(17, 37),
 #endif
 #ifdef HORDE
     S(11, 83),
@@ -539,7 +539,7 @@ void init() {
     { 0,18, 11, 14, 82,109, 170, 315 },
 #endif
 #ifdef CRAZYHOUSE
-    { 0, 8, 19, 13, 71, 94, 169, 324 },
+    { 0, 7, 19, 13, 69,104, 161, 315 },
 #endif
 #ifdef HORDE
     { 37, 29, 3, 1, 105,  99, 343, 350 },
