@@ -81,7 +81,7 @@ MovePicker::MovePicker(const Position& p, Move ttm, Depth d, const ButterflyHist
 
 /// MovePicker constructor for quiescence search
 MovePicker::MovePicker(const Position& p, Move ttm, Depth d, const ButterflyHistory* mh, Square s)
-           : pos(p), mainHistory(mh) {
+           : pos(p), mainHistory(mh), depth(d) {
 
   assert(d <= DEPTH_ZERO);
 
@@ -107,8 +107,8 @@ MovePicker::MovePicker(const Position& p, Move ttm, Depth d, const ButterflyHist
 
 /// MovePicker constructor for ProbCut: we generate captures with SEE higher
 /// than or equal to the given threshold.
-MovePicker::MovePicker(const Position& p, Move ttm, Value th)
-           : pos(p), threshold(th) {
+MovePicker::MovePicker(const Position& p, Move ttm, Depth d, Value th)
+           : pos(p), threshold(th), depth(d) {
 
   assert(!pos.checkers());
 
@@ -132,7 +132,8 @@ void MovePicker::score() {
   for (auto& m : *this)
       if (Type == CAPTURES)
           m.value =  PieceValue[MG][pos.piece_on(to_sq(m))]
-                   - Value(200 * relative_rank(pos.side_to_move(), to_sq(m)));
+                   - Value(20000 * relative_rank(pos.side_to_move(), to_sq(m)) / std::max(100 + std::abs(depth) * depth, 50))
+                   - Value(type_of(pos.moved_piece(m)));
 
       else if (Type == QUIETS)
           m.value =  (*mainHistory)[pos.side_to_move()][from_to(m)]
