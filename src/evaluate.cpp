@@ -740,6 +740,10 @@ namespace {
         if (pos.is_anti())
             continue;
 #endif
+#ifdef RACE
+        if (pos.is_race())
+            continue;
+#endif
 #ifdef HORDE
         if (pos.is_horde() && pos.is_horde_color(Us)) {} else
 #endif
