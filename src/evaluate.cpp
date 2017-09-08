@@ -527,7 +527,7 @@ namespace {
     {},
 #endif
 #ifdef ATOMIC
-    { 0, 0, 76, 64, 46, 11 },
+    { 0, 10, 76, 64, 46, 11 },
 #endif
 #ifdef CRAZYHOUSE
     { 0, 0, 112, 97, 61, 2 },
@@ -688,7 +688,8 @@ namespace {
             kingRing[Us] |= shift<Up>(b);
 
         kingAttackersCount[Them] = popcount(b & pe->pawn_attacks(Them));
-        kingAdjacentZoneAttacksCount[Them] = kingAttackersWeight[Them] = 0;
+        kingAttackersWeight[Them] = kingAttackersCount[Them] * KingAttackWeights[pos.variant()][PAWN];
+        kingAdjacentZoneAttacksCount[Them] = 0;
     }
     else
         kingRing[Us] = kingAttackersCount[Them] = 0;
