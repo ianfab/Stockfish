@@ -202,10 +202,10 @@ namespace Pawns {
 
 void init() {
 
-  static const int Seed[RANK_NB - 1] = { 0, 13, 24, 18, 76, 100, 175 };
+  static const int Seed[RANK_NB - 1] = { 0, 11, 20, 21, 64,  97, 178 };
   static const int Phalanx[][RANK_NB - 1] = {
-    { 0, 5, -3, 29, 12, 37, 77 },
-    { 0, 5, -3, 29, 12, 37, 77 }
+    { 0, 2, -2, 13, 14, 44, 80 },
+    { 0,16,-11, 31,  6, 34, 69 }
   };
 
   for (int opposed = 0; opposed <= 1; ++opposed)
