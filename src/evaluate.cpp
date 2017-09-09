@@ -229,6 +229,7 @@ namespace {
   const int RookCheck   = 880;
   const int BishopCheck = 435;
   const int KnightCheck = 790;
+  const int PawnCheck   = 200;
 
   // Threshold for lazy and space evaluation
   const Value LazyThreshold  = Value(1500);
@@ -408,6 +409,7 @@ namespace {
 
     const Color Them    = (Us == WHITE ? BLACK : WHITE);
     const Square Up     = (Us == WHITE ? NORTH : SOUTH);
+    const Square Down   = (Us == WHITE ? SOUTH : NORTH);
     const Bitboard Camp = (Us == WHITE ? AllSquares ^ Rank6BB ^ Rank7BB ^ Rank8BB
                                        : AllSquares ^ Rank1BB ^ Rank2BB ^ Rank3BB);
 
@@ -486,6 +488,15 @@ namespace {
         b = pos.attacks_from<KNIGHT>(ksq) & attackedBy[Them][KNIGHT];
         if (b & safe)
             kingDanger += KnightCheck;
+
+        else if (b & other)
+            score -= OtherCheck;
+
+        // Enemy pawn safe and other checks
+        b = PawnAttacks[Us][ksq] & (  (attackedBy[Them][PAWN] & pos.pieces(Us))
+                                    | (shift<Down>(pos.pieces(Them, PAWN)) & ~pos.pieces()));
+        if (b & safe)
+            kingDanger += PawnCheck;
 
         else if (b & other)
             score -= OtherCheck;
