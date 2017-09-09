@@ -530,7 +530,7 @@ namespace {
     { 0, 0, 76, 64, 46, 11 },
 #endif
 #ifdef CRAZYHOUSE
-    { 0, 20, 112, 97, 61, 2 },
+    { 0, 10, 112, 97, 61, 2 },
 #endif
 #ifdef HORDE
     { 0, 0, 78, 56, 45, 11 },
