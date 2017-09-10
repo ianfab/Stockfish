@@ -69,7 +69,7 @@ namespace {
   // Razoring and futility margin based on depth
   // razor_margin[0] is unused as long as depth >= ONE_PLY in search
   const int razor_margin[] = { 0, 570, 603, 554 };
-  const int futility_margin[] = { 0, 150, 300, 450, 600, 750, 900 };
+  const int futility_margin[] = { 0, 140, 300, 445, 585, 748, 908 };
 
   // Futility and reductions lookup tables, initialized at startup
   int FutilityMoveCounts[2][16]; // [improving][depth]
