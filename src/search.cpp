@@ -1454,6 +1454,9 @@ moves_loop: // When in check search starts from here
     bool ttHit, givesCheck, evasionPrunable;
     Depth ttDepth;
     int moveCount;
+#ifdef CRAZYHOUSE
+    int dropCount = 0;
+#endif
 
     if (PvNode)
     {
@@ -1603,6 +1606,11 @@ moves_loop: // When in check search starts from here
           &&  type_of(move) != PROMOTION
           &&  !pos.see_ge(move))
           continue;
+
+#ifdef CRAZYHOUSE
+      if (pos.is_house() && type_of(move) == DROP && ++dropCount > 5)
+          continue;
+#endif
 
       // Speculative prefetch as early as possible
       prefetch(TT.first_entry(pos.key_after(move)));
