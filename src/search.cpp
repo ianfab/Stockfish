@@ -1144,6 +1144,9 @@ moves_loop: // When in check search starts from here
       newDepth = depth - ONE_PLY + extension;
 
       // Step 13. Pruning at shallow depth
+#ifdef ANTI
+      if (pos.is_anti() && pos.capture(move)) {} else
+#endif
       if (  !rootNode
 #ifdef HORDE
           && (pos.non_pawn_material(pos.side_to_move()) || pos.is_horde())
