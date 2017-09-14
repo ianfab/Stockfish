@@ -77,7 +77,7 @@ namespace {
   { 0, 2341, 2501, 2218 },
 #endif
 #ifdef CRAZYHOUSE
-  { 0, 590, 651, 622 },
+  { 0, 588, 672, 669 },
 #endif
 #ifdef HORDE
   { 0, 706, 625, 555 },
@@ -107,7 +107,7 @@ namespace {
   560,
 #endif
 #ifdef CRAZYHOUSE
-  125,
+  127,
 #endif
 #ifdef HORDE
   151,
@@ -138,7 +138,7 @@ namespace {
   { 512, 400 },
 #endif
 #ifdef CRAZYHOUSE
-  { 256, 200 },
+  { 258, 202 },
 #endif
 #ifdef HORDE
   { 261, 162 },
@@ -168,7 +168,7 @@ namespace {
   200,
 #endif
 #ifdef CRAZYHOUSE
-  200,
+  195,
 #endif
 #ifdef HORDE
   153,
