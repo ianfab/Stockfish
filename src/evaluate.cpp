@@ -599,36 +599,7 @@ namespace {
 #endif
   // Threshold for lazy and space evaluation
   const Value LazyThreshold  = Value(1500);
-  const Value SpaceThreshold[VARIANT_NB] = {
-    Value(12222),
-#ifdef ANTI
-    Value(12222),
-#endif
-#ifdef ATOMIC
-    Value(12222),
-#endif
-#ifdef CRAZYHOUSE
-    Value(12222),
-#endif
-#ifdef HORDE
-    VALUE_ZERO,
-#endif
-#ifdef KOTH
-    VALUE_ZERO,
-#endif
-#ifdef LOSERS
-    Value(12222),
-#endif
-#ifdef RACE
-    Value(12222),
-#endif
-#ifdef RELAY
-    Value(12222),
-#endif
-#ifdef THREECHECK
-    Value(12222),
-#endif
-  };
+  const Value SpaceThreshold = Value(12222);
 
 
   // initialize() computes king and pawn attacks, and the king ring bitboard
@@ -1545,7 +1516,7 @@ namespace {
 #ifdef HORDE
     if (pos.is_horde()) {} else
 #endif
-    if (pos.non_pawn_material() >= SpaceThreshold[pos.variant()])
+    if (pos.non_pawn_material() >= SpaceThreshold)
         score +=  evaluate_space<WHITE>()
                 - evaluate_space<BLACK>();
 
@@ -1571,7 +1542,7 @@ namespace {
         Trace::add(IMBALANCE, me->imbalance());
         Trace::add(PAWN, pe->pawns_score());
         Trace::add(MOBILITY, mobility[WHITE], mobility[BLACK]);
-        if (pos.non_pawn_material() >= SpaceThreshold[pos.variant()])
+        if (pos.non_pawn_material() >= SpaceThreshold)
             Trace::add(SPACE, evaluate_space<WHITE>()
                             , evaluate_space<BLACK>());
         Trace::add(TOTAL, score);
