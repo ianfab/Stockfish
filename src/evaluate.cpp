@@ -1266,6 +1266,8 @@ namespace {
             assert(dist > 0);
             score += KothDistanceBonus[std::min(dist - 1, 5)];
         }
+        score += KothSafeCenter * popcount(~attackedBy[Them][ALL_PIECES] & ~pos.pieces(Us, PAWN)
+                                           & (Rank4BB | Rank5BB) & (FileDBB | FileEBB));
     }
 #endif
     while (b)
@@ -1400,11 +1402,6 @@ namespace {
     int bonus;
     bonus = popcount((Us == WHITE ? safe << 32 : safe >> 32) | (behind & safe));
     int weight = pos.count<ALL_PIECES>(Us) - 2 * pe->open_files();
-#ifdef KOTH
-    if (pos.is_koth())
-        return make_score(bonus * weight * weight / 22, 0)
-              + KothSafeCenter * popcount(safe & behind & (Rank4BB | Rank5BB) & (FileDBB | FileEBB));
-#endif
 
     return make_score(bonus * weight * weight / 16, 0);
   }
