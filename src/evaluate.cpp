@@ -222,7 +222,7 @@ namespace {
   #undef V
 
   // KingAttackWeights[PieceType] contains king attack weights by piece type
-  const int KingAttackWeights[PIECE_TYPE_NB] = { 0, 5, 78, 56, 45, 11 };
+  const int KingAttackWeights[PIECE_TYPE_NB] = { 0, 3, 78, 56, 45, 11 };
 
   // Penalties for enemy's safe checks
   const int QueenCheck  = 780;
@@ -244,6 +244,8 @@ namespace {
     const Color  Them = (Us == WHITE ? BLACK : WHITE);
     const Square Up   = (Us == WHITE ? NORTH : SOUTH);
     const Square Down = (Us == WHITE ? SOUTH : NORTH);
+    const Square Right = (Us == WHITE ? NORTH_EAST : SOUTH_WEST);
+    const Square Left  = (Us == WHITE ? NORTH_WEST : SOUTH_EAST);
     const Bitboard LowRanks = (Us == WHITE ? Rank2BB | Rank3BB: Rank7BB | Rank6BB);
 
     // Find our pawns on the first two ranks, and those which are blocked
@@ -267,9 +269,9 @@ namespace {
         if (relative_rank(Us, pos.square<KING>(Us)) == RANK_1)
             kingRing[Us] |= shift<Up>(b);
 
-        kingAttackersCount[Them] = popcount(b & pe->pawn_attacks(Them));
+        kingAttackersCount[Them] = popcount((shift<Left>(b) | shift<Right>(b)) & pos.pieces(Them, PAWN));
         kingAttackersWeight[Them] = kingAttackersCount[Them] * KingAttackWeights[PAWN];
-        kingAdjacentZoneAttacksCount[Them] = 0;
+        kingAdjacentZoneAttacksCount[Them] = popcount(b & pe->pawn_attacks(Them));
     }
     else
         kingRing[Us] = kingAttackersCount[Them] = 0;
