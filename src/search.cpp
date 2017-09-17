@@ -955,7 +955,7 @@ namespace {
 
     // Step 8. Null move search with verification search (is omitted in PV nodes)
 #ifdef HORDE
-    if (pos.is_horde()) {} else
+    if (pos.is_horde() && pos.is_horde_color(pos.side_to_move())) {} else
 #endif
     if (   !PvNode
         &&  eval >= beta
