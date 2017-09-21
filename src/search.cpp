@@ -189,6 +189,36 @@ namespace {
   418,
 #endif
   };
+  const int iid_depth[VARIANT_NB] = {
+  6,
+#ifdef ANTI
+  6,
+#endif
+#ifdef ATOMIC
+  6,
+#endif
+#ifdef CRAZYHOUSE
+  4,
+#endif
+#ifdef HORDE
+  6,
+#endif
+#ifdef KOTH
+  6,
+#endif
+#ifdef LOSERS
+  6,
+#endif
+#ifdef RACE
+  4,
+#endif
+#ifdef RELAY
+  6,
+#endif
+#ifdef THREECHECK
+  6,
+#endif
+  };
 
   // Futility and reductions lookup tables, initialized at startup
   int FutilityMoveCounts[VARIANT_NB][2][16]; // [improving][depth]
@@ -1026,11 +1056,7 @@ namespace {
     }
 
     // Step 10. Internal iterative deepening (skipped when in check)
-#ifdef CRAZYHOUSE
-    if (    depth >= (pos.is_house() ? 4 : 6) * ONE_PLY
-#else
-    if (    depth >= 6 * ONE_PLY
-#endif
+    if (    depth >= iid_depth[pos.variant()] * ONE_PLY
         && !ttMove
         && (PvNode || ss->staticEval + 256 >= beta))
     {
