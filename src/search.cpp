@@ -1018,7 +1018,11 @@ namespace {
 
                 assert(depth >= 5 * ONE_PLY);
                 pos.do_move(move, st);
+#ifdef CRAZYHOUSE
+                value = -search<NonPV>(pos, ss+1, -rbeta, -rbeta+1, depth - (pos.is_house() ? 3 : 4) * ONE_PLY, !cutNode, false);
+#else
                 value = -search<NonPV>(pos, ss+1, -rbeta, -rbeta+1, depth - 4 * ONE_PLY, !cutNode, false);
+#endif
                 pos.undo_move(move);
                 if (value >= rbeta)
                     return value;
