@@ -1035,6 +1035,10 @@ namespace {
         && (PvNode || ss->staticEval + 256 >= beta))
     {
         Depth d = (3 * depth / (4 * ONE_PLY) - 2) * ONE_PLY;
+#ifdef CRAZYHOUSE
+        if (pos.is_house())
+            d = (4 * depth / (5 * ONE_PLY) - 1) * ONE_PLY;
+#endif
         search<NT>(pos, ss, alpha, beta, d, cutNode, true);
 
         tte = TT.probe(posKey, ttHit);
