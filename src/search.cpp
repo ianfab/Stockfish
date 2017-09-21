@@ -916,7 +916,7 @@ namespace {
                   ss->staticEval, TT.generation());
     }
 #ifdef ANTI
-    if (pos.is_anti() && pos.can_capture())
+    if (pos.is_anti())
         goto moves_loop;
 #endif
 #ifdef LOSERS
