@@ -923,6 +923,10 @@ namespace {
     if (pos.is_losers() && pos.can_capture_losers())
         goto moves_loop;
 #endif
+#ifdef ATOMIC
+    if (pos.is_atomic())
+        goto moves_loop;
+#endif
 
     if (skipEarlyPruning)
         goto moves_loop;
