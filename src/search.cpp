@@ -1026,6 +1026,9 @@ namespace {
     }
 
     // Step 10. Internal iterative deepening (skipped when in check)
+#ifdef ANTI
+    if (pos.is_anti()) {} else
+#endif
 #ifdef CRAZYHOUSE
     if (    depth >= (pos.is_house() ? 4 : 6) * ONE_PLY
 #else
