@@ -928,6 +928,9 @@ namespace {
         goto moves_loop;
 
     // Step 6. Razoring (skipped when in check)
+#ifdef ANTI
+    if (pos.is_anti()) {} else
+#endif
     if (   !PvNode
         &&  depth < 4 * ONE_PLY
         &&  eval + razor_margin[pos.variant()][depth / ONE_PLY] <= alpha)
