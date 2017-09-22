@@ -942,6 +942,9 @@ namespace {
     }
 
     // Step 7. Futility pruning: child node (skipped when in check)
+#ifdef ATOMIC
+    if (pos.is_atomic()) {} else
+#endif
     if (   !rootNode
         &&  depth < 7 * ONE_PLY
         &&  eval - futility_margin(pos.variant(), depth) >= beta
