@@ -302,7 +302,7 @@ string UCI::value(Value v) {
   stringstream ss;
 
   if (abs(v) < VALUE_MATE - MAX_PLY)
-      ss << "cp " << v * 100 / PawnValueEg;
+      ss << "cp " << (v > 0 ? std::max(v * 100 / PawnValueEg, 50) : std::min(v * 100 / PawnValueEg, -50));
   else
       ss << "mate " << (v > 0 ? VALUE_MATE - v + 1 : -VALUE_MATE - v) / 2;
 
