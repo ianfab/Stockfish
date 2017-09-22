@@ -1000,6 +1000,9 @@ namespace {
 #ifdef ANTI
     if (pos.is_anti()) {} else
 #endif
+#ifdef ATOMIC
+    if (pos.is_atomic()) {} else
+#endif
     if (   !PvNode
         &&  depth >= 5 * ONE_PLY
         &&  abs(beta) < VALUE_MATE_IN_MAX_PLY)
