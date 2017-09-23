@@ -1816,6 +1816,10 @@ bool Position::see_ge(Move m, Value threshold) const {
 
       balance += relativeStm ?  PieceValue[var][MG][nextVictim]
                              : -PieceValue[var][MG][nextVictim];
+#ifdef THREECHECK
+      if (is_three_check() && (attacks_from(nextVictim, to) & square<KING>(~stm)))
+          balance += (relativeStm ? -500 : 500) * (checks_given(stm) + 1);
+#endif
 
       relativeStm = !relativeStm;
 
