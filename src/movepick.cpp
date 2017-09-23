@@ -161,11 +161,7 @@ void MovePicker::score() {
                    + (*contHistory[3])[pos.moved_piece(m)][to_sq(m)];
 #ifdef ANTI
           if (pos.is_anti() && pos.attackers_to(to_sq(m), pos.pieces() ^ from_sq(m)) & pos.pieces(~pos.side_to_move()))
-          {
               m.value += (1 << 28);
-              if (!(pos.attackers_to(from_sq(m)) & pos.pieces(~pos.side_to_move())))
-                  m.value += (1 << 27);
-          }
 #endif
       }
 
