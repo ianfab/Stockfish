@@ -923,6 +923,10 @@ namespace {
     if (pos.is_losers() && pos.can_capture_losers())
         goto moves_loop;
 #endif
+#ifdef RACE
+    if (pos.is_race() && pos.can_advance_king())
+        goto moves_loop;
+#endif
 
     if (skipEarlyPruning)
         goto moves_loop;
