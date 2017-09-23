@@ -1032,7 +1032,11 @@ namespace {
     if (    depth >= 6 * ONE_PLY
 #endif
         && !ttMove
+#ifdef CRAZYHOUSE
+        && (PvNode || ss->staticEval + (pos.is_house() ? 100 : 256) >= beta))
+#else
         && (PvNode || ss->staticEval + 256 >= beta))
+#endif
     {
         Depth d = (3 * depth / (4 * ONE_PLY) - 2) * ONE_PLY;
         search<NT>(pos, ss, alpha, beta, d, cutNode, true);
