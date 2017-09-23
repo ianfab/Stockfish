@@ -167,6 +167,10 @@ void MovePicker::score() {
                   m.value += (1 << 27);
           }
 #endif
+#ifdef RACE
+          if (pos.is_race() && type_of(pos.moved_piece(m)) == KING && rank_of(to_sq(m)) > rank_of(from_sq(m)))
+              m.value += (1 << 28);
+#endif
       }
 
       else // Type == EVASIONS
