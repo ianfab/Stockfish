@@ -219,6 +219,7 @@ public:
   bool is_race_win() const;
   bool is_race_draw() const;
   bool is_race_loss() const;
+  bool can_advance_king() const;
 #endif
 #ifdef RELAY
   bool is_relay() const;
@@ -766,11 +767,17 @@ inline bool Position::is_race_loss() const {
   if (rank_of(square<KING>(sideToMove)) < (sideToMove == WHITE ? RANK_8 : RANK_7))
       return true;
   // Check whether the black king can move to the eighth rank
-  Bitboard b = attacks_from<KING>(square<KING>(sideToMove)) & rank_bb(RANK_8) & ~pieces(sideToMove);
+  return !can_advance_king();
+}
+
+inline bool Position::can_advance_king() const {
+  Bitboard b =   attacks_from<KING>(square<KING>(sideToMove))
+              &  passed_pawn_mask(WHITE, square<KING>(sideToMove))
+              & ~pieces(sideToMove);
   while (b)
       if (!(attackers_to(pop_lsb(&b)) & pieces(~sideToMove)))
-          return false;
-  return true;
+          return true;
+  return false;
 }
 #endif
 
