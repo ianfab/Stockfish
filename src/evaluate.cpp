@@ -271,7 +271,7 @@ namespace {
 
         kingAttackersCount[Them] = popcount((shift<Left>(b) | shift<Right>(b)) & pos.pieces(Them, PAWN));
         kingAttackersWeight[Them] = kingAttackersCount[Them] * KingAttackWeights[PAWN];
-        kingAdjacentZoneAttacksCount[Them] = popcount(attackedBy[Us][KING] & pe->pawn_attacks(Them));
+        kingAdjacentZoneAttacksCount[Them] = 0;
     }
     else
         kingRing[Us] = kingAttackersCount[Them] = 0;
