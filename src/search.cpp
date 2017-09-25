@@ -954,6 +954,9 @@ namespace {
         return eval;
 
     // Step 8. Null move search with verification search (is omitted in PV nodes)
+#ifdef CRAZYHOUSE
+    if (pos.is_house()) {} else
+#endif
 #ifdef HORDE
     if (pos.is_horde()) {} else
 #endif
