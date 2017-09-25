@@ -544,6 +544,10 @@ ExtMove* generate<QUIET_CHECKS>(const Position& pos, ExtMove* moveList) {
   if (pos.is_anti())
       return moveList;
 #endif
+#ifdef CRAZYHOUSE
+  if (pos.is_house())
+      return moveList;
+#endif
 #ifdef RACE
   if (pos.is_race())
       return moveList;
