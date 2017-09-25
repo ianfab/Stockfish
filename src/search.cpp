@@ -959,7 +959,11 @@ namespace {
 #endif
     if (   !PvNode
         &&  eval >= beta
+#ifdef CRAZYHOUSE
+        && (ss->staticEval >= beta - 35 * (depth / ONE_PLY - 6) || depth >= (pos.is_house() ? 11 : 13) * ONE_PLY)
+#else
         && (ss->staticEval >= beta - 35 * (depth / ONE_PLY - 6) || depth >= 13 * ONE_PLY)
+#endif
         &&  pos.non_pawn_material(pos.side_to_move()))
     {
 
