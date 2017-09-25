@@ -957,7 +957,11 @@ namespace {
     if (   !PvNode
         &&  eval >= beta
         && (ss->staticEval >= beta - 35 * (depth / ONE_PLY - 6) || depth >= 13 * ONE_PLY)
+#ifdef HORDE
+        &&  (pos.non_pawn_material(pos.side_to_move()) || (pos.is_horde() && pos.is_horde_color(pos.side_to_move()))))
+#else
         &&  pos.non_pawn_material(pos.side_to_move()))
+#endif
     {
 
         assert(eval - beta >= 0);
