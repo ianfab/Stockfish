@@ -340,6 +340,10 @@ namespace {
   // pawns or pieces which are not pawn-defended.
   const Score ThreatByKing[] = { S(3, 62), S(9, 138) };
 
+#ifdef ATOMIC
+  const Score ThreatByBlast = S(30, 30);
+#endif
+
   // Passed[variant][mg/eg][Rank] contains midgame and endgame bonuses for passed pawns.
   // We don't use a Score because we process the two components independently.
   const Value Passed[VARIANT_NB][2][RANK_NB] = {
@@ -1076,6 +1080,21 @@ namespace {
 #ifdef ATOMIC
     if (pos.is_atomic())
     {
+        Bitboard attacks = pos.pieces(Them) & attackedBy[Us][ALL_PIECES] & ~attackedBy[Us][KING];
+        while (attacks)
+        {
+            Square s = pop_lsb(&attacks);
+            Bitboard blast = (pos.attacks_from<KING>(s) & (pos.pieces() ^ pos.pieces(PAWN))) | s;
+            int count = popcount(blast & pos.pieces(Them)) - popcount(blast & pos.pieces(Us));
+            if (blast & pos.pieces(Them, QUEEN))
+               count += 2;
+            if (blast & pos.pieces(Us, QUEEN))
+               count -= 2;
+            else if ((attackedBy[Us][QUEEN] & s) & ~attackedBy2[Us])
+                count--;
+            if (count > 0)
+                score += ThreatByBlast;
+        }
     }
     else
 #endif
