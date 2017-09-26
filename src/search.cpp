@@ -960,7 +960,11 @@ namespace {
     if (   !PvNode
         &&  eval >= beta
         && (ss->staticEval >= beta - 35 * (depth / ONE_PLY - 6) || depth >= 13 * ONE_PLY)
+#ifdef ATOMIC
+        &&  (pos.non_pawn_material(pos.side_to_move()) || pos.is_atomic()))
+#else
         &&  pos.non_pawn_material(pos.side_to_move()))
+#endif
     {
 
         assert(eval - beta >= 0);
