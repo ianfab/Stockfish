@@ -1084,7 +1084,7 @@ namespace {
             while (attackers)
             {
                 Square sq_attacker = pop_lsb(&attackers);
-                Value v = std::min(pos.see<ATOMIC_VARIANT>(make_move(sq_attacker, sq_attack)), RookValueEgAtomic) / 5;
+                Value v = std::min(pos.see<ATOMIC_VARIANT>(make_move(sq_attacker, sq_attack)), RookValueEgAtomic) / 10;
                 if (v > VALUE_ZERO)
                     score += make_score(v, v);
             }
