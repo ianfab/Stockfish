@@ -1680,10 +1680,10 @@ Value Position::see<ATOMIC_VARIANT>(Move m) const {
   for (Color c = WHITE; c <= BLACK; ++c)
       for (PieceType pt = KNIGHT; pt <= QUEEN; ++pt)
           if (c == stm)
-              blast_eval -= popcount(blast & pieces(c,pt)) * PieceValue[var][MG][pt];
+              blast_eval -= popcount(blast & pieces(c,pt)) * PieceValue[var][EG][pt];
           else
-              blast_eval += popcount(blast & pieces(c,pt)) * PieceValue[var][MG][pt];
-  return blast_eval + PieceValue[var][MG][piece_on(to_sq(m))] - PieceValue[var][MG][moved_piece(m)];
+              blast_eval += popcount(blast & pieces(c,pt)) * PieceValue[var][EG][pt];
+  return blast_eval + PieceValue[var][EG][piece_on(to_sq(m))] - PieceValue[var][EG][moved_piece(m)];
 }
 #endif
 
@@ -1759,10 +1759,10 @@ bool Position::see_ge(Move m, Value threshold) const {
               for (Color c = WHITE; c <= BLACK; ++c)
                   for (PieceType pt = KNIGHT; pt <= QUEEN; ++pt)
                       if (c == stm)
-                          blast_eval -= popcount(blast & pieces(c,pt)) * PieceValue[var][MG][pt];
+                          blast_eval -= popcount(blast & pieces(c,pt)) * PieceValue[var][EG][pt];
                       else
-                          blast_eval += popcount(blast & pieces(c,pt)) * PieceValue[var][MG][pt];
-              if (blast_eval + PieceValue[var][MG][piece_on(s)] - PieceValue[var][MG][moved_piece(m)] < threshold)
+                          blast_eval += popcount(blast & pieces(c,pt)) * PieceValue[var][EG][pt];
+              if (blast_eval + PieceValue[var][EG][piece_on(s)] - PieceValue[var][EG][moved_piece(m)] < threshold)
                   return false;
           }
           return true;
