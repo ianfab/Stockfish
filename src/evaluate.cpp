@@ -1076,6 +1076,19 @@ namespace {
 #ifdef ATOMIC
     if (pos.is_atomic())
     {
+        Bitboard attacks = pos.pieces(Them) & attackedBy[Us][ALL_PIECES] & ~attackedBy[Us][KING];
+        while (attacks)
+        {
+            Square sq_attack = pop_lsb(&attacks);
+            Bitboard attackers = pos.attackers_to(sq_attack) & pos.pieces(Us) & ~pos.pinned_pieces(Us);
+            while (attackers)
+            {
+                Square sq_attacker = pop_lsb(&attackers);
+                Value v = std::min(pos.see<ATOMIC_VARIANT>(make_move(sq_attacker, sq_attack)), RookValueEgAtomic) / 5;
+                if (v > VALUE_ZERO)
+                    score += make_score(v, v);
+            }
+        }
     }
     else
 #endif
