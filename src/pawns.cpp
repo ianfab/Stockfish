@@ -510,6 +510,35 @@ namespace {
         // full attack info to evaluate them. Include also not passed pawns
         // which could become passed after one or two pawn pushes when are
         // not attacked more times than defended.
+#ifdef ATOMIC
+        if (pos.is_atomic())
+        {
+            if (!opposed && popcount(neighbours) >= popcount(stoppers))
+            {
+                int countTheirs = 0, countOurs = 0;
+                bool passed = true;
+                // stoppers
+                for (int i : {1, -1})
+                    for (File f2 = file_of(s); f2 >= FILE_A && f2 <= FILE_H; f2 += File(i))
+                    {
+                        if (file_bb(f2) & theirPawns)
+                            countTheirs++;
+                        if (countOurs - countTheirs >= 1)
+                            break;
+                        if(file_bb(f2) & ourPawns)
+                            countOurs++;
+                        if (countOurs - countTheirs <= 0)
+                        {
+                            passed = false;
+                            break;
+                        }
+                    }
+                if (passed)
+                    e->passedPawns[Us] |= s;
+            }
+        }
+        else
+#endif
         if (   !(stoppers ^ lever ^ leverPush)
             && !(ourPawns & forward_file_bb(Us, s))
             && popcount(supported) >= popcount(lever)
