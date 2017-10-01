@@ -167,6 +167,10 @@ void MovePicker::score() {
                   m.value += (1 << 27);
           }
 #endif
+#ifdef CRAZYHOUSE
+          if (pos.is_house() && type_of(m) == DROP)
+              m.value -= 1000;
+#endif
       }
 
       else // Type == EVASIONS
