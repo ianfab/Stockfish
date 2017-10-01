@@ -969,7 +969,7 @@ namespace {
         Depth R = ((823 + 67 * depth / ONE_PLY) / 256 + std::min((eval - beta) / PawnValueMg, 3)) * ONE_PLY;
 #ifdef CRAZYHOUSE
         if (pos.is_house())
-            R -= 2 * ONE_PLY;
+            R -= ONE_PLY;
 #endif
 
         ss->currentMove = MOVE_NULL;
