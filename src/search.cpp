@@ -189,6 +189,36 @@ namespace {
   418,
 #endif
   };
+  const int NMPParams[VARIANT_NB][4] = {
+  { 823, 67, PawnValueMg, 3 },
+#ifdef ANTI
+  { 823, 67, 2 * PawnValueMg, 3 },
+#endif
+#ifdef ATOMIC
+  { 823, 67, 2 * PawnValueMg, 3 },
+#endif
+#ifdef CRAZYHOUSE
+  { 823, 67, PawnValueMg, 3 },
+#endif
+#ifdef HORDE
+  { 823, 67, PawnValueMg, 3 },
+#endif
+#ifdef KOTH
+  { 823, 67, PawnValueMg, 3 },
+#endif
+#ifdef LOSERS
+  { 823, 67, PawnValueMg, 3 },
+#endif
+#ifdef RACE
+  { 823, 67, PawnValueMg, 3 },
+#endif
+#ifdef RELAY
+  { 823, 67, PawnValueMg, 3 },
+#endif
+#ifdef THREECHECK
+  { 823, 67, PawnValueMg, 3 },
+#endif
+  };
 
   // Futility and reductions lookup tables, initialized at startup
   int FutilityMoveCounts[VARIANT_NB][2][16]; // [improving][depth]
@@ -966,15 +996,8 @@ namespace {
         assert(eval - beta >= 0);
 
         // Null move dynamic reduction based on depth and value
-        Depth R = ((823 + 67 * depth / ONE_PLY) / 256 + std::min((eval - beta) / PawnValueMg, 3)) * ONE_PLY;
-#ifdef ANTI
-        if (pos.is_anti())
-            R = ((823 + 67 * depth / ONE_PLY) / 256 + std::min((eval - beta) / (2 * PawnValueMg), 3)) * ONE_PLY;
-#endif
-#ifdef ATOMIC
-        if (pos.is_atomic())
-            R = ((823 + 67 * depth / ONE_PLY) / 256 + std::min((eval - beta) / (2 * PawnValueMg), 3)) * ONE_PLY;
-#endif
+        Depth R = ((NMPParams[pos.variant()][0] + NMPParams[pos.variant()][1] * depth / ONE_PLY) / 256
+                    + std::min(int(eval - beta) / NMPParams[pos.variant()][2], NMPParams[pos.variant()][3])) * ONE_PLY;
 
         ss->currentMove = MOVE_NULL;
         ss->contHistory = &thisThread->contHistory[NO_PIECE][0];
