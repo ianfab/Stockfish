@@ -189,7 +189,7 @@ namespace {
   418,
 #endif
   };
-  const int NMPParams[VARIANT_NB][4] = {
+  int NMPParams[VARIANT_NB][4] = {
   { 823, 67, PawnValueMg, 3 },
 #ifdef ANTI
   { 823, 67, 2 * PawnValueMg, 3 },
@@ -219,6 +219,7 @@ namespace {
   { 823, 67, PawnValueMg, 3 },
 #endif
   };
+  TUNE(NMPParams[CRAZYHOUSE_VARIANT]);
 
   // Futility and reductions lookup tables, initialized at startup
   int FutilityMoveCounts[VARIANT_NB][2][16]; // [improving][depth]
