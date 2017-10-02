@@ -169,7 +169,7 @@ void MovePicker::score() {
 #endif
 #ifdef CRAZYHOUSE
           if (pos.is_house() && type_of(m) == DROP)
-              m.value -= 1000;
+              m.value += 500 * (pos.count_in_hand<ALL_PIECES>(pos.side_to_move()) - 3);
 #endif
       }
 
