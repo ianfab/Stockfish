@@ -168,7 +168,8 @@ void MovePicker::score() {
           }
 #endif
 #ifdef CRAZYHOUSE
-          if (pos.is_house() && type_of(m) == DROP)
+          if (    pos.is_house() && type_of(m) == DROP
+              && !(pos.attacks_from(type_of(dropped_piece(m)), to_sq(m)) & pos.attacks_from<KING>(pos.square<KING>(~pos.side_to_move()))))
               m.value -= 1000;
 #endif
       }
