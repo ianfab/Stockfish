@@ -198,7 +198,7 @@ namespace {
   { 823, 67, 2 * PawnValueMg, 3 },
 #endif
 #ifdef CRAZYHOUSE
-  { 823, 67, PawnValueMg, 3 },
+  { 845, 71, 174, 3 },
 #endif
 #ifdef HORDE
   { 823, 67, PawnValueMg, 3 },
