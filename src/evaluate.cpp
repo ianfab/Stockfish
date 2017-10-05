@@ -1366,7 +1366,14 @@ namespace {
         // Scale down bonus for candidate passers which need more than one
         // pawn push to become passed or have a pawn in front of them.
         if (!pos.pawn_passed(Us, s + Up) || (pos.pieces(PAWN) & forward_file_bb(Us, s)))
+        {
+#ifdef ATOMIC
+            if (pos.is_atomic())
+                mbonus /= 4, ebonus /= 4;
+            else
+#endif
             mbonus /= 2, ebonus /= 2;
+        }
 
         score += make_score(mbonus, ebonus) + PassedFile[file_of(s)];
     }
