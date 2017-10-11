@@ -1457,21 +1457,11 @@ namespace {
     if (pos.is_atomic())
     {
         // Endgame with one bishop and no other pieces (ignoring pawns)
-        // is often a fortress draw.
-        if (   (pos.non_pawn_material(WHITE) + pos.non_pawn_material(BLACK) == BishopValueMg)
-            && pos.count<PAWN>(WHITE) && pos.count<PAWN>(BLACK))
-        {
-            Bitboard pawns = pos.pieces(strongSide, PAWN), unopposed = 0;
-
-            while (pawns) // Does the stronger side have an unopposed pawn?
-            {
-                Square psq = pop_lsb(&pawns);
-                if (! (forward_file_bb(strongSide, psq) & pos.pieces(~strongSide, PAWN)))
-                    unopposed |= psq;
-            }
-            if (! unopposed) // Possible fortress
-                sf = ScaleFactor(8);
-        }
+        // is a fortress draw if none of the weaker sides' pawns is on the bishop's color.
+        if (    pos.non_pawn_material() == BishopValueMg
+            && !pe->pawn_asymmetry()
+            && !pe->pawns_on_same_color_squares(~strongSide, pos.square<BISHOP>(strongSide)))
+            sf = ScaleFactor(8);
     }
     else
 #endif
