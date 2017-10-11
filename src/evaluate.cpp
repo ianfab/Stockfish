@@ -1454,7 +1454,26 @@ namespace {
     // If we don't already have an unusual scale factor, check for certain
     // types of endgames, and use a lower scale for those.
 #ifdef ATOMIC
-    if (pos.is_atomic()) {} else
+    if (pos.is_atomic())
+    {
+        // Endgame with one bishop and no other pieces (ignoring pawns)
+        // is often a fortress draw.
+        if (   (pos.non_pawn_material(WHITE) + pos.non_pawn_material(BLACK) == BishopValueMg)
+            && pos.count<PAWN>(WHITE) && pos.count<PAWN>(BLACK))
+        {
+            Bitboard pawns = pos.pieces(strongSide, PAWN), unopposed = 0;
+
+            while (pawns) // Does the stronger side have an unopposed pawn?
+            {
+                Square psq = pop_lsb(&pawns);
+                if (! (forward_file_bb(strongSide, psq) & pos.pieces(~strongSide, PAWN)))
+                    unopposed |= psq;
+            }
+            if (! unopposed) // Possible fortress
+                sf = ScaleFactor(8);
+        }
+    }
+    else
 #endif
     if (sf == SCALE_FACTOR_NORMAL || sf == SCALE_FACTOR_ONEPAWN)
     {
