@@ -1461,7 +1461,7 @@ namespace {
         if (    pos.non_pawn_material() == BishopValueMg
             && !pe->pawn_asymmetry()
             && !pe->pawns_on_same_color_squares(~strongSide, pos.square<BISHOP>(strongSide)))
-            sf = ScaleFactor(8);
+            return SCALE_FACTOR_DRAW;
     }
     else
 #endif
