@@ -499,6 +499,28 @@ ExtMove* generate(const Position& pos, ExtMove* moveList) {
       return us == WHITE ? generate_all<HORDE_VARIANT, WHITE, Type>(pos, moveList, target)
                          : generate_all<HORDE_VARIANT, BLACK, Type>(pos, moveList, target);
 #endif
+#ifdef KOTH
+  if (pos.is_koth())
+  {
+      // Generate only king moves to center if possible
+      if (Type != NON_EVASIONS)
+      {
+          Square ksq = pos.square<KING>(us);
+          Bitboard b = pos.attacks_from<KING>(ksq) & (FileDBB | FileEBB) & (Rank4BB | Rank5BB);
+          while (b)
+          {
+              Square s = pop_lsb(&b);
+              if (!(pos.attackers_to(s, pos.pieces() ^ ksq) & pos.pieces(~us)))
+              {
+                  *moveList++ = make_move(ksq, s);
+                  return moveList;
+              }
+          }
+      }
+      return us == WHITE ? generate_all<KOTH_VARIANT, WHITE, Type>(pos, moveList, target)
+                         : generate_all<KOTH_VARIANT, BLACK, Type>(pos, moveList, target);
+  }
+#endif
 #ifdef LOSERS
   if (pos.is_losers())
   {
