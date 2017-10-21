@@ -1454,7 +1454,20 @@ namespace {
     // If we don't already have an unusual scale factor, check for certain
     // types of endgames, and use a lower scale for those.
 #ifdef ATOMIC
-    if (pos.is_atomic()) {} else
+    if (pos.is_atomic())
+    {
+        // Endgame with one bishop and no other pieces (ignoring pawns)
+        // is a fortress draw if none of the weaker sides' pawns is on the bishop's color.
+        if (    pos.non_pawn_material() == BishopValueMg
+            && !pe->pawn_asymmetry()
+            && !pe->pawns_on_same_color_squares(~strongSide, pos.square<BISHOP>(strongSide)))
+            return SCALE_FACTOR_DRAW;
+        // Imbalanced piece count often is decisive
+        else if(   pos.count<ALL_PIECES>(WHITE) != pos.count<ALL_PIECES>(BLACK)
+                && pos.count<PAWN>(strongSide) > (pos.count<ALL_PIECES>(~strongSide) - pos.count<PAWN>(~strongSide)))
+            return SCALE_FACTOR_MAX;
+    }
+    else
 #endif
     if (sf == SCALE_FACTOR_NORMAL || sf == SCALE_FACTOR_ONEPAWN)
     {
