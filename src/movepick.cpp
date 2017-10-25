@@ -167,6 +167,10 @@ void MovePicker::score() {
                   m.value += (1 << 27);
           }
 #endif
+#ifdef HORDE
+          if (pos.is_horde())
+              m.value += (relative_rank(pos.side_to_move(), to_sq(m)) - relative_rank(pos.side_to_move(), from_sq(m))) * 20;
+#endif
       }
 
       else // Type == EVASIONS
