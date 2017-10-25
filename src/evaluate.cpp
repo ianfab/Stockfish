@@ -660,6 +660,11 @@ namespace {
         mobilityArea[Us] = ~0;
     else
 #endif
+#ifdef RACE
+    if (pos.is_race())
+        mobilityArea[Us] = ~0;
+    else
+#endif
     mobilityArea[Us] = ~(b | pos.square<KING>(Us) | pe->pawn_attacks(Them));
 
     // Initialise the attack bitboards with the king and pawn information
