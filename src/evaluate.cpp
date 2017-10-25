@@ -662,7 +662,7 @@ namespace {
 #endif
 #ifdef RACE
     if (pos.is_race())
-        mobilityArea[Us] = ~0;
+        mobilityArea[Us] = forward_ranks_bb(WHITE, pos.square<KING>(Us)) | forward_ranks_bb(WHITE, pos.square<KING>(Them));
     else
 #endif
     mobilityArea[Us] = ~(b | pos.square<KING>(Us) | pe->pawn_attacks(Them));
