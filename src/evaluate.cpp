@@ -1433,6 +1433,13 @@ namespace {
 
     // Compute the initiative bonus for the attacking side
     int initiative = 8 * (pe->pawn_asymmetry() + kingDistance - 17) + 12 * pos.count<PAWN>() + 16 * bothFlanks;
+#ifdef ATOMIC
+    if (pos.is_atomic())
+    {
+        kingDistance =  distance(pos.square<KING>(WHITE), pos.square<KING>(BLACK));
+        initiative = 8 * (4 * pe->pawn_asymmetry() - kingDistance) + 12 * pos.count<PAWN>();
+    }
+#endif
 
     // Now apply the bonus: note that we find the attacking side by extracting
     // the sign of the endgame value, and that we carefully cap the bonus so
