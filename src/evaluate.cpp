@@ -1437,7 +1437,7 @@ namespace {
     if (pos.is_atomic())
     {
         kingDistance =  distance(pos.square<KING>(WHITE), pos.square<KING>(BLACK));
-        initiative = 8 * (4 * pe->pawn_asymmetry() - kingDistance) + 12 * pos.count<PAWN>();
+        initiative = 8 * (4 * pe->pawn_asymmetry() - kingDistance - 12) + 12 * pos.count<PAWN>();
     }
 #endif
 
