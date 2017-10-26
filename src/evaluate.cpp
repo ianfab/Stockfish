@@ -800,6 +800,9 @@ namespace {
         if (Pt == ROOK)
         {
             // Bonus for aligning with enemy pawns on the same rank/file
+#ifdef ATOMIC
+            if (pos.is_atomic()) {} else
+#endif
             if (relative_rank(Us, s) >= RANK_5)
                 score += RookOnPawn * popcount(pos.pieces(Them, PAWN) & PseudoAttacks[ROOK][s]);
 
