@@ -35,7 +35,7 @@ const Value Tempo[VARIANT_NB] = { // Must be visible to search
   Value(20),
 #endif
 #ifdef ATOMIC
-  Value(20),
+  Value(30),
 #endif
 #ifdef CRAZYHOUSE
   Value(100),
