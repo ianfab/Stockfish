@@ -169,7 +169,7 @@ void MovePicker::score() {
 #endif
 #ifdef HORDE
           if (pos.is_horde())
-              m.value += (relative_rank(pos.side_to_move(), to_sq(m)) - relative_rank(pos.side_to_move(), from_sq(m))) * 20;
+              m.value -= (relative_rank(pos.side_to_move(), to_sq(m)) - relative_rank(pos.side_to_move(), from_sq(m))) * 20;
 #endif
       }
 
