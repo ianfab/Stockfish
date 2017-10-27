@@ -56,7 +56,7 @@ const Value Tempo[VARIANT_NB] = { // Must be visible to search
   Value(20),
 #endif
 #ifdef THREECHECK
-  Value(20),
+  Value(60),
 #endif
 };
 
