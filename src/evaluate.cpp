@@ -993,6 +993,8 @@ namespace {
                 v = QueenValueMg;
 #endif
 #ifdef THREECHECK
+            if (pos.is_three_check() && Us == pos.side_to_move())
+                v -= v / 10;
             if (pos.is_three_check() && v > QueenValueMg)
                 v = QueenValueMg;
 #endif
