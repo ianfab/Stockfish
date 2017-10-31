@@ -80,7 +80,7 @@ namespace {
   { 0, 590, 651, 622 },
 #endif
 #ifdef EXTINCTION
-  { 0, 570, 603, 554 },
+  { 0, 2000, 2000, 2000 },
 #endif
 #ifdef HORDE
   { 0, 706, 625, 555 },
@@ -113,7 +113,7 @@ namespace {
   125,
 #endif
 #ifdef EXTINCTION
-  150,
+  600,
 #endif
 #ifdef HORDE
   151,
