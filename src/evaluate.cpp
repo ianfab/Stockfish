@@ -619,7 +619,7 @@ namespace {
   };
 
   // Per-variant king danger malus factors
-  const int KingDangerParams[VARIANT_NB][7] = {
+  int KingDangerParams[VARIANT_NB][7] = {
     {   102,  191,  143, -848,   -9,   40,    0 },
 #ifdef ANTI
     {},
@@ -655,6 +655,7 @@ namespace {
     {   102,  191,  143, -848,   -9,   40,    0 },
 #endif
   };
+  TUNE(KingDangerParams[TWOKINGS_VARIANT]);
 
   // Penalties for enemy's safe checks
   const int QueenCheck  = 780;
