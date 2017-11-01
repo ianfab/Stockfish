@@ -31,7 +31,7 @@ namespace {
 
   // Polynomial material imbalance parameters
 
-  const int QuadraticOurs[VARIANT_NB][PIECE_TYPE_NB][PIECE_TYPE_NB] = {
+  int QuadraticOurs[VARIANT_NB][PIECE_TYPE_NB][PIECE_TYPE_NB] = {
     {
     //            OUR PIECES
     // pair pawn knight bishop rook queen
@@ -178,7 +178,7 @@ namespace {
   };
 #endif
 
-  const int QuadraticTheirs[VARIANT_NB][PIECE_TYPE_NB][PIECE_TYPE_NB] = {
+  int QuadraticTheirs[VARIANT_NB][PIECE_TYPE_NB][PIECE_TYPE_NB] = {
     {
     //           THEIR PIECES
     // pair pawn knight bishop rook queen
@@ -324,6 +324,46 @@ namespace {
       {  78,    3,  46,    37,   -26,  -1 }  // Queen
   };
 #endif
+
+  TUNE(
+SetRange(0, 3000),
+QuadraticOurs[EXTINCTION_VARIANT][0][0],
+SetRange(-50, 50),
+QuadraticOurs[EXTINCTION_VARIANT][1][1],
+SetRange(-1000, 1000),
+QuadraticOurs[EXTINCTION_VARIANT][1][0],
+QuadraticOurs[EXTINCTION_VARIANT][2][0],
+QuadraticOurs[EXTINCTION_VARIANT][2][1],
+QuadraticOurs[EXTINCTION_VARIANT][2][2],
+QuadraticOurs[EXTINCTION_VARIANT][3][1],
+QuadraticOurs[EXTINCTION_VARIANT][3][2],
+QuadraticOurs[EXTINCTION_VARIANT][4][0],
+QuadraticOurs[EXTINCTION_VARIANT][4][1],
+QuadraticOurs[EXTINCTION_VARIANT][4][2],
+QuadraticOurs[EXTINCTION_VARIANT][4][3],
+QuadraticOurs[EXTINCTION_VARIANT][4][4],
+QuadraticOurs[EXTINCTION_VARIANT][5][0],
+QuadraticOurs[EXTINCTION_VARIANT][5][1],
+QuadraticOurs[EXTINCTION_VARIANT][5][2],
+QuadraticOurs[EXTINCTION_VARIANT][5][3],
+QuadraticOurs[EXTINCTION_VARIANT][5][4],
+QuadraticOurs[EXTINCTION_VARIANT][5][5],
+QuadraticTheirs[EXTINCTION_VARIANT][0][0],
+QuadraticTheirs[EXTINCTION_VARIANT][1][0],
+QuadraticTheirs[EXTINCTION_VARIANT][2][0],
+QuadraticTheirs[EXTINCTION_VARIANT][2][1],
+QuadraticTheirs[EXTINCTION_VARIANT][3][1],
+QuadraticTheirs[EXTINCTION_VARIANT][3][2],
+QuadraticTheirs[EXTINCTION_VARIANT][4][0],
+QuadraticTheirs[EXTINCTION_VARIANT][4][1],
+QuadraticTheirs[EXTINCTION_VARIANT][4][2],
+QuadraticTheirs[EXTINCTION_VARIANT][4][3],
+QuadraticTheirs[EXTINCTION_VARIANT][5][0],
+QuadraticTheirs[EXTINCTION_VARIANT][5][1],
+QuadraticTheirs[EXTINCTION_VARIANT][5][2],
+QuadraticTheirs[EXTINCTION_VARIANT][5][3],
+QuadraticTheirs[EXTINCTION_VARIANT][5][4]
+  );
 
   // PawnSet[pawn count] contains a bonus/malus indexed by number of pawns
   const int PawnSet[] = {
