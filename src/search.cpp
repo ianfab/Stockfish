@@ -116,7 +116,7 @@ namespace {
   125,
 #endif
 #ifdef EXTINCTION
-  150,
+  100,
 #endif
 #ifdef HORDE
   151,
