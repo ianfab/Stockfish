@@ -144,6 +144,13 @@ void MovePicker::score() {
                                              distance(to_sq(m), pos.square<KING>( pos.side_to_move()))));
           else
 #endif
+#ifdef EXTINCTION
+          if (pos.is_extinction())
+              m.value =  10000 / popcount(pos.pieces(~pos.side_to_move(), type_of(pos.piece_on(to_sq(m)))))
+                       + PieceValue[pos.variant()][MG][pos.piece_on(to_sq(m))]
+                       - Value(200 * relative_rank(pos.side_to_move(), to_sq(m)));
+          else
+#endif
 #ifdef RACE
           if (pos.is_race())
               m.value = PieceValue[pos.variant()][MG][pos.piece_on(to_sq(m))]
