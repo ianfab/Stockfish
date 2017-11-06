@@ -906,5 +906,6 @@ void init() {
 #endif
       }
 }
+TUNE(PieceValue[EXTINCTION_VARIANT], init);
 
 } // namespace PSQT
