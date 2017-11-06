@@ -83,12 +83,12 @@ namespace {
     {
       //            OUR PIECES
       // pair pawn knight bishop rook queen
-      {1584                               }, // Bishop pair
-      {  96,    4                         }, // Pawn
-      { 115,  343,  76                    }, // Knight      OUR PIECES
-      {   0,    5,   1,    0              }, // Bishop
-      { 142, -152,  37,   134,  -169      }, // Rook
-      {-133,  -56, 194,   197,  -167,  85 }  // Queen
+      {1631                               }, // Bishop pair
+      {  81,    8                         }, // Pawn
+      { 172,  368,  44                    }, // Knight      OUR PIECES
+      {   0,   69, -39,    0              }, // Bishop
+      { 105, -213,  24,   131,  -128      }, // Rook
+      { -67,   11, 232,   209,  -223, 110 }  // Queen
     },
 #endif
 #ifdef HORDE
@@ -242,12 +242,12 @@ namespace {
     {
       //           THEIR PIECES
       // pair pawn knight bishop rook queen
-      {   0                               }, // Bishop pair
-      { 114,    0                         }, // Pawn
-      { -91,  159,   0                    }, // Knight      OUR PIECES
-      {  59,  130, -26,     0             }, // Bishop
-      {  18, -235,  12,   -78,    0       }, // Rook
-      { 188,   78,   0,   231,  258,    0 }  // Queen
+      {  22                               }, // Bishop pair
+      { 208,    0                         }, // Pawn
+      { -69,  167,   0                    }, // Knight      OUR PIECES
+      {  59,  127,  70,     0             }, // Bishop
+      {  62, -250,  16,   -85,    0       }, // Rook
+      { 221,   44,  35,   225,  300,    0 }  // Queen
     },
 #endif
 #ifdef HORDE
