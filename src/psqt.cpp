@@ -906,5 +906,6 @@ void init() {
 #endif
       }
 }
+TUNE(PieceValue[TWOKINGS_VARIANT][MG][KING], PieceValue[TWOKINGS_VARIANT][EG][KING], init);
 
 } // namespace PSQT
