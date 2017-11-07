@@ -152,6 +152,10 @@ void MovePicker::score() {
 #endif
           m.value =  PieceValue[pos.variant()][MG][pos.piece_on(to_sq(m))]
                    + Value((*captureHistory)[pos.moved_piece(m)][to_sq(m)][type_of(pos.piece_on(to_sq(m)))]);
+#ifdef EXTINCTION
+          if (pos.is_extinction() && !more_than_one(pos.pieces(color_of(pos.piece_on(to_sq(m))), type_of(pos.piece_on(to_sq(m))))))
+              m.value += (1 << 28);
+#endif
       }
       else if (Type == QUIETS)
       {
