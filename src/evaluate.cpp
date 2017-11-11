@@ -951,7 +951,8 @@ namespace {
 #endif
 #ifdef CRAZYHOUSE
         if (pos.is_house())
-            weak =  (attackedBy[Them][ALL_PIECES] | (pos.pieces(Them) ^ pos.pieces(Them, KING)))
+            weak =  attackedBy[Them][ALL_PIECES]
+                  & ~attackedBy2[Us]
                   & (attackedBy[Us][KING] | ~attackedBy[Us][ALL_PIECES]);
         else
 #endif
