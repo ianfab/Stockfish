@@ -914,5 +914,6 @@ for (Variant var = CHESS_VARIANT; var < VARIANT_NB; ++var)
 #endif
   }
 }
+TUNE(PieceValue[CRAZYHOUSE_VARIANT], init);
 
 } // namespace PSQT
