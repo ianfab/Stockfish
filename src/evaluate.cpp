@@ -949,6 +949,12 @@ namespace {
                   & (attackedBy[Us][KING] | (attackedBy[Us][QUEEN] & ~attackedBy2[Us]) | ~attackedBy[Us][ALL_PIECES]);
         else
 #endif
+#ifdef CRAZYHOUSE
+        if (pos.is_house())
+            weak =  (attackedBy[Them][ALL_PIECES] | (pos.pieces(Them) ^ pos.pieces(Them, KING)))
+                  & (attackedBy[Us][KING] | ~attackedBy[Us][ALL_PIECES]);
+        else
+#endif
         weak =  attackedBy[Them][ALL_PIECES]
               & ~attackedBy2[Us]
               & (attackedBy[Us][KING] | attackedBy[Us][QUEEN] | ~attackedBy[Us][ALL_PIECES]);
