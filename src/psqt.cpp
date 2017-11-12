@@ -976,5 +976,6 @@ void init() {
 #endif
       }
 }
+TUNE(PieceValue[GRID_VARIANT], init);
 
 } // namespace PSQT
