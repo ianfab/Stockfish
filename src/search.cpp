@@ -68,7 +68,7 @@ namespace {
 
   // Razoring and futility margin based on depth
   // razor_margin[0] is unused as long as depth >= ONE_PLY in search
-  const int razor_margin[VARIANT_NB][4] = {
+  int razor_margin[VARIANT_NB][4] = {
   { 0, 570, 603, 554 },
 #ifdef ANTI
   { 0, 2201, 2334, 2407 },
@@ -107,7 +107,7 @@ namespace {
   { 0, 570, 603, 554 },
 #endif
   };
-  const int futility_margin_factor[VARIANT_NB] = {
+  int futility_margin_factor[VARIANT_NB] = {
   150,
 #ifdef ANTI
   586,
@@ -147,7 +147,7 @@ namespace {
 #endif
   };
   Value futility_margin(Variant var, Depth d) { return Value(futility_margin_factor[var] * d / ONE_PLY); }
-  const int futility_margin_parent[VARIANT_NB][2] = {
+  int futility_margin_parent[VARIANT_NB][2] = {
   { 256, 200 },
 #ifdef ANTI
   { 331, 372 },
@@ -183,7 +183,7 @@ namespace {
   { 256, 200 },
 #endif
   };
-  const int probcut_margin[VARIANT_NB] = {
+  int probcut_margin[VARIANT_NB] = {
   200,
 #ifdef ANTI
   200,
@@ -222,6 +222,8 @@ namespace {
   200,
 #endif
   };
+  TUNE(razor_margin[GRID_VARIANT], futility_margin_factor[GRID_VARIANT],
+       futility_margin_parent[GRID_VARIANT], probcut_margin[GRID_VARIANT]);
 
   // Futility and reductions lookup tables, initialized at startup
   int FutilityMoveCounts[VARIANT_NB][2][16]; // [improving][depth]
