@@ -976,5 +976,6 @@ void init() {
 #endif
       }
 }
+TUNE(PieceValue[RACE_VARIANT], init);
 
 } // namespace PSQT
