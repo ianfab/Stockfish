@@ -873,6 +873,15 @@ namespace {
         // Bonus for this piece as a king protector
         score += KingProtector[Pt - 2] * distance(s, pos.square<KING>(Us));
 
+#ifdef CRAZYHOUSE
+#ifdef LOOP
+        if (pos.is_house() && !pos.is_loop() && pos.is_promoted(s))
+#else
+        if (pos.is_house() && pos.is_promoted(s))
+#endif
+            score += make_score(PieceValue[CRAZYHOUSE_VARIANT][MG][Pt] - PieceValue[CRAZYHOUSE_VARIANT][MG][PAWN],
+                                PieceValue[CRAZYHOUSE_VARIANT][EG][Pt] - PieceValue[CRAZYHOUSE_VARIANT][EG][PAWN]) / 5;
+#endif
         if (Pt == BISHOP || Pt == KNIGHT)
         {
             // Bonus for outpost squares
