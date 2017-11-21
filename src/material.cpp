@@ -59,12 +59,12 @@ namespace {
     {
       //            OUR PIECES
       // pair pawn knight bishop rook queen
-      {1667                               }, // Bishop pair
-      {  37,  -18                         }, // Pawn
-      {  38,  261, -10                    }, // Knight      OUR PIECES
-      {   0,   91,  -2,     0             }, // Bishop
-      { -19,  -18,  28,    90,  -149      }, // Rook
-      {-175,   18, 109,   149,  -124,   0 }  // Queen
+      {1638                               }, // Bishop pair
+      {  35,  -17                         }, // Pawn
+      {  39,  259, -10                    }, // Knight      OUR PIECES
+      {   0,   90,  -2,     0             }, // Bishop
+      { -18,  -18,  27,    87,  -151      }, // Rook
+      {-172,   19, 106,   149,  -131,   0 }  // Queen
     },
 #endif
 #ifdef CRAZYHOUSE
@@ -231,11 +231,11 @@ namespace {
       //           THEIR PIECES
       // pair pawn knight bishop rook queen
       {   0                               }, // Bishop pair
-      {  57,    0                         }, // Pawn
-      {  16,   47,   0                    }, // Knight      OUR PIECES
-      {  65,   62,  29,     0             }, // Bishop
-      {  31,   54,  17,   -18,    0       }, // Rook
-      { 105,   97, -34,   151,  278,    0 }  // Queen
+      {  56,    0                         }, // Pawn
+      {  16,   48,   0                    }, // Knight      OUR PIECES
+      {  65,   60,  29,     0             }, // Bishop
+      {  32,   56,  17,   -19,    0       }, // Rook
+      { 103,   98, -34,   143,  285,    0 }  // Queen
     },
 #endif
 #ifdef CRAZYHOUSE
