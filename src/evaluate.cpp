@@ -479,12 +479,13 @@ namespace {
   };
 
 #ifdef THREECHECK
-  const Score ChecksGivenBonus[CHECKS_NB] = {
+  Score ChecksGivenBonus[CHECKS_NB] = {
       S(0, 0),
       S(444, 181),
       S(2425, 603),
       S(0, 0)
   };
+  TUNE(ChecksGivenBonus);
 #endif
 
 #ifdef KOTH
