@@ -104,7 +104,7 @@ namespace {
   { 0, 2060, 2257, 2174 },
 #endif
 #ifdef TWOKINGS
-  { 0, 570, 603, 554 },
+  { 0, 597, 609, 578 },
 #endif
   };
   const int futility_margin_factor[VARIANT_NB] = {
@@ -143,7 +143,7 @@ namespace {
   223,
 #endif
 #ifdef TWOKINGS
-  150,
+  148,
 #endif
   };
   Value futility_margin(Variant var, Depth d) { return Value(futility_margin_factor[var] * d / ONE_PLY); }
@@ -183,7 +183,7 @@ namespace {
   { 420, 332 },
 #endif
 #ifdef TWOKINGS
-  { 256, 200 },
+  { 251, 196 },
 #endif
   };
   const int probcut_margin[VARIANT_NB] = {
@@ -222,7 +222,7 @@ namespace {
   418,
 #endif
 #ifdef TWOKINGS
-  200,
+  203,
 #endif
   };
 
