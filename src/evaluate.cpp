@@ -1270,6 +1270,13 @@ namespace {
     // Add a bonus according to the kind of attacking pieces
     if (defended | weak)
     {
+#ifdef RACE
+        if (pos.is_race())
+            b = (defended | weak)
+               & (  (attackedBy[Us][KNIGHT] & ~pos.attacks_from<KNIGHT>(pos.square<KING>(Them)))
+                  | (attackedBy[Us][KNIGHT] & ~pos.attacks_from<BISHOP>(pos.square<KING>(Them))));
+        else
+#endif
         b = (defended | weak) & (attackedBy[Us][KNIGHT] | attackedBy[Us][BISHOP]);
         while (b)
         {
@@ -1279,6 +1286,11 @@ namespace {
                 score += ThreatByRank * (int)relative_rank(Them, s);
         }
 
+#ifdef RACE
+        if (pos.is_race())
+            b = (pos.pieces(Them, QUEEN) | weak) & attackedBy[Us][ROOK] & ~pos.attacks_from<ROOK>(pos.square<KING>(Them));
+        else
+#endif
         b = (pos.pieces(Them, QUEEN) | weak) & attackedBy[Us][ROOK];
         while (b)
         {
