@@ -1572,6 +1572,9 @@ namespace {
 #ifdef ATOMIC
     if (pos.is_atomic()) {} else
 #endif
+#ifdef RACE
+    if (pos.is_race()) {} else
+#endif
     if (sf == SCALE_FACTOR_NORMAL || sf == SCALE_FACTOR_ONEPAWN)
     {
         if (pos.opposite_bishops())
