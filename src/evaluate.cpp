@@ -1572,6 +1572,19 @@ namespace {
 #ifdef ATOMIC
     if (pos.is_atomic()) {} else
 #endif
+#ifdef RACE
+    if (pos.is_race())
+    {
+        if (sf == SCALE_FACTOR_NORMAL && pos.count<ALL_PIECES>(strongSide) <= 4)
+        {
+            int s =  ((pos.attacks_from<KING>(pos.square<KING>(strongSide)) & ~attackedBy[~strongSide][ALL_PIECES] & ~pos.pieces(strongSide))
+                   ? (!pos.pinned_pieces(strongSide) ? 50 : 10 + 3 * rank_of(pos.square<KING>(strongSide))) : rank_of(pos.square<KING>(strongSide)))
+                   + 10 * (pos.count<KNIGHT>(strongSide) + pos.count<BISHOP>(strongSide));
+            return ScaleFactor(std::max(std::min(s, 64), 0));
+        }
+    }
+    else
+#endif
     if (sf == SCALE_FACTOR_NORMAL || sf == SCALE_FACTOR_ONEPAWN)
     {
         if (pos.opposite_bishops())
