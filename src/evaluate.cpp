@@ -481,8 +481,8 @@ namespace {
 #ifdef THREECHECK
   const Score ChecksGivenBonus[CHECKS_NB] = {
       S(0, 0),
-      S(444, 181),
-      S(2425, 603),
+      S(492, 205),
+      S(2159, 566),
       S(0, 0)
   };
 #endif
