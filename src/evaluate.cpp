@@ -1665,6 +1665,9 @@ namespace {
     score +=  evaluate_king<WHITE>()
             - evaluate_king<BLACK>();
 
+#ifdef RACE
+    if (pos.is_race()) {} else
+#endif
     score +=  evaluate_threats<WHITE>()
             - evaluate_threats<BLACK>();
 
