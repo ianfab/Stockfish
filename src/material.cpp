@@ -31,7 +31,7 @@ namespace {
 
   // Polynomial material imbalance parameters
 
-  const int QuadraticOurs[VARIANT_NB][PIECE_TYPE_NB][PIECE_TYPE_NB] = {
+  int QuadraticOurs[VARIANT_NB][PIECE_TYPE_NB][PIECE_TYPE_NB] = {
     {
     //            OUR PIECES
     // pair pawn knight bishop rook queen
@@ -189,6 +189,11 @@ namespace {
     },
 #endif
   };
+  TUNE(SetRange(-4000, 4000), QuadraticOurs[EXTINCTION_VARIANT][0][0],
+       SetRange(-100, 100), QuadraticOurs[EXTINCTION_VARIANT][1][1],
+       SetRange(-1000, 1000), QuadraticOurs[EXTINCTION_VARIANT][2][2],
+       SetRange(-1000, 1000), QuadraticOurs[EXTINCTION_VARIANT][4][4],
+       SetRange(-1000, 1000), QuadraticOurs[EXTINCTION_VARIANT][5][5]);
 #ifdef CRAZYHOUSE
   const int QuadraticOursInHand[PIECE_TYPE_NB][PIECE_TYPE_NB] = {
       //            OUR PIECES
