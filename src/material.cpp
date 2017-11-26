@@ -144,12 +144,12 @@ namespace {
     {
       //            OUR PIECES
       // pair pawn knight bishop rook queen
-      {1667                               }, // Bishop pair
+      {1631                               }, // Bishop pair
       {   0,    0                         }, // Pawn
-      {  32,    0,  -3                    }, // Knight      OUR PIECES
+      {  33,    0,  -3                    }, // Knight      OUR PIECES
       {   0,    0,   4,    0              }, // Bishop
-      { -26,    0,  47,   105,  -149      }, // Rook
-      {-185,    0, 122,   137,  -134,   0 }  // Queen
+      { -27,    0,  47,   101,  -155      }, // Rook
+      {-172,    0, 119,   136,  -134,   0 }  // Queen
     },
 #endif
 #ifdef RELAY
@@ -318,9 +318,9 @@ namespace {
       {   0                               }, // Bishop pair
       {   0,    0                         }, // Pawn
       {   9,    0,   0                    }, // Knight      OUR PIECES
-      {  59,    0,  42,     0             }, // Bishop
-      {  46,    0,  24,   -24,    0       }, // Rook
-      { 101,    0, -37,   141,  268,    0 }  // Queen
+      {  58,    0,  40,     0             }, // Bishop
+      {  49,    0,  25,   -24,    0       }, // Rook
+      { 101,    0, -36,   141,  267,    0 }  // Queen
     },
 #endif
 #ifdef RELAY
