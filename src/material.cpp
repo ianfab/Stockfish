@@ -83,12 +83,12 @@ namespace {
     {
       //            OUR PIECES
       // pair pawn knight bishop rook queen
-      { 741                               }, // Bishop pair
-      {  40,   -7                         }, // Pawn
-      {  32,  255, -54                    }, // Knight      OUR PIECES
+      { 729                               }, // Bishop pair
+      {  40,   -9                         }, // Pawn
+      {  32,  255, -78                    }, // Knight      OUR PIECES
       {   0,  104,   4,    0              }, // Bishop
       { -26,   -2,  47,   105,   -43      }, // Rook
-      {-185,   24, 122,   137,  -134,  55 }  // Queen
+      {-185,   24, 122,   137,  -134,  63 }  // Queen
     },
 #endif
 #ifdef GRID
