@@ -976,5 +976,6 @@ void init() {
 #endif
       }
 }
+TUNE(PieceValue[HORDE_VARIANT]);
 
 } // namespace PSQT
