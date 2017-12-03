@@ -1131,6 +1131,9 @@ moves_loop: // When in check search starts from here
                   : pos.gives_check(move);
 
       moveCountPruning =   depth < 16 * ONE_PLY
+#ifdef ANTI
+                        && !pos.is_anti()
+#endif
                         && moveCount >= FutilityMoveCounts[pos.variant()][improving][depth / ONE_PLY];
 
       // Step 12. Singular and Gives Check Extensions
