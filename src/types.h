@@ -413,11 +413,11 @@ enum Value : int {
   QueenValueMgRace  = 1674,  QueenValueEgRace  = 2280,
 #endif
 #ifdef THREECHECK
-  PawnValueMgThreeCheck   = 119,   PawnValueEgThreeCheck   = 205,
-  KnightValueMgThreeCheck = 645,   KnightValueEgThreeCheck = 770,
-  BishopValueMgThreeCheck = 693,   BishopValueEgThreeCheck = 754,
-  RookValueMgThreeCheck   = 1027,  RookValueEgThreeCheck   = 1418,
-  QueenValueMgThreeCheck  = 1947,  QueenValueEgThreeCheck  = 2323,
+  PawnValueMgThreeCheck   = 114,   PawnValueEgThreeCheck   = 199,
+  KnightValueMgThreeCheck = 656,   KnightValueEgThreeCheck = 742,
+  BishopValueMgThreeCheck = 679,   BishopValueEgThreeCheck = 733,
+  RookValueMgThreeCheck   = 937,   RookValueEgThreeCheck   = 1381,
+  QueenValueMgThreeCheck  = 1876,  QueenValueEgThreeCheck  = 2462,
 #endif
 #ifdef TWOKINGS
   PawnValueMgTwoKings   = 171,   PawnValueEgTwoKings   = 240,
