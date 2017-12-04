@@ -134,7 +134,8 @@ void MovePicker::score() {
       {
 #ifdef ATOMIC
           if (pos.is_atomic())
-              m.value = pos.see<ATOMIC_VARIANT>(m);
+              m.value =  5 * pos.see<ATOMIC_VARIANT>(m)
+                       + Value((*captureHistory)[pos.moved_piece(m)][to_sq(m)][type_of(pos.piece_on(to_sq(m)))]);
           else
 #endif
 #ifdef CRAZYHOUSE
