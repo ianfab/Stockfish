@@ -132,6 +132,11 @@ void MovePicker::score() {
   for (auto& m : *this)
       if (Type == CAPTURES)
       {
+#ifdef ANTI
+          if (pos.is_anti())
+              m.value = Value((*captureHistory)[pos.moved_piece(m)][to_sq(m)][type_of(pos.piece_on(to_sq(m)))]);
+          else
+#endif
 #ifdef ATOMIC
           if (pos.is_atomic())
               m.value = pos.see<ATOMIC_VARIANT>(m);
