@@ -932,6 +932,10 @@ namespace {
     if (pos.is_anti() && pos.can_capture())
         goto moves_loop;
 #endif
+#ifdef EXTINCTION
+    if (pos.is_extinction() && pos.attackers_to(pos.square<KING>(pos.side_to_move())) & pos.pieces(~pos.side_to_move()))
+        goto moves_loop;
+#endif
 #ifdef LOSERS
     if (pos.is_losers() && pos.can_capture_losers())
         goto moves_loop;
