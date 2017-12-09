@@ -1160,6 +1160,13 @@ moves_loop: // When in check search starts from here
                &&  MoveList<LEGAL>(pos).size() == 1)
           extension = ONE_PLY;
 #endif
+#ifdef LOSERS
+      else if (    pos.is_losers()
+               && !moveCountPruning
+               &&  pos.capture(move)
+               &&  MoveList<LEGAL>(pos).size() == 1)
+          extension = ONE_PLY;
+#endif
 
       // Calculate new depth for this move
       newDepth = depth - ONE_PLY + extension;
