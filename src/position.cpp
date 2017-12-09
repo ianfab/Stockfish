@@ -24,6 +24,7 @@
 #include <cstring> // For std::memset, std::memcmp
 #include <iomanip>
 #include <sstream>
+#include <iostream>
 
 #include "bitboard.h"
 #include "misc.h"
@@ -802,6 +803,12 @@ bool Position::legal(Move m) const {
 
   Color us = sideToMove;
   Square from = from_sq(m);
+
+  if(!(checkers() ? MoveList<EVASIONS    >(*this).contains(m)
+                  : MoveList<NON_EVASIONS>(*this).contains(m)))
+      std::cout << fen() << " "  << from_sq(m) << " " << to_sq(m) << " " << type_of(moved_piece(m)) << " " << pseudo_legal(m) << std::endl;
+  assert(checkers() ? MoveList<EVASIONS    >(*this).contains(m)
+                    : MoveList<NON_EVASIONS>(*this).contains(m));
 
   assert(color_of(moved_piece(m)) == us);
 #ifdef ANTI
