@@ -938,7 +938,7 @@ namespace {
 #endif
 
 #ifdef HORDE
-    if (skipEarlyPruning || !(pos.is_horde() || pos.non_pawn_material(pos.side_to_move())))
+    if (skipEarlyPruning || !((pos.is_horde() && pos.is_horde_color(pos.side_to_move())) || pos.non_pawn_material(pos.side_to_move())))
 #else
     if (skipEarlyPruning || !pos.non_pawn_material(pos.side_to_move()))
 #endif
