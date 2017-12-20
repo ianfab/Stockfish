@@ -465,6 +465,10 @@ namespace {
             bonus += pieceCountInHand[Us][pt1] * v;
         }
 #endif
+#ifdef HORDE
+    if (pos.is_horde() && pos.is_horde_color(Us))
+        bonus += pieceCount[Us][PAWN] * pieceCount[Us][QUEEN] * 200;
+#endif
 
     return bonus;
   }
