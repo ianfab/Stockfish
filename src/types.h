@@ -389,7 +389,7 @@ enum Value : int {
   KnightValueMgHorde = 888,   KnightValueEgHorde = 991,
   BishopValueMgHorde = 743,   BishopValueEgHorde = 1114,
   RookValueMgHorde   = 948,   RookValueEgHorde   = 1230,
-  QueenValueMgHorde  = 2736,  QueenValueEgHorde  = 2554,
+  QueenValueMgHorde  = 3036,  QueenValueEgHorde  = 2854,
   KingValueMgHorde   = 2073,  KingValueEgHorde   = 921,
 #endif
 #ifdef KOTH
