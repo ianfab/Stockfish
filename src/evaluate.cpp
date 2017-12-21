@@ -1318,7 +1318,7 @@ namespace {
         score += ChecksGivenBonus[pos.checks_given(Us)];
 #endif
 #ifdef HORDE
-    if (pos.is_horde() && pos.is_horde_color(Them))
+    if (pos.is_horde() && pos.is_horde_color(Them) && !pos.count<QUEEN>(Them))
     {
         // Add a bonus according to how close we are to breaking through the pawn wall
         if (pos.pieces(Us, ROOK) | pos.pieces(Us, QUEEN))
