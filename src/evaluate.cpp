@@ -566,7 +566,7 @@ namespace {
     S(14, 20),
 #endif
 #ifdef EXTINCTION
-    S( 0,  0),
+    S( 7,  0),
 #endif
 #ifdef GRID
     S( 7,  0),
@@ -620,7 +620,7 @@ namespace {
     { 0, 0, 112, 87, 63, 2 },
 #endif
 #ifdef EXTINCTION
-    {},
+    { 0, 0, 78, 56, 45, 11 },
 #endif
 #ifdef GRID
     { 0, 0, 78, 56, 45, 11 },
@@ -661,7 +661,7 @@ namespace {
     {   119,  439,  130, -613,   -6,   -1,  320 },
 #endif
 #ifdef EXTINCTION
-    {},
+    {   102,  191,  143, -848,   -9,   40,    0 },
 #endif
 #ifdef GRID
     {   102,  191,  143, -848,   -9,   40,    0 },
@@ -801,9 +801,6 @@ namespace {
     if ((
 #ifdef ANTI
         !pos.is_anti() &&
-#endif
-#ifdef EXTINCTION
-        !pos.is_extinction() &&
 #endif
         (pos.non_pawn_material(Them) >= RookValueMg + KnightValueMg))
 #ifdef CRAZYHOUSE
@@ -976,6 +973,9 @@ namespace {
     Score score = pe->king_safety<Us>(pos, ksq);
 
     // Main king safety evaluation
+#ifdef EXTINCTION
+    if (pos.is_extinction() && pos.count<KING>(Us) > 1) {} else
+#endif
     if (kingAttackersCount[Them] > (1 - pos.count<QUEEN>(Them))
 #ifdef HORDE
         // Hack to prevent segmentation fault for multi-queen positions
@@ -1662,9 +1662,6 @@ namespace {
 
 #ifdef ANTI
     if (pos.is_anti()) {} else
-#endif
-#ifdef EXTINCTION
-    if (pos.is_extinction()) {} else
 #endif
 #ifdef RACE
     if (pos.is_race()) {} else
