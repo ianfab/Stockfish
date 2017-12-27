@@ -608,7 +608,7 @@ namespace {
   #undef V
 
   // KingAttackWeights[PieceType] contains king attack weights by piece type
-  const int KingAttackWeights[VARIANT_NB][PIECE_TYPE_NB] = {
+  int KingAttackWeights[VARIANT_NB][PIECE_TYPE_NB] = {
     { 0, 0, 78, 56, 45, 11 },
 #ifdef ANTI
     {},
@@ -649,7 +649,7 @@ namespace {
   };
 
   // Per-variant king danger malus factors
-  const int KingDangerParams[VARIANT_NB][7] = {
+  int KingDangerParams[VARIANT_NB][7] = {
     {   102,  191,  143, -848,   -9,   40,    0 },
 #ifdef ANTI
     {},
@@ -688,6 +688,7 @@ namespace {
     {    92,  155,  136, -967,   -8,   38,    0 },
 #endif
   };
+  TUNE(KingAttackWeights[EXTINCTION_VARIANT], KingDangerParams[EXTINCTION_VARIANT]);
 
   // Penalties for enemy's safe checks
   const int QueenSafeCheck  = 780;
