@@ -1333,7 +1333,8 @@ namespace {
                     int pawns = popcount(pos.pieces(Them, PAWN) & file_bb(f));
                     int pawnsl = f > FILE_A ? std::min(popcount(pos.pieces(Them, PAWN) & FileBB[f - 1]), pawns) : 0;
                     int pawnsr = f < FILE_H ? std::min(popcount(pos.pieces(Them, PAWN) & FileBB[f + 1]), pawns) : 0;
-                    bool offset =   pawns == 3
+                    bool offset =   pawnsl + pawnsr > 0
+                                 && pawns == 3
                                  && relative_rank(Them, rank_of(frontmost_sq(Them, pos.pieces(Them, PAWN) & file_bb(f)))) == RANK_3;
                     min = std::min(min, pawnsl + pawnsr - offset);
                 }
