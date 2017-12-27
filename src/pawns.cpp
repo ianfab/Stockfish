@@ -794,6 +794,10 @@ Score Entry::do_king_safety(const Position& pos, Square ksq) {
   if (pos.is_house())
       return make_score(bonus, bonus);
 #endif
+#ifdef THREECHECK
+  if (pos.is_three_check())
+      return make_score(bonus, bonus);
+#endif
   return make_score(bonus, -16 * minKingPawnDistance);
 }
 
