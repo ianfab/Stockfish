@@ -648,9 +648,7 @@ namespace Pawns {
 /// hard-coded tables, when makes sense, we prefer to calculate them with a formula
 /// to reduce independent parameters and to allow easier tuning and better insight.
 
-void init() {
-
-  static const int Seed[VARIANT_NB][RANK_NB] = {
+   int Seed[VARIANT_NB][RANK_NB] = {
     { 0, 13, 24, 18, 76, 100, 175, 330 },
 #ifdef ANTI
     { 0, 8, 19, 13, 71, 94, 169, 324 },
@@ -690,6 +688,8 @@ void init() {
 #endif
   };
 
+void init() {
+
   for (Variant var = CHESS_VARIANT; var < VARIANT_NB; ++var)
   for (int opposed = 0; opposed <= 1; ++opposed)
       for (int phalanx = 0; phalanx <= 1; ++phalanx)
@@ -707,6 +707,7 @@ void init() {
       Connected[var][opposed][phalanx][support][r] = make_score(v, v * (r - 2) / 4);
   }
 }
+TUNE(Seed[ANTI_VARIANT], init);
 
 
 /// Pawns::probe() looks up the current position's pawns configuration in
