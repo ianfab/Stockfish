@@ -107,6 +107,10 @@ void TimeManagement::init(Search::LimitsType& limits, Color us, int ply)
 
   int moveNum = (ply + 1) / 2;
 
+  // Only use a reduced effective time
+  limits.time[us] -= (Options["InitialTime"] + moveNum * limits.inc[us]) * (100 - Options["PercentTime"]) / 100;
+  limits.inc[us] = limits.inc[us] * Options["PercentTime"] / 100;
+
   startTime = limits.startTime;
   optimumTime = remaining(limits.time[us], limits.inc[us], moveOverhead,
                           limits.movestogo, moveNum, ponder, OptimumTime);
