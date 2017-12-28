@@ -1333,10 +1333,10 @@ namespace {
                     int pawns = popcount(pos.pieces(Them, PAWN) & file_bb(f));
                     int pawnsl = f > FILE_A ? std::min(popcount(pos.pieces(Them, PAWN) & FileBB[f - 1]), pawns) : 0;
                     int pawnsr = f < FILE_H ? std::min(popcount(pos.pieces(Them, PAWN) & FileBB[f + 1]), pawns) : 0;
-                    min = std::min(min, pawnsl + pawnsr);
+                    min = std::max(std::min(min, 2 * (pawnsl + pawnsr) - popcount(file_bb(f) & pos.pieces(Us, ROOK))), 0);
                 }
             }
-            score += ThreatByHangingPawn * pos.count<PAWN>(Them) / (1 + min) / (pos.pieces(Us, QUEEN) ? 2 : 4);
+            score += ThreatByHangingPawn * pos.count<PAWN>(Them) / (2 + min) / (pos.pieces(Us, QUEEN) ? 1 : 2);
         }
     }
 #endif
