@@ -653,7 +653,7 @@ void init() {
   static const int Seed[VARIANT_NB][RANK_NB] = {
     { 0, 13, 24, 18, 76, 100, 175, 330 },
 #ifdef ANTI
-    { 0, 8, 19, 13, 71, 94, 169, 324 },
+    { 0, 8, 20, 13, 68, 97, 174, 330 },
 #endif
 #ifdef ATOMIC
     { 0,18, 11, 14, 82,109, 170, 315 },
