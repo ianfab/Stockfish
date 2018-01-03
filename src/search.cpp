@@ -1218,6 +1218,9 @@ moves_loop: // When in check search starts from here
 #ifdef ANTI
               if (pos.is_anti()) {} else
 #endif
+#ifdef ATOMIC
+              if (pos.is_atomic() && pos.indirect_king_attack(move)) {} else
+#endif
               if (   lmrDepth < 8
                   && !pos.see_ge(move, Value(-35 * lmrDepth * lmrDepth)))
                   continue;
