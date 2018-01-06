@@ -32,7 +32,7 @@ namespace {
   #define S(mg, eg) make_score(mg, eg)
 
   // Isolated pawn penalty
-  const Score Isolated[VARIANT_NB] = {
+  Score Isolated[VARIANT_NB] = {
     S(13, 18),
 #ifdef ANTI
     S(54, 69),
@@ -73,7 +73,7 @@ namespace {
   };
 
   // Backward pawn penalty
-  const Score Backward[VARIANT_NB] = {
+  Score Backward[VARIANT_NB] = {
     S(24, 12),
 #ifdef ANTI
     S(26, 50),
@@ -117,7 +117,7 @@ namespace {
   Score Connected[VARIANT_NB][2][2][3][RANK_NB];
 
   // Doubled pawn penalty
-  const Score Doubled[VARIANT_NB] = {
+  Score Doubled[VARIANT_NB] = {
     S(18, 38),
 #ifdef ANTI
     S( 4, 51),
@@ -648,9 +648,7 @@ namespace Pawns {
 /// hard-coded tables, when makes sense, we prefer to calculate them with a formula
 /// to reduce independent parameters and to allow easier tuning and better insight.
 
-void init() {
-
-  static const int Seed[VARIANT_NB][RANK_NB] = {
+  int Seed[VARIANT_NB][RANK_NB] = {
     { 0, 13, 24, 18, 76, 100, 175, 330 },
 #ifdef ANTI
     { 0, 8, 19, 13, 71, 94, 169, 324 },
@@ -690,6 +688,8 @@ void init() {
 #endif
   };
 
+void init() {
+
   for (Variant var = CHESS_VARIANT; var < VARIANT_NB; ++var)
   for (int opposed = 0; opposed <= 1; ++opposed)
       for (int phalanx = 0; phalanx <= 1; ++phalanx)
@@ -707,6 +707,7 @@ void init() {
       Connected[var][opposed][phalanx][support][r] = make_score(v, v * (r - 2) / 4);
   }
 }
+TUNE(Isolated[LOSERS_VARIANT], Doubled[LOSERS_VARIANT], Backward[LOSERS_VARIANT], Seed[LOSERS_VARIANT]);
 
 
 /// Pawns::probe() looks up the current position's pawns configuration in
