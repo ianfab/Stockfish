@@ -504,10 +504,11 @@ namespace {
   const Value MaxSafetyBonus = V(258);
 
 #ifdef HORDE
-  const Score ImbalancedHorde[FILE_NB] = {
+  Score ImbalancedHorde[FILE_NB] = {
       S(49, 39), S(49, 39), S(49, 39), S(49, 39),
       S(49, 39), S(49, 39), S(49, 39), S(49, 39)
   };
+  TUNE(SetRange(0, 200), ImbalancedHorde);
 #endif
 
   #undef S
