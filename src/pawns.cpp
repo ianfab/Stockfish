@@ -498,7 +498,10 @@ namespace {
   const Value MaxSafetyBonus = V(258);
 
 #ifdef HORDE
-  const Score ImbalancedHorde = S(49, 39);
+  const Score ImbalancedHorde[FILE_NB] = {
+      S(49, 39), S(49, 39), S(49, 39), S(49, 39),
+      S(49, 39), S(49, 39), S(49, 39), S(49, 39)
+  };
 #endif
 
   #undef S
@@ -539,7 +542,7 @@ namespace {
         for (File f1 = FILE_A; f1 <= FILE_H; ++f1)
         {
             l = m; m = r; r = f1 < FILE_H ? popcount(ourPawns & FileBB[f1 + 1]) : 0;
-            score -= ImbalancedHorde * m / (1 + l * r);
+            score -= ImbalancedHorde[f1] * m / (1 + l * r);
         }
     }
 #endif
