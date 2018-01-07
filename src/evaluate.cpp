@@ -1452,6 +1452,9 @@ namespace {
 
         Value mbonus = Passed[pos.variant()][MG][r], ebonus = Passed[pos.variant()][EG][r];
 
+#ifdef CRAZYHOUSE
+        if (pos.is_house()) {} else
+#endif
         if (rr)
         {
             Square blockSq = s + Up;
