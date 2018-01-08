@@ -1180,9 +1180,6 @@ moves_loop: // When in check search starts from here
       {
           if (   !captureOrPromotion
               && !givesCheck
-#ifdef ANTI
-              && (!pos.is_anti() || !(pos.attackers_to(to_sq(move)) & pos.pieces(~pos.side_to_move())))
-#endif
 #ifdef LOSERS
               && (!pos.is_losers() || !(pos.attackers_to(to_sq(move)) & pos.pieces(~pos.side_to_move())))
 #endif
@@ -1257,11 +1254,6 @@ moves_loop: // When in check search starts from here
       {
           Depth r = reduction<PvNode>(improving, depth, moveCount);
 
-#ifdef ANTI
-          if (pos.is_anti() && pos.can_capture())
-              r -= r ? ONE_PLY : DEPTH_ZERO;
-          else
-#endif
           if (captureOrPromotion)
               r -= r ? ONE_PLY : DEPTH_ZERO;
           else

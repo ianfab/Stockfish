@@ -1081,6 +1081,10 @@ inline Value Position::stalemate_value(int ply, Value drawValue) const {
 
 inline bool Position::capture_or_promotion(Move m) const {
   assert(is_ok(m));
+#ifdef ANTI
+   if (is_anti() && (attackers_to(to_sq(m)) & pieces(~sideToMove)))
+       return true;
+#endif
 #ifdef RACE
   if (is_race())
   {
