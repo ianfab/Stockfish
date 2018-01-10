@@ -1319,26 +1319,23 @@ namespace {
         score += ChecksGivenBonus[pos.checks_given(Us)];
 #endif
 #ifdef HORDE
-    if (pos.is_horde() && pos.is_horde_color(Them))
+    if (pos.is_horde() && pos.is_horde_color(Them) && pos.pieces(Us, QUEEN) && !pos.pieces(Them, QUEEN))
     {
         // Add a bonus according to how close we are to breaking through the pawn wall
-        if (pos.pieces(Us, ROOK) | pos.pieces(Us, QUEEN))
+        int min = 8;
+        if ((attackedBy[Us][QUEEN] | attackedBy[Us][ROOK]) & rank_bb(RANK_1))
+            min = 0;
+        else
         {
-            int min = 8;
-            if ((attackedBy[Us][QUEEN] | attackedBy[Us][ROOK]) & rank_bb(RANK_1))
-                min = 0;
-            else
+            for (File f = FILE_A; f <= FILE_H; ++f)
             {
-                for (File f = FILE_A; f <= FILE_H; ++f)
-                {
-                    int pawns = popcount(pos.pieces(Them, PAWN) & file_bb(f));
-                    int pawnsl = f > FILE_A ? std::min(popcount(pos.pieces(Them, PAWN) & FileBB[f - 1]), pawns) : 0;
-                    int pawnsr = f < FILE_H ? std::min(popcount(pos.pieces(Them, PAWN) & FileBB[f + 1]), pawns) : 0;
-                    min = std::min(min, pawnsl + pawnsr);
-                }
+                int pawns = popcount(pos.pieces(Them, PAWN) & file_bb(f));
+                int pawnsl = f > FILE_A ? std::min(popcount(pos.pieces(Them, PAWN) & FileBB[f - 1]), pawns) : 0;
+                int pawnsr = f < FILE_H ? std::min(popcount(pos.pieces(Them, PAWN) & FileBB[f + 1]), pawns) : 0;
+                min = std::min(min, pawnsl + pawnsr);
             }
-            score += make_score(71, 61) * pos.count<PAWN>(Them) / (1 + min) / (pos.pieces(Us, QUEEN) ? 2 : 4);
         }
+        score += make_score(35, 30) * pos.count<PAWN>(Them) / (1 + min);
     }
 #endif
 
