@@ -1375,8 +1375,12 @@ namespace {
         Square ksq = pos.square<KING>(Us);
         int s = relative_rank(BLACK, ksq);
         for (Rank kr = rank_of(ksq), r = Rank(kr + 1); r <= RANK_8; ++r)
+        {
             if (!(rank_bb(r) & DistanceRingBB[ksq][r - 1 - kr] & ~attackedBy[Them][ALL_PIECES] & ~pos.pieces(Us)))
                 s++;
+            if (!(rank_bb(r) & DistanceRingBB[ksq][r - 1 - kr] & ~(attackedBy2[Them] | (attackedBy[Them][ALL_PIECES] & pos.pieces(Us)))))
+                s++;
+        }
         score = KingRaceBonus[std::min(s, 7)];
     }
     else
