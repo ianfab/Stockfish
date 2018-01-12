@@ -1003,6 +1003,7 @@ namespace {
             h = pos.count_in_hand<QUEEN>(Them) ? weak & ~pos.pieces() : 0;
 #endif
         int kingDanger = unsafeChecks = 0;
+        int safeChecks = 0;
 
         // Analyse the safe enemy's checks which are possible on next move
         safe  = ~pos.pieces(Them);
@@ -1021,7 +1022,7 @@ namespace {
 
         // Enemy queen safe checks
         if ((b1 | b2) & (h | attackedBy[Them][QUEEN]) & safe & ~attackedBy[Us][QUEEN])
-            kingDanger += QueenSafeCheck;
+            safeChecks += QueenSafeCheck;
 
 #ifdef THREECHECK
         if (pos.is_three_check() && pos.checks_given(Them))
@@ -1033,7 +1034,7 @@ namespace {
         h = pos.is_house() && pos.count_in_hand<ROOK>(Them) ? ~pos.pieces() : 0;
 #endif
         if (b1 & ((attackedBy[Them][ROOK] & safe) | (h & dropSafe)))
-            kingDanger += RookSafeCheck;
+            safeChecks += RookSafeCheck;
         else
             unsafeChecks |= b1 & (attackedBy[Them][ROOK] | h);
 
@@ -1042,7 +1043,7 @@ namespace {
         h = pos.is_house() && pos.count_in_hand<BISHOP>(Them) ? ~pos.pieces() : 0;
 #endif
         if (b2 & ((attackedBy[Them][BISHOP] & safe) | (h & dropSafe)))
-            kingDanger += BishopSafeCheck;
+            safeChecks += BishopSafeCheck;
         else
             unsafeChecks |= b2 & (attackedBy[Them][BISHOP] | h);
 
@@ -1052,13 +1053,19 @@ namespace {
         h = pos.is_house() && pos.count_in_hand<KNIGHT>(Them) ? ~pos.pieces() : 0;
 #endif
         if (b & ((attackedBy[Them][KNIGHT] & safe) | (h & dropSafe)))
-            kingDanger += KnightSafeCheck;
+            safeChecks += KnightSafeCheck;
         else
             unsafeChecks |= b & (attackedBy[Them][KNIGHT] | h);
 
         // Unsafe or occupied checking squares will also be considered, as long as
         // the square is in the attacker's mobility area.
         unsafeChecks &= mobilityArea[Them];
+
+#ifdef CRAZYHOUSE
+        if (pos.is_house())
+            safeChecks = safeChecks * 3 / 2;
+#endif
+        kingDanger += safeChecks;
 
         const auto KDP = KingDangerParams[pos.variant()];
         kingDanger +=        kingAttackersCount[Them] * kingAttackersWeight[Them]
