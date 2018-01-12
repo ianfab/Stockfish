@@ -1289,6 +1289,17 @@ moves_loop: // When in check search starts from here
                        && !pos.see_ge(make_move(to_sq(move), from_sq(move))))
                   r -= 2 * ONE_PLY;
 
+#ifdef CRAZYHOUSE
+              else if (   pos.is_house()
+                       && (type_of(movedPiece) != PAWN ?  pos.attacks_from(type_of(movedPiece), to_sq(move))
+                                                        & pos.attacks_from(type_of(movedPiece), pos.square<KING>(pos.side_to_move()))
+                           : relative_rank(~pos.side_to_move(), to_sq(move)) != RANK_7 ?  pos.attacks_from<PAWN>(to_sq(move), ~pos.side_to_move())
+                                                                                  & pos.attacks_from<PAWN>(pos.square<KING>(pos.side_to_move()), pos.side_to_move())
+                           :  pos.attacks_from<PAWN>(to_sq(move), ~pos.side_to_move())
+                            & (pos.attacks_from<QUEEN>(pos.square<KING>(pos.side_to_move())) | pos.attacks_from<KNIGHT>(pos.square<KING>(pos.side_to_move())))))
+                  r -= ONE_PLY;
+#endif
+
               ss->statScore =  thisThread->mainHistory[~pos.side_to_move()][from_to(move)]
                              + (*contHist[0])[movedPiece][to_sq(move)]
                              + (*contHist[1])[movedPiece][to_sq(move)]
