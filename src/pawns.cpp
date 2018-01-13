@@ -182,11 +182,11 @@ namespace {
         else if (backward)
             score -= Backward, e->weakUnopposed[Us] += !opposed;
 
-        if (doubled && !(supported | phalanx))
-            score -= Doubled;
-
         if (lever)
             score += Lever[relative_rank(Us, s)];
+
+        else if (doubled && !(supported | phalanx))
+            score -= Doubled;
     }
 
     return score;
