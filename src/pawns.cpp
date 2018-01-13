@@ -176,6 +176,9 @@ namespace {
         if (supported | phalanx)
             score += Connected[opposed][bool(phalanx)][popcount(supported)][relative_rank(Us, s)];
 
+        else if (lever)
+            score += Lever[relative_rank(Us, s)];
+
         else if (!neighbours)
             score -= Isolated, e->weakUnopposed[Us] += !opposed;
 
@@ -184,9 +187,6 @@ namespace {
 
         if (doubled && !supported)
             score -= Doubled;
-
-        if (lever)
-            score += Lever[relative_rank(Us, s)];
     }
 
     return score;
