@@ -1018,15 +1018,11 @@ namespace {
             safe |= attackedBy[Us][KING];
 #endif
 
-        // Defended by our queen or king only
-        Bitboard dqko = ~attackedBy2[Us] & (attackedBy[Us][QUEEN] | attackedBy[Us][KING]);
-        Bitboard dropSafe = (safe | (attackedBy[Them][ALL_PIECES] & dqko)) & ~pos.pieces(Us);
-
         b1 = attacks_bb<ROOK  >(ksq, pos.pieces() ^ pos.pieces(Us, QUEEN));
         b2 = attacks_bb<BISHOP>(ksq, pos.pieces() ^ pos.pieces(Us, QUEEN));
 
         // Enemy queen safe checks
-        if ((b1 | b2) & (h | attackedBy[Them][QUEEN]) & safe & ~attackedBy[Us][QUEEN])
+        if ((b1 | b2) & (attackedBy[Them][QUEEN] | h) & safe & ~attackedBy[Us][QUEEN])
             kingDanger += QueenSafeCheck;
 
 #ifdef THREECHECK
@@ -1038,7 +1034,7 @@ namespace {
 #ifdef CRAZYHOUSE
         h = pos.is_house() && pos.count_in_hand<ROOK>(Them) ? ~pos.pieces() : 0;
 #endif
-        if (b1 & ((attackedBy[Them][ROOK] & safe) | (h & dropSafe)))
+        if (b1 & (attackedBy[Them][ROOK] | h) & safe)
             kingDanger += RookSafeCheck;
         else
             unsafeChecks |= b1 & (attackedBy[Them][ROOK] | h);
@@ -1047,7 +1043,7 @@ namespace {
 #ifdef CRAZYHOUSE
         h = pos.is_house() && pos.count_in_hand<BISHOP>(Them) ? ~pos.pieces() : 0;
 #endif
-        if (b2 & ((attackedBy[Them][BISHOP] & safe) | (h & dropSafe)))
+        if (b2 & (attackedBy[Them][BISHOP] | h) & safe)
             kingDanger += BishopSafeCheck;
         else
             unsafeChecks |= b2 & (attackedBy[Them][BISHOP] | h);
@@ -1057,7 +1053,7 @@ namespace {
 #ifdef CRAZYHOUSE
         h = pos.is_house() && pos.count_in_hand<KNIGHT>(Them) ? ~pos.pieces() : 0;
 #endif
-        if (b & ((attackedBy[Them][KNIGHT] & safe) | (h & dropSafe)))
+        if (b & (attackedBy[Them][KNIGHT] | h) & safe)
             kingDanger += KnightSafeCheck;
         else
             unsafeChecks |= b & (attackedBy[Them][KNIGHT] | h);
@@ -1069,7 +1065,7 @@ namespace {
             b = pos.attacks_from<PAWN>(ksq, Us);
             h = pos.count_in_hand<PAWN>(Them) ? ~pos.pieces() : 0;
             Bitboard pawn_moves = (attackedBy[Them][PAWN] & pos.pieces(Us)) | (shift<Down>(pos.pieces(Them, PAWN)) & ~pos.pieces());
-            if (b & ((pawn_moves & safe) | (h & dropSafe)))
+            if (b & (pawn_moves | h) & safe)
                 kingDanger += PawnSafeCheck;
             else
                 unsafeChecks |=  b & (pawn_moves | h);
