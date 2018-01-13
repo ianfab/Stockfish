@@ -402,7 +402,7 @@ namespace {
   const Score ThreatByKing[] = { S(3, 62), S(9, 138) };
 
 #ifdef ATOMIC
-  const Score ThreatByBlast = S(30, 30);
+  const Score ThreatByBlast = S(80, 80);
 #endif
 
   // Passed[variant][mg/eg][Rank] contains midgame and endgame bonuses for passed pawns.
@@ -1206,7 +1206,7 @@ namespace {
         {
             Square s = pop_lsb(&attacks);
             Bitboard blast = (pos.attacks_from<KING>(s) & (pos.pieces() ^ pos.pieces(PAWN))) | s;
-            int count = popcount(blast & pos.pieces(Them)) - popcount(blast & pos.pieces(Us));
+            int count = popcount(blast & pos.pieces(Them)) - popcount(blast & pos.pieces(Us)) - 1;
             if (blast & pos.pieces(Them, QUEEN))
                count += 2;
             if (blast & pos.pieces(Us, QUEEN))
