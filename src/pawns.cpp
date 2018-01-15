@@ -499,8 +499,8 @@ namespace {
 
 #ifdef HORDE
   const Score ImbalancedHorde[FILE_NB] = {
-      S(49, 39), S(49, 39), S(49, 39), S(49, 39),
-      S(49, 39), S(49, 39), S(49, 39), S(49, 39)
+      S(52, 46), S(61, 38), S(54, 39), S(50, 40),
+      S(54, 31), S(44, 49), S(52, 44), S(59, 42)
   };
 #endif
 
