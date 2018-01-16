@@ -807,6 +807,16 @@ namespace {
                  &&  pos.count<PAWN>(strongSide) <= 2
                  && !pos.pawn_passed(~strongSide, pos.square<KING>(~strongSide)))
             return ScaleFactor(37 + 7 * pos.count<PAWN>(strongSide));
+
+        // Blocked positions are drawish.
+        else if (sf == SCALE_FACTOR_NORMAL)
+        {
+            int n = std::max(0,  popcount(shift<NORTH>(pos.pieces(WHITE, PAWN)) & pos.pieces(BLACK, PAWN))
+                               - pe->pawn_asymmetry()
+                               - (pos.pieces(strongSide, ROOK, QUEEN) ? 2 * pe->open_files() + pe->pawn_asymmetry() : 0)
+                               - popcount(attackedBy[strongSide][ALL_PIECES] & pos.pieces(~strongSide, PAWN)));
+            return ScaleFactor(SCALE_FACTOR_NORMAL - n * n / 2);
+        }
     }
 
     return sf;
