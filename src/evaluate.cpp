@@ -426,8 +426,8 @@ namespace {
 #endif
 #ifdef CRAZYHOUSE
     {
-      { V(15), V(23), V(13), V( 88), V(177), V(229) },
-      { V(27), V(13), V(19), V(111), V(140), V(203) }
+      { V(15), V(23), V(13), V( 92), V(177), V(234) },
+      { V(27), V(13), V(18), V(115), V(140), V(200) }
     },
 #endif
 #ifdef EXTINCTION
