@@ -120,6 +120,7 @@ Endgames::Endgames() {
   add<ATOMIC_VARIANT, KRK>("KRvK");
   add<ATOMIC_VARIANT, KQK>("KQvK");
   add<ATOMIC_VARIANT, KNNK>("KNNvK");
+  add<ATOMIC_VARIANT, KRKP>("KRvKP");
 #endif
 }
 
@@ -1000,4 +1001,55 @@ Value Endgame<ATOMIC_VARIANT, KQK>::operator()(const Position& pos) const {
 }
 
 template<> Value Endgame<ATOMIC_VARIANT, KNNK>::operator()(const Position&) const { return VALUE_DRAW; }
+
+/// KR vs KP. This is a very tricky endgame with a long term plan.
+/// The pawn has to be blocked by the king and the rook has to drive around
+/// the weaker side's king by zugzwang until it is close to the pawn's
+/// promotion square. Finally the pawn has to be forced to be pushed.
+template<>
+Value Endgame<ATOMIC_VARIANT, KRKP>::operator()(const Position& pos) const {
+
+  assert(pos.variant() == ATOMIC_VARIANT);
+  assert(verify_material(pos, strongSide, RookValueMg, 0));
+  assert(verify_material(pos, weakSide, VALUE_ZERO, 1));
+
+  Square wksq = relative_square(strongSide, pos.square<KING>(strongSide));
+  Square bksq = relative_square(strongSide, pos.square<KING>(weakSide));
+  Square psq  = relative_square(strongSide, pos.square<PAWN>(weakSide));
+
+  Square queeningSq = make_square(file_of(psq), RANK_1);
+
+  Value result;
+
+  if (file_of(psq) == FILE_D || file_of(psq) == FILE_E || distance(wksq, bksq) == 1)
+      result = Value(PushClose[distance(bksq, psq)]);
+  else
+  {
+      result =  RookValueEgAtomic
+              - PawnValueEgAtomic;
+
+      if (distance(wksq, psq) == 1)
+          result +=  400
+                   + PushToEdges[bksq]
+                   - PushAway[distance<Rank>(bksq, queeningSq)];
+      else
+          result -= PushAway[distance(wksq, psq)];
+
+      if (distance<Rank>(bksq, queeningSq) == 1)
+          result += 200 - PushAway[distance<File>(bksq, queeningSq)];
+      else
+          result += PushAway[distance<File>(bksq, queeningSq)];
+
+      if (distance(bksq, queeningSq) <= 1)
+          result += VALUE_KNOWN_WIN - PushAway[distance(psq, queeningSq)];
+
+      else
+      {
+          int n = distance(psq, queeningSq);
+          result += 20 * n * n;
+      }
+  }
+
+  return strongSide == pos.side_to_move() ? result : -result;
+}
 #endif
