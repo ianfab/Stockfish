@@ -428,7 +428,7 @@ template<PieceType Pt> inline Square Position::square(Color c) const {
 
 #ifdef THREECHECK
 inline bool Position::is_three_check() const {
-  return var == THREECHECK_VARIANT;
+  return var == THREECHECK_VARIANT || var == CRAZYHOUSE_VARIANT;
 }
 
 inline bool Position::is_three_check_win() const {
@@ -943,6 +943,10 @@ inline bool Position::is_variant_end() const {
   case ATOMIC_VARIANT:
       return is_atomic_win() || is_atomic_loss();
 #endif
+#ifdef CRAZYHOUSE
+  case CRAZYHOUSE_VARIANT:
+      return is_three_check_win() || is_three_check_loss();
+#endif
 #ifdef EXTINCTION
   case EXTINCTION_VARIANT:
       return is_extinction_win() || is_extinction_loss();
@@ -988,6 +992,14 @@ inline Value Position::variant_result(int ply, Value draw_value) const {
       if (is_atomic_win())
           return mate_in(ply);
       if (is_atomic_loss())
+          return mated_in(ply);
+      break;
+#endif
+#ifdef CRAZYHOUSE
+  case CRAZYHOUSE_VARIANT:
+      if (is_three_check_win())
+          return mate_in(ply);
+      if (is_three_check_loss())
           return mated_in(ply);
       break;
 #endif
