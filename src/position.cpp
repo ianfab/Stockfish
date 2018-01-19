@@ -846,6 +846,10 @@ bool Position::legal(Move m) const {
       return true;
 #endif
 #ifdef ATOMIC
+  if (is_atomic() && !capture(m) && can_capture_atomic())
+      return false;
+#endif
+#ifdef ATOMIC
   if (is_atomic())
   {
       Square ksq = square<KING>(us);
@@ -1007,6 +1011,10 @@ bool Position::pseudo_legal(const Move m) const {
 #endif
 #ifdef LOSERS
   if (is_losers() && !capture(m) && can_capture_losers())
+      return false;
+#endif
+#ifdef ATOMIC
+  if (is_atomic() && !capture(m) && can_capture_atomic())
       return false;
 #endif
 

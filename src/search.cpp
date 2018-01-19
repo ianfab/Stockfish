@@ -931,6 +931,10 @@ namespace {
     if (pos.is_losers() && pos.can_capture_losers())
         goto moves_loop;
 #endif
+#ifdef ATOMIC
+    if (pos.is_losers() && pos.can_capture_atomic())
+        goto moves_loop;
+#endif
 
 #ifdef HORDE
     if (skipEarlyPruning || !(pos.is_horde() || pos.non_pawn_material(pos.side_to_move())))
@@ -1185,6 +1189,9 @@ moves_loop: // When in check search starts from here
 #endif
 #ifdef LOSERS
               && (!pos.is_losers() || !(pos.attackers_to(to_sq(move)) & pos.pieces(~pos.side_to_move())))
+#endif
+#ifdef ATOMIC
+              && (!pos.is_atomic() || !(pos.attackers_to(to_sq(move)) & pos.pieces(~pos.side_to_move())))
 #endif
 #ifdef HORDE
               && (pos.is_horde() || !pos.advanced_pawn_push(move) || pos.non_pawn_material() >= Value(5000))

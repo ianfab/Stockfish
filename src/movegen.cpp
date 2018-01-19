@@ -867,7 +867,7 @@ ExtMove* generate<LEGAL>(const Position& pos, ExtMove* moveList) {
           && !pos.legal(*cur))
           *cur = (--moveList)->move;
 #ifdef ATOMIC
-      else if (pos.is_atomic() && pos.capture(*cur) && !pos.legal(*cur))
+      else if (pos.is_atomic() && !pos.legal(*cur))
           *cur = (--moveList)->move;
 #endif
       else

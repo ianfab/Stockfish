@@ -237,6 +237,9 @@ public:
   bool is_losers_loss() const;
   bool can_capture_losers() const;
 #endif
+#ifdef ATOMIC
+  bool can_capture_atomic() const;
+#endif
 #ifdef RACE
   bool is_race() const;
   bool is_race_win() const;
@@ -802,6 +805,57 @@ inline bool Position::can_capture_losers() const {
           attacks &= LineBB[s][ksq];
       if (attacks & target)
           return true;
+  }
+  return false;
+}
+#endif
+
+#ifdef ATOMIC
+inline bool Position::can_capture_atomic() const {
+
+  Square ksq = square<KING>(sideToMove);
+
+  Square ep = ep_square();
+  assert(ep == SQ_NONE
+         || (attacks_from<PAWN>(ep, ~sideToMove) & pieces(sideToMove, PAWN)));
+  if (ep != SQ_NONE && !(attacks_from<KING>(ksq) & ep))
+  {
+      Bitboard b = attacks_from<PAWN>(ep, ~sideToMove) & pieces(sideToMove, PAWN);
+      while (b)
+      {
+          Square from = pop_lsb(&b);
+          Square capsq = ep - pawn_push(sideToMove);
+          Bitboard blast = ((attacks_from<KING>(ep) & ~pieces(PAWN)) | from | capsq) & pieces();
+          Bitboard occupied = pieces() ^ blast;
+
+          assert(piece_on(capsq) == make_piece(~sideToMove, PAWN));
+          assert(piece_on(ep) == NO_PIECE);
+
+          if (blast & square<KING>(~sideToMove)) // king capture is always allowed
+              return true;
+          if (!(attackers_to(ksq, occupied) & pieces(~sideToMove) & occupied)) // not in check
+              return true;
+      }
+  }
+
+  // Loop over our pieces to find legal captures
+  Bitboard b = pieces(sideToMove) ^ ksq;
+  while (b)
+  {
+      Square s = pop_lsb(&b);
+      PieceType pt = type_of(piece_on(s));
+      Bitboard attacks = (pt == PAWN ? attacks_from<PAWN>(s, sideToMove) : attacks_from(pt, s)) & pieces(~sideToMove) & ~attacks_from<KING>(ksq);
+
+      while (attacks)
+      {
+          Square s2 = pop_lsb(&attacks);
+          Bitboard blast = ((attacks_from<KING>(s2) & ~pieces(PAWN)) | s | s2) & pieces();
+          Bitboard occupied = pieces() ^ blast;
+          if (blast & square<KING>(~sideToMove)) // king capture is always allowed
+              return true;
+          if (!(attackers_to(ksq, occupied) & pieces(~sideToMove) & occupied)) // not in check
+              return true;
+      }
   }
   return false;
 }
