@@ -1471,7 +1471,7 @@ namespace {
 #endif
 #ifdef ATOMIC
             if (pos.is_atomic())
-                ebonus +=  distance(pos.square<KING>(Them), blockSq) * 5 * rr;
+                ebonus +=  distance(pos.square<KING>(Them), blockSq) * 8 * rr;
             else
 #endif
             {
