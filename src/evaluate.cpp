@@ -1392,6 +1392,11 @@ namespace {
     score += ThreatByAttackOnQueen * popcount(b & safeThreats);
     }
 
+#ifdef EXTINCTION
+    if (pos.is_extinction())
+        score = score * 2;
+#endif
+
     if (T)
         Trace::add(THREAT, Us, score);
 
