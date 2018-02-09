@@ -1227,6 +1227,9 @@ moves_loop: // When in check search starts from here
               // Futility pruning: parent node
               if (   lmrDepth < 7
                   && !inCheck
+#ifdef EXTINCTION
+                  && !pos.is_extinction()
+#endif
                   && ss->staticEval + futility_margin_parent[pos.variant()][0] + futility_margin_parent[pos.variant()][1] * lmrDepth <= alpha)
                   continue;
 
