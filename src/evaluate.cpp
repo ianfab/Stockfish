@@ -1472,7 +1472,7 @@ namespace {
                 if (pos.is_horde_color(Us))
                     ebonus += distance(pos.square<KING>(Them), blockSq) * 5 * rr - 10 * rr;
                 else
-                    ebonus += 25 * rr - distance(pos.square<KING>(Us), blockSq) * 2 * rr;
+                    ebonus += 15 * rr;
             }
             else
 #endif
