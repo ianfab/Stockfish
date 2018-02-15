@@ -695,6 +695,11 @@ void init() {
       int v = 17 * support;
       v += (Seed[var][r] + (phalanx ? (Seed[var][r + 1] - Seed[var][r]) / 2 : 0)) >> opposed;
 
+#ifdef ATOMIC
+      if (var == ATOMIC_VARIANT)
+          Connected[var][opposed][phalanx][support][r] = make_score(v * (r - 2) / 4, v * (r - 2) / 4);
+      else
+#endif
 #ifdef HORDE
       if (var == HORDE_VARIANT)
           Connected[var][opposed][phalanx][support][r] = make_score(v, v);
