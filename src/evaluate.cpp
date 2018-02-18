@@ -460,10 +460,15 @@ namespace {
 
 #ifdef RACE
   // Bonus for distance of king from 8th rank
-  const Score KingRaceBonus[RANK_NB] = {
-    S(14282, 14493), S(6369, 5378), S(4224, 3557), S(2633, 2219),
-    S( 1614,  1456), S( 975,  885), S( 528,  502), S(   0,    0)
+  Score KingRaceBonus[3][RANK_NB] = {
+      { S(14282, 14493), S(6369, 5378), S(4224, 3557), S(2633, 2219),
+        S( 1614,  1456), S( 975,  885), S( 528,  502), S(   0,    0) },
+      {                  S(6369, 5378), S(4224, 3557), S(2633, 2219),
+        S( 1614,  1456), S( 975,  885), S( 528,  502), S(   0,    0) },
+      {                                 S(4224, 3557), S(2633, 2219),
+        S( 1614,  1456), S( 975,  885), S( 528,  502), S(   0,    0) }
   };
+  TUNE(SetRange(0, 20000), KingRaceBonus);
 #endif
 
   // Passed[variant][mg/eg][Rank] contains midgame and endgame bonuses for passed pawns.
@@ -1421,11 +1426,11 @@ namespace {
     if (pos.is_race())
     {
         Square ksq = pos.square<KING>(Us);
-        int s = relative_rank(BLACK, ksq);
+        int s = 0;
         for (Rank kr = rank_of(ksq), r = Rank(kr + 1); r <= RANK_8; ++r)
             if (!(rank_bb(r) & DistanceRingBB[ksq][r - 1 - kr] & ~attackedBy[Them][ALL_PIECES] & ~pos.pieces(Us)))
                 s++;
-        score = KingRaceBonus[std::min(s, 7)];
+        score = KingRaceBonus[std::min(s, 2)][relative_rank(BLACK, ksq)];
     }
     else
     {
