@@ -802,6 +802,11 @@ namespace {
     }
     else
 #endif
+#ifdef HORDE
+    if (pos.is_horde())
+        b = attackedBy[Us][KING] = 0;
+    else
+#endif
     b = attackedBy[Us][KING] = pos.attacks_from<KING>(pos.square<KING>(Us));
     attackedBy[Us][PAWN] = pe->pawn_attacks(Us);
 
@@ -890,7 +895,8 @@ namespace {
             continue;
 #endif
 #ifdef HORDE
-        if (pos.is_horde() && pos.is_horde_color(Us)) {} else
+        if (pos.is_horde() && pos.is_horde_color(Us))
+            continue;
 #endif
         // Bonus for this piece as a king protector
         score += KingProtector[Pt - 2] * distance(s, pos.square<KING>(Us));
@@ -1725,6 +1731,9 @@ namespace {
 #endif
 #ifdef RACE
     if (pos.is_race()) {} else
+#endif
+#ifdef HORDE
+    if (pos.is_horde()) {} else
 #endif
     score +=  evaluate_king<WHITE>()
             - evaluate_king<BLACK>();
