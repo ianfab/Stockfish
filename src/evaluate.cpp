@@ -460,9 +460,13 @@ namespace {
 
 #ifdef RACE
   // Bonus for distance of king from 8th rank
-  const Score KingRaceBonus[RANK_NB] = {
-    S(14282, 14493), S(6369, 5378), S(4224, 3557), S(2633, 2219),
-    S( 1614,  1456), S( 975,  885), S( 528,  502), S(   0,    0)
+  Score KingRaceBonus[3][RANK_NB] = {
+      { S(13479, 15255), S(7025, 6970), S(5004, 4967), S(3068, 3319),
+        S( 2268,  2102), S(1369, 1494), S(  87,  267), S( 208,    8) },
+      { S(7143, 5425), S(5051, 4308), S(3481, 3064), S( 2453,  2059),
+        S(1613, 1560), S( 532, 1102), S( 168,   36), S( 337,  111) },
+      { S(4185, 3734), S(3654, 2064), S( 2392,  2287), S(1938, 1696),
+        S(1414, 1127), S( 766,  392), S( 139,  142), S( 199,  469) }
   };
 #endif
 
@@ -1395,11 +1399,11 @@ namespace {
     if (pos.is_race())
     {
         Square ksq = pos.square<KING>(Us);
-        int s = relative_rank(BLACK, ksq);
+        int s = 0;
         for (Rank kr = rank_of(ksq), r = Rank(kr + 1); r <= RANK_8; ++r)
             if (!(rank_bb(r) & DistanceRingBB[ksq][r - 1 - kr] & ~attackedBy[Them][ALL_PIECES] & ~pos.pieces(Us)))
                 s++;
-        score += KingRaceBonus[std::min(s, 7)];
+        score = KingRaceBonus[std::min(s, 2)][relative_rank(BLACK, ksq)];
     }
 #endif
 #ifdef KOTH
