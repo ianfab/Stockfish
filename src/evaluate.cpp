@@ -1430,6 +1430,9 @@ namespace {
 #ifdef GRID
         if (pos.is_grid()) {} else
 #endif
+#ifdef LOSERS
+        if (pos.is_losers()) {} else
+#endif
         if (w)
         {
             Square blockSq = s + Up;
