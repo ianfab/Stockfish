@@ -1427,6 +1427,9 @@ namespace {
 
         Score bonus = PassedRank[pos.variant()][r];
 
+#ifdef ANTI
+        if (pos.is_anti()) {} else
+#endif
 #ifdef GRID
         if (pos.is_grid()) {} else
 #endif
@@ -1443,9 +1446,6 @@ namespace {
                     bonus += make_score(0, (25 - king_proximity(Us,   blockSq) * 2) * w);
             }
             else
-#endif
-#ifdef ANTI
-            if (pos.is_anti()) {} else
 #endif
 #ifdef ATOMIC
             if (pos.is_atomic())
