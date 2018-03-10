@@ -1490,6 +1490,9 @@ namespace {
 
                 bb = forward_file_bb(Them, s) & pos.pieces(ROOK, QUEEN) & pos.attacks_from<ROOK>(s);
 
+#ifdef ATOMIC
+                if (pos.is_atomic()) {} else
+#endif
                 if (!(pos.pieces(Us) & bb))
                     defendedSquares &= attackedBy[Us][ALL_PIECES];
 
