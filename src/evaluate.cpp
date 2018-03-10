@@ -1372,7 +1372,7 @@ namespace {
         for (Rank kr = rank_of(ksq), r = Rank(kr + 1); r <= RANK_8; ++r)
             if (  !(rank_bb(r)
                 & DistanceRingBB[ksq][r - 1 - kr]
-                & ~(attackedBy[Them][ALL_PIECES] | (pos.pieces(Them, QUEEN, ROOK) & ~attackedBy[Us][ALL_PIECES]))
+                & ~(attackedBy[Them][ALL_PIECES] | (pos.pieces(Them, QUEEN, ROOK) & ~attackedBy[Us][KING]))
                 & ~pos.pieces(Us)))
                 s++;
         score += KingRaceBonus[std::min(s, 7)];
