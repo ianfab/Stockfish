@@ -1369,7 +1369,8 @@ namespace {
     {
         Square ksq = pos.square<KING>(Us);
         int s = relative_rank(BLACK, ksq);
-        Bitboard br = (rank_of(ksq) == RANK_8 ? 0 : rank_bb(Rank(rank_of(ksq) + 1))) & DistanceRingBB[ksq][0];
+        Bitboard br = (rank_of(ksq) == RANK_8 ? 0 : rank_bb(Rank(rank_of(ksq) + 1))) & DistanceRingBB[ksq][0]
+                     & ~attackedBy[Them][ALL_PIECES] & ~pos.pieces(Us);
         for (Rank r = Rank(rank_of(ksq) + 1); r <= RANK_8; ++r)
             if (!br)
             {
