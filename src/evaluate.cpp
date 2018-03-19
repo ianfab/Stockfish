@@ -1476,7 +1476,11 @@ namespace {
         // pawn push to become passed or have a pawn in front of them.
         if (   !pos.pawn_passed(Us, s + Up)
             || (pos.pieces(PAWN) & forward_file_bb(Us, s)))
+#ifdef HORDE
+            bonus = pos.is_horde() ? bonus / 4 : bonus / 2;
+#else
             bonus = bonus / 2;
+#endif
 
         score += bonus + PassedFile[file_of(s)];
     }
