@@ -483,7 +483,7 @@ Entry* probe(const Position& pos) {
   e->gamePhase = Phase(((npm - EndgameLimit) * PHASE_MIDGAME) / (MidgameLimit - EndgameLimit));
 #ifdef CRAZYHOUSE
   if (pos.is_house())
-      e->gamePhase = PHASE_ENDGAME;
+      e->gamePhase = Phase(PHASE_MIDGAME / 2);
 #endif
 #ifdef HORDE
   if (pos.is_horde())
