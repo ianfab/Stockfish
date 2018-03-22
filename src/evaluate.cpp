@@ -163,7 +163,7 @@ namespace {
   };
 
   // Per-variant king danger malus factors
-  constexpr int KingDangerParams[VARIANT_NB][7] = {
+  int KingDangerParams[VARIANT_NB][7] = {
     {   102,  191,  143, -848,   -9,   40,    0 },
 #ifdef ANTI
     {},
@@ -199,6 +199,7 @@ namespace {
     {    92,  155,  136, -967,   -8,   38,    0 },
 #endif
   };
+  TUNE(KingDangerParams[CRAZYHOUSE_VARIANT]);
 
   // Penalties for enemy's safe checks
   constexpr int QueenSafeCheck  = 780;
