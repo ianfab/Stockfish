@@ -481,6 +481,10 @@ Entry* probe(const Position& pos) {
 
   // Map total non-pawn material into [PHASE_ENDGAME, PHASE_MIDGAME]
   e->gamePhase = Phase(((npm - EndgameLimit) * PHASE_MIDGAME) / (MidgameLimit - EndgameLimit));
+#ifdef CRAZYHOUSE
+  if (pos.is_house())
+      e->gamePhase = PHASE_ENDGAME;
+#endif
 #ifdef HORDE
   if (pos.is_horde())
       e->gamePhase = Phase(pos.count<PAWN>(pos.is_horde_color(WHITE) ? WHITE : BLACK) * PHASE_MIDGAME / 36);
