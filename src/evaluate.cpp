@@ -172,7 +172,7 @@ namespace {
     {   274,  166,  146, -654,  -12,   -7,   29 },
 #endif
 #ifdef CRAZYHOUSE
-    {   119,  439,  130, -613,   -6,   -1,  320 },
+    {   118,  443,  129, -687,   -6,   -1,  298 },
 #endif
 #ifdef EXTINCTION
     {},
