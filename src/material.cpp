@@ -71,12 +71,12 @@ namespace {
     {
       //            OUR PIECES
       // pair pawn knight bishop rook queen
-      { 983                               }, // Bishop pair
-      { 129,  -16                         }, // Pawn
-      {   6,  151,   0                    }, // Knight      OUR PIECES
-      { -66,   66, -59,     6             }, // Bishop
-      {-107,    6,  11,   107,  -137      }, // Rook
-      {-198, -112,  83,   166,  -160, -18 }  // Queen
+      { 928                               }, // Bishop pair
+      { 130,  -17                         }, // Pawn
+      {   6,  142,  -1                    }, // Knight      OUR PIECES
+      { -64,   65, -57,     6             }, // Bishop
+      {-118,    6,  11,    99,  -143      }, // Rook
+      {-191, -114,  81,   166,  -146, -18 }  // Queen
     },
 #endif
 #ifdef EXTINCTION
@@ -231,12 +231,12 @@ namespace {
     {
       //           THEIR PIECES
       // pair pawn knight bishop rook queen
-      { -54                               }, // Bishop pair
-      {  44, -109                         }, // Pawn
-      {  32,    1,   2                    }, // Knight      OUR PIECES
-      {  97,   49,  12,   -15             }, // Bishop
-      {  23,   46,   0,    -2,   23       }, // Rook
-      {  75,   43,  20,    65,  221,   83 }  // Queen
+      { -50                               }, // Bishop pair
+      {  43, -112                         }, // Pawn
+      {  31,    1,   2                    }, // Knight      OUR PIECES
+      {  95,   47,  13,   -16             }, // Bishop
+      {  23,   44,   0,    -2,   22       }, // Rook
+      {  76,   46,  20,    68,  200,   86 }  // Queen
     },
 #endif
 #ifdef EXTINCTION
