@@ -1171,7 +1171,11 @@ moves_loop: // When in check, search starts from here
       // then that move is singular and should be extended. To verify this we do
       // a reduced search on on all the other moves but the ttMove and if the
       // result is lower than ttValue minus a margin then we will extend the ttMove.
+#ifdef CRAZYHOUSE
+      if (    depth >= (pos.is_house() ? 6 : 8) * ONE_PLY
+#else
       if (    depth >= 8 * ONE_PLY
+#endif
           &&  move == ttMove
           && !rootNode
           && !excludedMove // Recursive singular search is not allowed
