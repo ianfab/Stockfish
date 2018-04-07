@@ -1002,9 +1002,6 @@ namespace {
         return eval;
 
     // Step 9. Null move search with verification search (~40 Elo)
-#ifdef HORDE
-    if (pos.is_horde()) {} else
-#endif
     if (   !PvNode
         &&  eval >= beta
         &&  ss->staticEval >= beta - 36 * depth / ONE_PLY + 225
