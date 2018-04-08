@@ -70,42 +70,6 @@ namespace {
   constexpr int SkipPhase[] = { 0, 1, 0, 1, 2, 3, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 6, 7 };
 
   // Razor and futility margins
-  constexpr int RazorMargin[VARIANT_NB][3] = {
-  {0, 590, 604},
-#ifdef ANTI
-  {0, 2234, 604},
-#endif
-#ifdef ATOMIC
-  {0, 2501, 604},
-#endif
-#ifdef CRAZYHOUSE
-  {0, 651, 604},
-#endif
-#ifdef EXTINCTION
-  {0, 603, 604},
-#endif
-#ifdef GRID
-  {0, 601, 604},
-#endif
-#ifdef HORDE
-  {0, 625, 604},
-#endif
-#ifdef KOTH
-  {0, 676, 604},
-#endif
-#ifdef LOSERS
-  {0, 2351, 604},
-#endif
-#ifdef RACE
-  {0, 1029, 604},
-#endif
-#ifdef THREECHECK
-  {0, 2257, 604},
-#endif
-#ifdef TWOKINGS
-  {0, 603, 604},
-#endif
-  };
   const int FutilityMarginFactor[VARIANT_NB] = {
   175,
 #ifdef ANTI
@@ -981,15 +945,6 @@ namespace {
         goto moves_loop;
 
     // Step 7. Razoring (skipped when in check, ~2 Elo)
-    if (  !PvNode
-        && depth < 3 * ONE_PLY
-        && eval <= alpha - Value(RazorMargin[pos.variant()][depth / ONE_PLY]))
-    {
-        Value ralpha = alpha - (depth >= 2 * ONE_PLY) * RazorMargin[pos.variant()][depth / ONE_PLY];
-        Value v = qsearch<NonPV>(pos, ss, ralpha, ralpha+1);
-        if (depth < 2 * ONE_PLY || v <= ralpha)
-            return v;
-    }
 
     // Step 8. Futility pruning: child node (skipped when in check, ~30 Elo)
 #ifdef EXTINCTION
