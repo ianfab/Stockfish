@@ -106,42 +106,6 @@ namespace {
   {0, 603, 604},
 #endif
   };
-  const int FutilityMarginFactor[VARIANT_NB] = {
-  175,
-#ifdef ANTI
-  611,
-#endif
-#ifdef ATOMIC
-  585,
-#endif
-#ifdef CRAZYHOUSE
-  150,
-#endif
-#ifdef EXTINCTION
-  175,
-#endif
-#ifdef GRID
-  206,
-#endif
-#ifdef HORDE
-  176,
-#endif
-#ifdef KOTH
-  217,
-#endif
-#ifdef LOSERS
-  618,
-#endif
-#ifdef RACE
-  361,
-#endif
-#ifdef THREECHECK
-  248,
-#endif
-#ifdef TWOKINGS
-  175,
-#endif
-  };
   const int FutilityMarginParent[VARIANT_NB][2] = {
   { 256, 200 },
 #ifdef ANTI
@@ -214,9 +178,6 @@ namespace {
   200,
 #endif
   };
-  Value futility_margin(Variant var, Depth d, bool improving) {
-    return Value((FutilityMarginFactor[var] - 50 * improving) * d / ONE_PLY);
-  }
 
   // Margin for pruning capturing moves: almost linear in depth
   constexpr int CapturePruneMargin[] = { 0,
@@ -992,14 +953,6 @@ namespace {
     }
 
     // Step 8. Futility pruning: child node (skipped when in check, ~30 Elo)
-#ifdef EXTINCTION
-    if (pos.is_extinction()) {} else
-#endif
-    if (   !rootNode
-        &&  depth < 7 * ONE_PLY
-        &&  eval - futility_margin(pos.variant(), depth, improving) >= beta
-        &&  eval < VALUE_KNOWN_WIN) // Do not return unproven wins
-        return eval;
 
     // Step 9. Null move search with verification search (~40 Elo)
 #ifdef HORDE
