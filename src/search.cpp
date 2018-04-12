@@ -1002,58 +1002,6 @@ namespace {
         return eval;
 
     // Step 9. Null move search with verification search (~40 Elo)
-#ifdef HORDE
-    if (pos.is_horde()) {} else
-#endif
-    if (   !PvNode
-        &&  eval >= beta
-        &&  ss->staticEval >= beta - 36 * depth / ONE_PLY + 225
-        && (ss->ply >= thisThread->nmp_ply || ss->ply % 2 != thisThread->nmp_odd))
-    {
-        assert(eval - beta >= 0);
-
-        // Null move dynamic reduction based on depth and value
-        Depth R = ((823 + 67 * depth / ONE_PLY) / 256 + std::min((eval - beta) / PawnValueMg, 3)) * ONE_PLY;
-#ifdef ANTI
-        if (pos.is_anti())
-            R = ((823 + 67 * depth / ONE_PLY) / 256 + std::min((eval - beta) / (2 * PawnValueMg), 3)) * ONE_PLY;
-#endif
-#ifdef ATOMIC
-        if (pos.is_atomic())
-            R = ((823 + 67 * depth / ONE_PLY) / 256 + std::min((eval - beta) / (2 * PawnValueMg), 3)) * ONE_PLY;
-#endif
-
-        ss->currentMove = MOVE_NULL;
-        ss->contHistory = thisThread->contHistory[NO_PIECE][0].get();
-
-        pos.do_null_move(st);
-
-        Value nullValue = -search<NonPV>(pos, ss+1, -beta, -beta+1, depth-R, !cutNode, true);
-
-        pos.undo_null_move();
-
-        if (nullValue >= beta)
-        {
-            // Do not return unproven mate scores
-            if (nullValue >= VALUE_MATE_IN_MAX_PLY)
-                nullValue = beta;
-
-            if (abs(beta) < VALUE_KNOWN_WIN && (depth < 12 * ONE_PLY || thisThread->nmp_ply))
-                return nullValue;
-
-            // Do verification search at high depths. Disable null move pruning
-            // for side to move for the first part of the remaining search tree.
-            thisThread->nmp_ply = ss->ply + 3 * (depth-R) / 4;
-            thisThread->nmp_odd = ss->ply % 2;
-
-            Value v = search<NonPV>(pos, ss, beta-1, beta, depth-R, false, true);
-
-            thisThread->nmp_odd = thisThread->nmp_ply = 0;
-
-            if (v >= beta)
-                return nullValue;
-        }
-    }
 
     // Step 10. ProbCut (skipped when in check, ~10 Elo)
     // If we have a good enough capture and a reduced search returns a value
