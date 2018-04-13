@@ -981,6 +981,9 @@ namespace {
         goto moves_loop;
 
     // Step 7. Razoring (skipped when in check, ~2 Elo)
+#ifdef ANTI
+    if (pos.is_anti()) {} else
+#endif
     if (  !PvNode
         && depth < 3 * ONE_PLY
         && eval <= alpha - Value(RazorMargin[pos.variant()][depth / ONE_PLY]))
@@ -992,6 +995,9 @@ namespace {
     }
 
     // Step 8. Futility pruning: child node (skipped when in check, ~30 Elo)
+#ifdef ANTI
+    if (pos.is_anti()) {} else
+#endif
 #ifdef EXTINCTION
     if (pos.is_extinction()) {} else
 #endif
