@@ -1099,21 +1099,6 @@ namespace {
     }
 
     // Step 11. Internal iterative deepening (skipped when in check, ~2 Elo)
-#ifdef CRAZYHOUSE
-    if (    depth >= (pos.is_house() ? 4 : 6) * ONE_PLY
-#else
-    if (    depth >= 6 * ONE_PLY
-#endif
-        && !ttMove
-        && (PvNode || ss->staticEval + 128 >= beta))
-    {
-        Depth d = 3 * depth / 4 - 2 * ONE_PLY;
-        search<NT>(pos, ss, alpha, beta, d, cutNode, true);
-
-        tte = TT.probe(posKey, ttHit);
-        ttValue = ttHit ? value_from_tt(tte->value(), ss->ply) : VALUE_NONE;
-        ttMove = ttHit ? tte->move() : MOVE_NONE;
-    }
 
 moves_loop: // When in check, search starts from here
 
