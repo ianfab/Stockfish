@@ -1225,11 +1225,6 @@ moves_loop: // When in check, search starts from here
           )
           {
               // Move count based pruning (~30 Elo)
-              if (moveCountPruning)
-              {
-                  skipQuiets = true;
-                  continue;
-              }
 
               // Reduced depth of the next LMR search
               int lmrDepth = std::max(newDepth - reduction<PvNode>(improving, depth, moveCount), DEPTH_ZERO) / ONE_PLY;
