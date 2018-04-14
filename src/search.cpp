@@ -1615,6 +1615,9 @@ moves_loop: // When in check, search starts from here
       // Futility pruning
       if (   !inCheck
           && !givesCheck
+#ifdef ANTI
+          && !pos.is_anti()
+#endif
 #ifdef EXTINCTION
           && !pos.is_extinction()
 #endif
