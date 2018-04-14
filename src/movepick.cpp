@@ -145,8 +145,10 @@ void MovePicker::score() {
           if (pos.is_anti() && pos.attackers_to(to_sq(m), pos.pieces() ^ from_sq(m)) & pos.pieces(~pos.side_to_move()))
           {
               m.value += (1 << 28);
-              if (!(pos.attackers_to(from_sq(m)) & pos.pieces(~pos.side_to_move())))
+              if (!(pos.attackers_to(to_sq(m), pos.pieces() ^ from_sq(m)) & (pos.pieces(pos.side_to_move()) ^ from_sq(m))))
                   m.value += (1 << 27);
+              if (!(pos.attackers_to(from_sq(m), pos.pieces() ^ to_sq(m)) & pos.pieces(~pos.side_to_move())))
+                  m.value += (1 << 26);
           }
 #endif
       }
