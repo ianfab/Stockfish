@@ -1658,6 +1658,9 @@ moves_loop: // When in check, search starts from here
                        && !pos.capture(move);
 
       // Don't search moves with negative SEE values
+#ifdef ANTI
+      if (pos.is_anti()) {} else
+#endif
       if (  (!inCheck || evasionPrunable)
           && !pos.see_ge(move))
           continue;
