@@ -1900,12 +1900,12 @@ Key Position::key_after(Move m) const {
 
 #ifdef ATOMIC
 template<>
-Value Position::see<ATOMIC_VARIANT>(Move m, PieceType nextVictim, Square s) const {
+Value Position::see<ATOMIC_VARIANT>(Move m, PieceType nextVictim, Square s, Bitboard occupied) const {
   assert(is_ok(m));
 
   Square from = from_sq(m);
   Color us = color_of(piece_on(from));
-  Bitboard blast = attacks_from<KING>(to_sq(m)) & (pieces() ^ pieces(PAWN)) & ~SquareBB[from];
+  Bitboard blast = attacks_from<KING>(to_sq(m)) & (pieces() ^ pieces(PAWN)) & ~SquareBB[from] & occupied;
   if (s != to_sq(m))
       blast &= ~SquareBB[s];
 
@@ -1971,19 +1971,22 @@ bool Position::see_ge(Move m, Value threshold) const {
 #ifdef ATOMIC
   if (is_atomic())
   {
+      Bitboard occupied = (pieces() ^ from) | to;
       if (capture(m))
-          return see<ATOMIC_VARIANT>(m, nextVictim, to_sq(m)) >= threshold + 1;
+      {
+          threshold -= see<ATOMIC_VARIANT>(m, nextVictim, to_sq(m)) + 1;
+          occupied ^= attacks_from<KING>(to_sq(m)) & (pieces() ^ pieces(PAWN)) & ~SquareBB[from];
+      }
       if (threshold > VALUE_ZERO)
           return false;
 
-      Bitboard occupied = pieces() ^ from;
       stmAttackers = attackers_to(to, occupied) & occupied & pieces(stm) & ~pieces(KING);
 
       // Loop over attacking pieces
       while (stmAttackers)
       {
           Square s = pop_lsb(&stmAttackers);
-          if (see<ATOMIC_VARIANT>(m, nextVictim, s) < threshold)
+          if (see<ATOMIC_VARIANT>(m, nextVictim, s, occupied) < threshold)
               return false;
       }
       return true;

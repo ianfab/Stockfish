@@ -160,7 +160,7 @@ public:
   template<Variant V>
   Value see(Move m) const;
   template<Variant V>
-  Value see(Move m, PieceType nextVictim, Square s) const;
+  Value see(Move m, PieceType nextVictim, Square s, Bitboard occupied = AllSquares) const;
 #endif
   bool see_ge(Move m, Value threshold = VALUE_ZERO) const;
 
