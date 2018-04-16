@@ -97,7 +97,7 @@ namespace {
   {0, 2351, 604},
 #endif
 #ifdef RACE
-  {0, 1029, 604},
+  {0, 1029, 1029},
 #endif
 #ifdef THREECHECK
   {0, 2257, 604},
