@@ -76,7 +76,7 @@ namespace {
   {0, 2234, 604},
 #endif
 #ifdef ATOMIC
-  {0, 2501, 604},
+  {0, 2501, 2501},
 #endif
 #ifdef CRAZYHOUSE
   {0, 651, 604},
