@@ -1029,6 +1029,10 @@ namespace {
         if (pos.is_atomic())
             R = ((823 + 67 * depth / ONE_PLY) / 256 + std::min((eval - beta) / (2 * PawnValueMg), 3)) * ONE_PLY;
 #endif
+#ifdef LOSERS
+        if (pos.is_losers())
+            R = ((823 + 67 * depth / ONE_PLY) / 256 + std::min((eval - beta) / (2 * PawnValueMg), 3)) * ONE_PLY;
+#endif
 
         ss->currentMove = MOVE_NULL;
         ss->contHistory = thisThread->contHistory[NO_PIECE][0].get();
