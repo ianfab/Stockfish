@@ -100,7 +100,7 @@ namespace {
   {0, 1029, 604},
 #endif
 #ifdef THREECHECK
-  {0, 2257, 604},
+  {0, 2257, 2257},
 #endif
 #ifdef TWOKINGS
   {0, 603, 604},
