@@ -1068,6 +1068,9 @@ namespace {
 #ifdef ANTI
     if (pos.is_anti()) {} else
 #endif
+#ifdef HORDE
+    if (pos.is_horde() && pos.is_horde_color(pos.side_to_move())) {} else
+#endif
     if (   !PvNode
         &&  depth >= 5 * ONE_PLY
         &&  abs(beta) < VALUE_MATE_IN_MAX_PLY)
