@@ -985,6 +985,9 @@ namespace {
         goto moves_loop;
 
     // Step 7. Razoring (skipped when in check, ~2 Elo)
+#ifdef LOSERS
+    if (pos.is_losers()) {} else
+#endif
     if (  !PvNode
         && depth < 3 * ONE_PLY
         && eval <= alpha - Value(RazorMargin[pos.variant()][depth / ONE_PLY]))
