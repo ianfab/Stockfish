@@ -977,6 +977,10 @@ namespace {
     if (pos.is_race() && (pos.pieces(KING) & (Rank7BB | Rank8BB)))
         goto moves_loop;
 #endif
+#ifdef THREECHECK
+    if (pos.is_three_check() && (pos.checks_given(WHITE) >= CHECKS_2 || pos.checks_given(BLACK) >= CHECKS_2))
+        goto moves_loop;
+#endif
 #ifdef HORDE
     if (skipEarlyPruning || !(pos.is_horde() || pos.non_pawn_material(pos.side_to_move())))
 #else
