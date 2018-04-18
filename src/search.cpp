@@ -1192,10 +1192,6 @@ moves_loop: // When in check, search starts from here
           if (value < rBeta)
               extension = ONE_PLY;
       }
-      else if (    givesCheck // Check extension (~2 Elo)
-               && !moveCountPruning
-               &&  pos.see_ge(move))
-          extension = ONE_PLY;
 #ifdef ANTI
       else if (   pos.is_anti()
                && !moveCountPruning
