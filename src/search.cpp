@@ -87,7 +87,7 @@ namespace {
   {0, 601, 604},
 #endif
 #ifdef HORDE
-  {0, 625, 604},
+  {0, 2000, 2000},
 #endif
 #ifdef KOTH
   {0, 676, 604},
