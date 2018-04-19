@@ -90,7 +90,7 @@ namespace {
   {0, 625, 604},
 #endif
 #ifdef KOTH
-  {0, 676, 604},
+  {0, 1500, 1500},
 #endif
 #ifdef LOSERS
   {0, 2351, 2351},
