@@ -1719,8 +1719,8 @@ namespace {
 
     score +=  king<   WHITE>() - king<   BLACK>()
             + threats<WHITE>() - threats<BLACK>()
-            + passed< WHITE>() - passed< BLACK>()
-            + space<  WHITE>() - space<  BLACK>();
+            + passed< WHITE>() - passed< BLACK>();
+            //+ space<  WHITE>() - space<  BLACK>();
 
     if (pos.variant() != CHESS_VARIANT)
         score += variant<WHITE>() - variant<BLACK>();
