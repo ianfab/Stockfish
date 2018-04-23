@@ -156,6 +156,7 @@ namespace {
     { V(-18), V(84), V(27), V(-12), V(21), V( -7), V(-36) },
     { V( 12), V(79), V(25), V( 19), V( 9), V( -6), V(-33) }
   };
+  TUNE(SetRange(-200, 500), ShelterStrength);
 
   // Danger of enemy pawns moving toward our king by [type][distance from edge][rank].
   // For the unopposed and unblocked cases, RANK_1 = 0 is used when opponent has
