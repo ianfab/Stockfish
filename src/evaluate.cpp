@@ -1711,7 +1711,7 @@ namespace {
     }
 #endif
 
-    score += mobility[WHITE] - mobility[BLACK];
+    //score += mobility[WHITE] - mobility[BLACK];
 
     score +=  king<   WHITE>() - king<   BLACK>()
             + threats<WHITE>() - threats<BLACK>()
