@@ -89,7 +89,7 @@ namespace {
   constexpr Value SpaceThreshold[VARIANT_NB] = {
     Value(12222),
 #ifdef ANTI
-    Value(12222),
+    VALUE_ZERO,
 #endif
 #ifdef ATOMIC
     Value(12222),
