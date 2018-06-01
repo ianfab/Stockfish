@@ -148,7 +148,7 @@ namespace {
 #endif
   };
 
-  constexpr int ScaleShelterStorm[VARIANT_NB] {
+  int ScaleShelterStorm[VARIANT_NB] {
     100,
 #ifdef ANTI
     100,
@@ -184,6 +184,7 @@ namespace {
     100,
 #endif
   };
+  TUNE(ScaleShelterStorm[CRAZYHOUSE_VARIANT]);
 
   // Strength of pawn shelter for our king by [distance from edge][rank].
   // RANK_1 = 0 is used for files where we have no pawn, or pawn is behind our king.
