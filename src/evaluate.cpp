@@ -1368,6 +1368,9 @@ namespace {
 
         Score bonus = PassedRank[pos.variant()][r];
 
+#ifdef CRAZYHOUSE
+        if (pos.is_house()) {} else
+#endif
 #ifdef GRID
         if (pos.is_grid()) {} else
 #endif
