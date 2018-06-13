@@ -1397,6 +1397,11 @@ namespace {
                 bonus += make_score(0, king_proximity(Them, blockSq) * 5 * w);
             else
 #endif
+#ifdef CRAZYHOUSE
+            if (pos.is_house())
+                bonus += make_score(0, -king_proximity(Them, blockSq) * 2 * w);
+            else
+#endif
             {
             // Adjust bonus based on the king's proximity
             bonus += make_score(0, (  king_proximity(Them, blockSq) * 5
