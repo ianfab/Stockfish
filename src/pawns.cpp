@@ -449,9 +449,7 @@ Value Entry::evaluate_shelter(const Position& pos, Square ksq) {
       int theirRank = b ? relative_rank(Us, frontmost_sq(Them, b)) : 0;
 
       int d = std::min(f, ~f);
-      safety += ShelterStrength[d][ourRank];
-      if (pos.variant() != CHESS_VARIANT)
-          safety = safety * ScaleShelter[pos.variant()] / 100;
+      safety += ShelterStrength[d][ourRank] * ScaleShelter[pos.variant()] / 100;
       safety -= (ourRank && (ourRank == theirRank - 1)) ? BlockedStorm[theirRank]
                                                         : UnblockedStorm[d][theirRank];
   }
