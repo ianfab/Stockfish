@@ -113,7 +113,7 @@ namespace {
     Value(12222),
 #endif
 #ifdef RACE
-    Value(12222),
+    2 * MidgameLimit,
 #endif
 #ifdef THREECHECK
     Value(12222),
