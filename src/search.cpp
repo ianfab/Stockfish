@@ -197,7 +197,8 @@ void MainThread::search() {
 
   Color us = rootPos.side_to_move();
   Time.init(Limits, us, rootPos.game_ply());
-  TT.new_search();
+  if (Options["Auto Age Hash"])
+      TT.new_search();
 
   if (rootMoves.empty())
   {
