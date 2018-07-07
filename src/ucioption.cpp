@@ -68,6 +68,7 @@ void init(OptionsMap& o) {
   o["Age Hash"]              << Option(on_age_hash);
   o["Auto Age Hash"]         << Option(true);
   o["Hash Priority"]         << Option(0, -100, 100);
+  o["Hash Age Slowdown"]     << Option(1, 1, 100);
   o["Ponder"]                << Option(false);
   o["MultiPV"]               << Option(1, 1, 500);
   o["Skill Level"]           << Option(20, 0, 20);

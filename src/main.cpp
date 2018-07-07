@@ -46,6 +46,7 @@ int main(int argc, char* argv[]) {
   Tablebases::init(Options["SyzygyPath"]); // After Bitboards are set
   Threads.set(Options["Threads"]);
   Search::clear(); // After threads are up
+  TT.new_search();
 
   UCI::loop(argc, argv);
 
