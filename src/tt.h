@@ -81,6 +81,8 @@ public:
   int hashfull() const;
   void resize(size_t mbSize);
   void clear();
+  void save();
+  void load();
 
   // The 32 lowest order bits of the key are used to get the index of the cluster
   TTEntry* first_entry(const Key key) const {

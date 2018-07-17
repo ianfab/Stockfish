@@ -21,7 +21,6 @@
 #include <algorithm>
 #include <cassert>
 #include <ostream>
-
 #include "misc.h"
 #include "search.h"
 #include "thread.h"
@@ -42,6 +41,8 @@ void on_hash_size(const Option& o) { TT.resize(o); }
 void on_logger(const Option& o) { start_logger(o); }
 void on_threads(const Option& o) { Threads.set(o); }
 void on_tb_path(const Option& o) { Tablebases::init(o); }
+void on_save_hash(const Option&) { TT.save(); }
+void on_load_hash(const Option&) { TT.load(); }
 
 
 /// Our case insensitive less() function as required by UCI protocol
@@ -69,6 +70,9 @@ void init(OptionsMap& o) {
   o["Auto Age Hash"]         << Option(true);
   o["Hash Priority"]         << Option(0, -100, 100);
   o["Hash Age Slowdown"]     << Option(1, 1, 100);
+  o["HashFile"]              << Option("hash.hsh");
+  o["SaveHash"]              << Option(on_save_hash);
+  o["LoadHash"]              << Option(on_load_hash);
   o["Ponder"]                << Option(false);
   o["MultiPV"]               << Option(1, 1, 500);
   o["Skill Level"]           << Option(20, 0, 20);

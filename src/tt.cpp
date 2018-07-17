@@ -21,6 +21,7 @@
 #include <cstring>   // For std::memset
 #include <iostream>
 #include <thread>
+#include <fstream>
 
 #include "bitboard.h"
 #include "misc.h"
@@ -102,6 +103,24 @@ void TranspositionTable::clear() {
 
   for (std::thread& th: threads)
       th.join();
+}
+
+void TranspositionTable::save() {
+    std::ofstream b_stream(Options["HashFile"], std::fstream::out | std::fstream::binary);
+    if (b_stream)
+    {
+        b_stream.write(reinterpret_cast<char*>(&generation8), 1);
+        b_stream.write(reinterpret_cast<char*>(table), clusterCount * sizeof(Cluster));
+    }
+}
+
+void TranspositionTable::load() {
+    std::ifstream file(Options["HashFile"], std::ios::binary | std::ios::ate);
+    std::streamsize size = int(file.tellg()) - 1;
+    resize(size / 1024 / 1024);
+    file.seekg(0, std::ios::beg);
+    file.read(reinterpret_cast<char*>(&generation8), 1);
+    file.read(reinterpret_cast<char*>(table), clusterCount * sizeof(Cluster));
 }
 
 /// TranspositionTable::probe() looks up the current position in the transposition
