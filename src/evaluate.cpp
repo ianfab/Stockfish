@@ -1656,6 +1656,13 @@ namespace {
     if (pos.is_variant_end())
         return pos.variant_result();
 
+#ifdef RACE
+    // The evaluation is only called if the game continues, so if white's king is
+    // on the 8th rank, we already know it will be a draw with optimal play.
+    if (pos.is_race() && (pos.pieces(WHITE, KING) & Rank8BB))
+        return VALUE_DRAW;
+#endif
+
     // Probe the material hash table
     me = Material::probe(pos);
 
