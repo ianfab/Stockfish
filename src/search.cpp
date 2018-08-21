@@ -71,6 +71,10 @@ namespace {
     return Value((175 - 50 * improving) * d / ONE_PLY);
   }
 
+  int nmp1 = 256;
+  Value nmp2 = Value(207);
+  TUNE(nmp1, nmp2);
+
   // Futility and reductions lookup tables, initialized at startup
   int FutilityMoveCounts[2][16]; // [improving][depth]
   int Reductions[2][2][64][64];  // [pv][improving][depth][moveNumber]
@@ -760,7 +764,7 @@ namespace {
         assert(eval - beta >= 0);
 
         // Null move dynamic reduction based on depth and value
-        Depth R = ((823 + 67 * depth / ONE_PLY) / 256 + std::min((eval - beta) / PawnValueMg, 3)) * ONE_PLY;
+        Depth R = ((823 + 67 * depth / ONE_PLY) / nmp1 + std::min((eval - beta) / nmp2, 3)) * ONE_PLY;
 
         ss->currentMove = MOVE_NULL;
         ss->continuationHistory = &thisThread->continuationHistory[NO_PIECE][0];
