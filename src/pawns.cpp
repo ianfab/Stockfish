@@ -133,7 +133,7 @@ namespace {
 
         // Score this pawn
         if (supported | phalanx)
-            score += Connected[opposed || lever][bool(phalanx)][popcount(supported)][relative_rank(Us, s)];
+            score += Connected[opposed || (popcount(lever) > popcount(supported))][bool(phalanx)][popcount(supported)][relative_rank(Us, s)];
 
         else if (!neighbours)
             score -= Isolated, e->weakUnopposed[Us] += !opposed;
