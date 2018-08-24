@@ -963,7 +963,7 @@ moves_loop: // When in check, search starts from here
                   continue;
           }
           else if (   !extension // (~20 Elo)
-                   && !pos.see_ge(move, -PawnValueEg * (depth / ONE_PLY)))
+                   && !pos.see_ge(move, Value(-150 * (depth / ONE_PLY) - 10 * (depth / ONE_PLY) * (depth / ONE_PLY))))
                   continue;
       }
 
