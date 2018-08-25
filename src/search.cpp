@@ -72,7 +72,12 @@ namespace {
   }
 
   // Futility and reductions lookup tables, initialized at startup
-  int FutilityMoveCounts[2][16]; // [improving][depth]
+  int fmc[2][2][3] = {
+      { {240, 74, 178}, {500, 100, 200} },
+      { {240, 74, 178}, {500, 100, 200} }
+  };
+  TUNE(fmc, init);
+  int FutilityMoveCounts[2][2][16]; // [lmr][improving][depth]
   int Reductions[2][2][64][64];  // [pv][improving][depth][moveNumber]
 
   template <bool PvNode> Depth reduction(bool i, Depth d, int mn) {
@@ -165,8 +170,10 @@ void Search::init() {
 
   for (int d = 0; d < 16; ++d)
   {
-      FutilityMoveCounts[0][d] = int(2.4 + 0.74 * pow(d, 1.78));
-      FutilityMoveCounts[1][d] = int(5.0 + 1.00 * pow(d, 2.00));
+      FutilityMoveCounts[0][0][d] = int(double(fmc[0][0][0]) / 100 + double(fmc[0][0][1]) / 100 * pow(d, double(fmc[0][0][2]) / 100));
+      FutilityMoveCounts[0][1][d] = int(double(fmc[0][1][0]) / 100 + double(fmc[0][1][1]) / 100 * pow(d, double(fmc[0][1][2]) / 100));
+      FutilityMoveCounts[1][0][d] = int(double(fmc[1][0][0]) / 100 + double(fmc[1][0][1]) / 100 * pow(d, double(fmc[1][0][2]) / 100));
+      FutilityMoveCounts[1][1][d] = int(double(fmc[1][1][0]) / 100 + double(fmc[1][1][1]) / 100 * pow(d, double(fmc[1][1][2]) / 100));
   }
 }
 
@@ -558,7 +565,7 @@ namespace {
     Depth extension, newDepth;
     Value bestValue, value, ttValue, eval, maxValue, pureStaticEval;
     bool ttHit, inCheck, givesCheck, improving;
-    bool captureOrPromotion, doFullDepthSearch, moveCountPruning, skipQuiets, ttCapture, pvExact;
+    bool captureOrPromotion, doFullDepthSearch, moveCountPruning, moveCountPruningLmr, skipQuiets, ttCapture, pvExact;
     Piece movedPiece;
     int moveCount, captureCount, quietCount;
 
@@ -893,7 +900,9 @@ moves_loop: // When in check, search starts from here
       givesCheck = gives_check(pos, move);
 
       moveCountPruning =   depth < 16 * ONE_PLY
-                        && moveCount >= FutilityMoveCounts[improving][depth / ONE_PLY];
+                        && moveCount >= FutilityMoveCounts[true][improving][depth / ONE_PLY];
+      moveCountPruningLmr =   depth < 16 * ONE_PLY
+                           && moveCount >= FutilityMoveCounts[false][improving][depth / ONE_PLY];
 
       // Step 13. Extensions (~70 Elo)
 
@@ -991,7 +1000,7 @@ moves_loop: // When in check, search starts from here
       // re-searched at full depth.
       if (    depth >= 3 * ONE_PLY
           &&  moveCount > 1
-          && (!captureOrPromotion || moveCountPruning))
+          && (!captureOrPromotion || moveCountPruningLmr))
       {
           Depth r = reduction<PvNode>(improving, depth, moveCount);
 
