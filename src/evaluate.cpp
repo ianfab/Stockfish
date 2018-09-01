@@ -747,6 +747,8 @@ namespace {
     return score;
   }
 
+  int comp[] = { 200, 118 };
+  TUNE(comp);
 
   // Evaluation::initiative() computes the initiative correction value
   // for the position. It is a second order bonus/malus based on the
@@ -768,7 +770,7 @@ namespace {
                     + 16 * pawnsOnBothFlanks
                     + 48 * !pos.non_pawn_material();
 
-    complexity = complexity * complexity / 200 - 118;
+    complexity = complexity * complexity / comp[0] - comp[1];
 
     // Now apply the bonus: note that we find the attacking side by extracting
     // the sign of the endgame value, and that we carefully cap the bonus so
