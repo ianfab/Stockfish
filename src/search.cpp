@@ -71,6 +71,9 @@ namespace {
     return Value((175 - 50 * improving) * d / ONE_PLY);
   }
 
+  int probcut[] = { 220, 10 };
+  TUNE(SetRange(0, 500), probcut[0], SetRange(-30, 30), probcut[1]);
+
   // Futility and reductions lookup tables, initialized at startup
   int FutilityMoveCounts[2][16]; // [improving][depth]
   int Reductions[2][2][64][64];  // [pv][improving][depth][moveNumber]
@@ -809,7 +812,7 @@ namespace {
         &&  depth >= 5 * ONE_PLY
         &&  abs(beta) < VALUE_MATE_IN_MAX_PLY)
     {
-        Value rbeta = std::min(beta + 216 - 48 * improving, VALUE_INFINITE);
+        Value rbeta = std::min(beta + probcut[0] + probcut[1] * (depth - 10 * ONE_PLY) - 48 * improving, VALUE_INFINITE);
         MovePicker mp(pos, ttMove, rbeta - ss->staticEval, &thisThread->captureHistory);
         int probCutCount = 0;
 
