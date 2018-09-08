@@ -36,6 +36,11 @@ namespace {
   constexpr Score Doubled  = S(11, 56);
   constexpr Score Isolated = S( 5, 15);
 
+  // Lever push penalties by amount
+  constexpr Score LeverPush[FILE_NB+1] = {
+    S(20, 20), S(5, 5)
+  };
+
   // Connected pawn bonus by opposed, phalanx, #support and rank
   Score Connected[2][2][3][RANK_NB];
 
@@ -73,6 +78,7 @@ namespace {
 
     Bitboard b, neighbours, stoppers, doubled, supported, phalanx;
     Bitboard lever, leverPush;
+    int leverCount = 0;
     Square s;
     bool opposed, backward;
     Score score = SCORE_ZERO;
@@ -143,7 +149,13 @@ namespace {
 
         if (doubled && !supported)
             score -= Doubled;
+
+        if (leverPush)
+            leverCount++;
+
     }
+
+    score -= LeverPush[leverCount];
 
     return score;
   }
