@@ -1543,12 +1543,15 @@ namespace {
 #ifdef RACE
     if (pos.is_race())
     {
-        Square ksq = pos.square<KING>(Us);
-        int s = relative_rank(BLACK, ksq);
-        for (Rank kr = rank_of(ksq), r = Rank(kr + 1); r <= RANK_8; ++r)
-            if (!(rank_bb(r) & DistanceRingBB[ksq][r - kr] & ~attackedBy[Them][ALL_PIECES] & ~pos.pieces(Us)))
-                s++;
-        score += KingRaceBonus[std::min(s, 7)];
+        Bitboard target_squares = Rank8BB;
+        while (target_squares)
+        {
+            Square s = pop_lsb(&target_squares);
+            int dist =  distance(pos.square<KING>(Us), s)
+                      + popcount(pos.attackers_to(s) & pos.pieces(Them))
+                      + !!(pos.pieces(Us) & s);
+            score += make_score(3000, 3000) / (1 + dist);
+        }
     }
 #endif
 #ifdef THREECHECK
