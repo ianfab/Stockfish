@@ -506,8 +506,8 @@ namespace {
 #ifdef RACE
   // Bonus for distance of king from 8th rank
   constexpr Score KingRaceBonus[RANK_NB] = {
-    S(14282, 14493), S(6369, 5378), S(4224, 3557), S(2633, 2219),
-    S( 1614,  1456), S( 975,  885), S( 528,  502), S(   0,    0)
+    S(3161, 2981), S(1655, 1632), S(1302, 1269), S(804, 861),
+    S( 608,  640), S( 454,  556), S( 385,  457), S(235, 280)
   };
 #endif
 
@@ -1543,12 +1543,15 @@ namespace {
 #ifdef RACE
     if (pos.is_race())
     {
-        Square ksq = pos.square<KING>(Us);
-        int s = relative_rank(BLACK, ksq);
-        for (Rank kr = rank_of(ksq), r = Rank(kr + 1); r <= RANK_8; ++r)
-            if (!(rank_bb(r) & DistanceRingBB[ksq][r - kr] & ~attackedBy[Them][ALL_PIECES]))
-                s++;
-        score += KingRaceBonus[std::min(s, 7)];
+        Bitboard target_squares = Rank8BB;
+        while (target_squares)
+        {
+            Square s = pop_lsb(&target_squares);
+            int dist =  distance(pos.square<KING>(Us), s)
+                      + popcount(pos.attackers_to(s) & pos.pieces(Them))
+                      + !!(pos.pieces(Us) & s);
+            score += KingRaceBonus[std::min(dist, 7)];
+        }
     }
 #endif
 #ifdef THREECHECK
