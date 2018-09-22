@@ -505,10 +505,11 @@ namespace {
 
 #ifdef RACE
   // Bonus for distance of king from 8th rank
-  constexpr Score KingRaceBonus[RANK_NB] = {
+  Score KingRaceBonus[RANK_NB] = {
     S(3000, 3000), S(1500, 1500), S(1000, 1000), S(750, 750),
     S( 600,  600), S( 430,  430), S( 375,  375), S(330, 330)
   };
+  TUNE(SetRange(0, 6000), KingRaceBonus);
 #endif
 
   // PassedRank[Rank] contains a bonus according to the rank of a passed pawn
