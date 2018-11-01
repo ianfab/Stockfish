@@ -702,11 +702,7 @@ void Position::set_state(StateInfo* si) const {
 
 #ifdef CRAZYHOUSE
       if (is_house())
-      {
-          if (type_of(pc) != PAWN && type_of(pc) != KING)
-              si->nonPawnMaterial[color_of(pc)] += pieceCountInHand[color_of(pc)][type_of(pc)] * PieceValue[CHESS_VARIANT][MG][pc];
           si->key ^= Zobrist::inHand[pc][pieceCountInHand[color_of(pc)][type_of(pc)]];
-      }
 #endif
   }
 
@@ -1451,23 +1447,7 @@ void Position::do_move(Move m, StateInfo& newSt, bool givesCheck) {
           st->pawnKey ^= Zobrist::psq[captured][capsq];
       }
       else
-      {
           st->nonPawnMaterial[them] -= PieceValue[CHESS_VARIANT][MG][captured];
-#ifdef CRAZYHOUSE
-          if (is_house() && !is_promoted(to))
-          {
-#ifdef BUGHOUSE
-              if (! is_bughouse())
-#endif
-#ifdef PLACEMENT
-              if (! is_placement())
-#endif
-              {
-                  st->nonPawnMaterial[us] += PieceValue[CHESS_VARIANT][MG][captured];
-              }
-          }
-#endif
-      }
 
       // Update board and piece lists
       remove_piece(captured, capsq);
@@ -1602,6 +1582,8 @@ void Position::do_move(Move m, StateInfo& newSt, bool givesCheck) {
   {
       drop_piece(pc, to);
       st->materialKey ^= Zobrist::psq[pc][pieceCount[pc]-1];
+      if (type_of(pc) != PAWN)
+          st->nonPawnMaterial[us] += PieceValue[CHESS_VARIANT][MG][pc];
 #ifdef PLACEMENT
       if (is_placement() && !pieceCountInHand[us][ALL_PIECES])
       {
