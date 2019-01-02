@@ -212,7 +212,7 @@ namespace {
 #endif
 #ifdef THREECHECK
   // In Q8 fixed point
-  constexpr int ThreeCheckKSFactors[CHECKS_NB] = { 571, 619, 858, 0 };
+  constexpr int ThreeCheckKSFactors[CHECKS_NB] = { 500, 1000, 2000, 0 };
 #endif
 
 #define S(mg, eg) make_score(mg, eg)
@@ -1080,7 +1080,7 @@ namespace {
     {
 #ifdef THREECHECK
         if (pos.is_three_check())
-            kingDanger = ThreeCheckKSFactors[pos.checks_given(Them)] * kingDanger / 256;
+            kingDanger += ThreeCheckKSFactors[pos.checks_given(Them)];
 #endif
         int v = kingDanger * kingDanger / 4096;
 #ifdef ATOMIC
