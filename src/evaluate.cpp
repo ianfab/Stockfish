@@ -1072,7 +1072,7 @@ namespace {
     if (pos.is_atomic())
     {
         kingDanger += IndirectKingAttack * popcount(pos.attacks_from<KING>(pos.square<KING>(Us)) & pos.pieces(Us) & attackedBy[Them][ALL_PIECES]);
-        kingDanger += 100 * popcount(attackedBy[Us][KING] & pos.pieces());
+        kingDanger += 200 * popcount(attackedBy[Us][KING] & pos.pieces());
     }
 #endif
     // Transform the kingDanger units into a Score, and subtract it from the evaluation
