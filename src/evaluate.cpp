@@ -212,7 +212,8 @@ namespace {
 #endif
 #ifdef THREECHECK
   // In Q8 fixed point
-  constexpr int ThreeCheckKSFactors[CHECKS_NB] = { 500, 1000, 2000, 0 };
+  int ThreeCheckKSFactors[CHECKS_NB] = { 500, 1000, 2000, 0 };
+  TUNE(ThreeCheckKSFactors);
 #endif
 
 #define S(mg, eg) make_score(mg, eg)
