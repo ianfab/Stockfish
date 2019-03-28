@@ -309,7 +309,7 @@ namespace {
       {   9,    0,   0                    }, // Knight      OUR PIECES
       {  59,    0,  42,     0             }, // Bishop
       {  46,    0,  24,   -24,    0       }, // Rook
-      { 101,    0, -37,   141,  268,    0 }  // Queen
+      { 101,    0, -37,   141, -268,    0 }  // Queen
     },
 #endif
 #ifdef THREECHECK
