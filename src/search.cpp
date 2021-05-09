@@ -93,12 +93,12 @@ namespace {
 
   // Skill structure is used to implement strength limit
   struct Skill {
-    explicit Skill(int l) : level(l) {}
-    bool enabled() const { return level < 20; }
+    explicit Skill(int l, int l2) : level(l), level2(l2) {}
+    bool enabled() const { return level < 20 || level2 < 20; }
     bool time_to_pick(Depth depth) const { return depth == 1 + level; }
     Move pick_best(size_t multiPV);
 
-    int level;
+    int level, level2;
     Move best = MOVE_NONE;
   };
 
@@ -268,7 +268,7 @@ void MainThread::search() {
 
   if (   int(Options["MultiPV"]) == 1
       && !Limits.depth
-      && !(Skill(Options["Skill Level"]).enabled() || int(Options["UCI_LimitStrength"]))
+      && !(Skill(Options["Skill Level"], Options["Skill Level Hand"]).enabled() || int(Options["UCI_LimitStrength"]))
       && rootMoves[0].pv[0] != MOVE_NONE)
       bestThread = Threads.get_best_thread();
 
@@ -342,12 +342,12 @@ void Thread::search() {
                         double(Options["Skill Level"]);
   int intLevel = int(floatLevel) +
                  ((floatLevel - int(floatLevel)) * 1024 > rng.rand<unsigned>() % 1024  ? 1 : 0);
-  Skill skill(intLevel);
+  Skill skill(intLevel, Options["Skill Level Hand"]);
 
   // When playing with strength handicap enable MultiPV search that we will
   // use behind the scenes to retrieve a set of possible moves.
   if (skill.enabled())
-      multiPV = std::max(multiPV, (size_t)4);
+      multiPV = std::max(multiPV, (size_t)256);
 
   multiPV = std::min(multiPV, rootMoves.size());
   ttHitAverage = TtHitAverageWindow * TtHitAverageResolution / 2;
@@ -1849,6 +1849,37 @@ moves_loop: // When in check, search starts from here
         {
             maxScore = rootMoves[i].score + push;
             best = rootMoves[i].pv[0];
+        }
+    }
+
+    if (level == 20)
+        best = rootMoves[0].pv[0];
+
+    PieceType calledPiece = type_of(Threads.main()->rootPos.moved_piece(best));
+
+    topScore = VALUE_NONE;
+    weakness = 120 - 2 * level2;
+    maxScore = -VALUE_INFINITE;
+
+    for (size_t i = 0; i < multiPV; ++i)
+    {
+        // Require piece called by brain
+        if (type_of(Threads.main()->rootPos.moved_piece(rootMoves[i].pv[0])) != calledPiece)
+            continue;
+        // Set best score (potentially better than move picked by brain)
+        else if (topScore == VALUE_NONE)
+            topScore = rootMoves[i].score;
+        // This is our magic formula
+        int push = (  weakness * int(topScore - rootMoves[i].score)
+                    + delta * (rng.rand<unsigned>() % weakness)) / 128;
+
+        if (rootMoves[i].score + push >= maxScore)
+        {
+            maxScore = rootMoves[i].score + push;
+            best = rootMoves[i].pv[0];
+            // return best if 20
+            if (level2 == 20)
+                return best;
         }
     }
 
