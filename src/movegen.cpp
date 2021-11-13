@@ -261,6 +261,12 @@ ExtMove* generate<LEGAL>(const Position& pos, ExtMove* moveList) {
   Square ksq = pos.square<KING>(us);
   ExtMove* cur = moveList;
 
+  if (pos.game_ply() == 2 || pos.game_ply() == 5)
+  {
+      *moveList++ = MOVE_NULL;
+      return moveList;
+  }
+
   moveList = pos.checkers() ? generate<EVASIONS    >(pos, moveList)
                             : generate<NON_EVASIONS>(pos, moveList);
   while (cur != moveList)

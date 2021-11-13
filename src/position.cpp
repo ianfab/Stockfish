@@ -682,6 +682,9 @@ bool Position::gives_check(Move m) const {
 
 void Position::do_move(Move m, StateInfo& newSt, bool givesCheck) {
 
+  if (m == MOVE_NULL)
+    return do_null_move(newSt);
+
   assert(is_ok(m));
   assert(&newSt != st);
 
@@ -897,6 +900,9 @@ void Position::do_move(Move m, StateInfo& newSt, bool givesCheck) {
 /// be restored to exactly the same state as before the move was made.
 
 void Position::undo_move(Move m) {
+
+  if (m == MOVE_NULL)
+    return undo_null_move();
 
   assert(is_ok(m));
 
