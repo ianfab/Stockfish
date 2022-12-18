@@ -378,7 +378,17 @@ void Thread::search() {
               // and we want to keep the same order for all the moves except the
               // new PV that goes to the front. Note that in case of MultiPV
               // search the already searched PV lines are preserved.
-              std::stable_sort(rootMoves.begin() + pvIdx, rootMoves.begin() + pvLast);
+
+              // If we haven't reported the ensureMove yet, swap it to the last pvIdx
+              if (   ensureMove != MOVE_NONE
+                  && pvIdx + 1 == multiPV
+                  && !std::count(rootMoves.begin(), rootMoves.begin() + pvIdx, ensureMove))
+              {
+                  std::iter_swap(rootMoves.begin() + pvIdx, std::find(rootMoves.begin() + pvIdx, rootMoves.end(), ensureMove));
+                  std::stable_sort(rootMoves.begin() + pvIdx + 1, rootMoves.begin() + pvLast);
+              }
+              else
+                  std::stable_sort(rootMoves.begin() + pvIdx, rootMoves.begin() + pvLast);
 
               // If search has been stopped, we break immediately. Sorting is
               // safe because RootMoves is still valid, although it refers to
@@ -956,6 +966,15 @@ moves_loop: // When in check, search starts here
       // of lower "TB rank" if we are in a TB root position.
       if (rootNode && !std::count(thisThread->rootMoves.begin() + thisThread->pvIdx,
                                   thisThread->rootMoves.begin() + thisThread->pvLast, move))
+          continue;
+
+      // If we haven't searched the ensureMove yet, force it now
+      if (   rootNode
+          && thisThread->ensureMove != MOVE_NONE
+          && move != thisThread->ensureMove
+          && thisThread->pvIdx + 1 == Options["MultiPV"]
+          && !std::count(thisThread->rootMoves.begin(),
+                         thisThread->rootMoves.begin() + thisThread->pvIdx, thisThread->ensureMove))
           continue;
 
       // Check for legality

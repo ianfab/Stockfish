@@ -134,6 +134,8 @@ namespace {
             while (is >> token)
                 limits.searchmoves.push_back(UCI::to_move(pos, token));
 
+        else if (token == "ensuremove" && is >> token)
+            limits.ensureMove = UCI::to_move(pos, token);
         else if (token == "wtime")     is >> limits.time[WHITE];
         else if (token == "btime")     is >> limits.time[BLACK];
         else if (token == "winc")      is >> limits.inc[WHITE];
